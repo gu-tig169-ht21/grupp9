@@ -1,6 +1,8 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:my_first_app/models/cocktails.dart';
+
 class ResponseProvider {
   Future<String> fetchItems(String key) async {
     final response = await http.get(Uri.parse(
@@ -30,6 +32,13 @@ class ResponseProvider {
   Future<String> removeItem(String id, String key) async {
     final response = await http.delete(Uri.parse(
         'https://todoapp-api-pyq5q.ondigitalocean.app/todos/$id?key=$key'));
+    return response.body;
+  }
+
+  Future<String> fetchRandomCocktail() async {
+    final response = await http.get(
+        Uri.parse('http://www.thecocktaildb.com/api/json/v1/1/random.php'));
+
     return response.body;
   }
 }

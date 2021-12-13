@@ -13,10 +13,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    var cocktailsProvider = CocktailsProvider();
+    cocktailsProvider.getRandomCocktail();
     return ChangeNotifierProvider(
-        create: (context) => CocktailsProvider(),
+        create: (context) => cocktailsProvider,
         child: MaterialApp(
-            title: 'Att göra app',
+            title: 'Cocktaily',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               primarySwatch: Colors.orange,
