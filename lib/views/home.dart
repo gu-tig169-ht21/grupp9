@@ -1,10 +1,10 @@
 import 'dart:ui';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '/models/cocktails.dart';
 import '/providers/cocktails_provider.dart';
 import 'package:provider/provider.dart';
+import 'dart:math';
 
 class Home extends StatefulWidget {
   @override
@@ -12,136 +12,103 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  int _selectedIndex = 0;
-  /*final _pageOptions = [
-    Ingredients(),
-    Cocktails(),
-    Favourites()
-  ];*/
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
-          extendBodyBehindAppBar: true,
-          extendBody: true,
-          appBar: AppBar(
-              foregroundColor: Colors.white,
-              backgroundColor: Colors.grey.withOpacity(0.15),
-              title: const Text(
-                ('Cocktaily'),
-                style: TextStyle(fontSize: 25),
-              ),
-              centerTitle: true,
-              actions: <Widget>[
-                IconButton(onPressed: () {}, icon: const Icon(Icons.search))
-              ]),
-          body: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/1.jpg"),
-                fit: BoxFit.cover,
-              ),
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        appBar: AppBar(
+            backgroundColor: Colors.grey.withOpacity(0.15),
+            title: const Text(
+              ('Cocktaily'),
+              style: TextStyle(fontSize: 25),
             ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-              child: Consumer<CocktailsProvider>(
-                  builder: (context, CocktailsProvider data, child) {
-                if (data.list.length == 0) {
-                  return Container(
-                    decoration:
-                        BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                    child: Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: ListView(
-                        children: [
-                          const Align(
-                            alignment: Alignment.topCenter,
-                            child: Text(
-                              '“You can’t buy happiness, \nbut you can prepare a cocktail. \nAnd that’s kind of the same thing.”',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
-                            ),
-                          ),
-                          Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: <Widget>[
-                                Container(
-                                    alignment: const Alignment(0.0, -0.8),
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 20.0),
-                                    width: 300.0,
-                                    height: 300.0,
-                                    decoration: BoxDecoration(
-                                      color: const Color(0xff2c2c2c)
-                                          .withOpacity(0.6),
-                                    ),
-                                    child: const Text('no cocktails found'))
-                              ])
-                        ],
-                      ),
-                    ),
-                  );
-                } else {
-                  return Rad(data.list[0]);
-                }
-              }),
+            centerTitle: true,
+            actions: <Widget>[
+              IconButton(onPressed: () {}, icon: const Icon(Icons.search))
+            ]),
+        body:
+            //screens[_selectedIndex],
+            Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/1.jpg"),
+              fit: BoxFit.cover,
             ),
           ),
-          bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              backgroundColor: Colors.grey.withOpacity(0.5),
-              items: const <BottomNavigationBarItem>[
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.kitchen, size: 40),
-                  label: 'Ingredienser',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.local_bar, size: 40),
-                  label: 'Alla drinkar',
-                ),
-                BottomNavigationBarItem(
-                  icon: Icon(Icons.favorite, size: 40),
-                  label: 'Favoriter',
-                ),
-              ],
-              currentIndex: _selectedIndex,
-              selectedItemColor: Colors.amber[800],
-              onTap: _onItemTapped));
-    });
-  }
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+            child: Consumer<CocktailsProvider>(
+                builder: (context, CocktailsProvider data, child) {
+              if (data.list.length == 0) {
+                return Container(
+                  decoration:
+                      BoxDecoration(color: Colors.white.withOpacity(0.0)),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: ListView(
+                      children: [
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Container(
+                                  alignment: const Alignment(0.0, -0.8),
+                                  margin: const EdgeInsets.symmetric(
+                                      vertical: 20.0),
+                                  width: 300.0,
+                                  height: 300.0,
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xff2c2c2c)
+                                        .withOpacity(0.6),
+                                  ),
+                                  child: const Text('no cocktails found'))
+                            ]),
+                      ],
+                    ),
+                  ),
+                );
+              } else {
+                return Rad(data.list[0]);
+              }
+            }),
+          ),
+        ),
+      );
     });
   }
 }
 
 class Rad extends StatelessWidget {
+  var list = [
+    '“Different cocktails for different Saturday nights.” ― Drew Barrymore',
+    '“No amount of physical contact could match the healing powers of a well made cocktail.” — David Sedaris',
+    'Cenosillicaphobia (noun): the fear of an empty glass',
+    'When life gives you lemons, make whiskey sours',
+    '“Shaken, not stirred.” —James Bond',
+  ];
+
+  final _random = Random();
+  late var element = list[_random.nextInt(list.length)];
   final Cocktails cocktail;
   Rad(this.cocktail);
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(color: Colors.white.withOpacity(0.0)),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: ListView(
-          children: [
-            const Align(
-              alignment: Alignment.topCenter,
-              child: Text(
-                '“You can’t buy happiness, \nbut you can prepare a cocktail. \nAnd that’s kind of the same thing.”',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+    return Padding(
+      padding: const EdgeInsets.all(20.0),
+      child: ListView(
+        children: [
+          Text(element),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 50.0),
+            child: Column(children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: Text(cocktail.strDrink),
               ),
-            ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
               Container(
-                  alignment: const Alignment(0.0, -0.8),
-                  margin: const EdgeInsets.symmetric(vertical: 20.0),
-                  width: 300.0,
-                  height: 300.0,
+                  margin: const EdgeInsets.symmetric(vertical: 8.0),
                   decoration: BoxDecoration(
                     color: const Color(0xff2c2c2c).withOpacity(0.6),
                   ),
@@ -149,10 +116,9 @@ class Rad extends StatelessWidget {
                     onTap: () {},
                     child: Image.network(cocktail.strDrinkThumb),
                   )),
-              Text(cocktail.strDrink)
-            ])
-          ],
-        ),
+            ]),
+          )
+        ],
       ),
     );
   }
