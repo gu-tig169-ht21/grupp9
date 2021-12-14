@@ -7,6 +7,8 @@ import 'package:provider/provider.dart';
 import 'dart:math';
 
 class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
+
   @override
   State<Home> createState() => _HomeState();
 }
@@ -29,9 +31,7 @@ class _HomeState extends State<Home> {
             actions: <Widget>[
               IconButton(onPressed: () {}, icon: const Icon(Icons.search))
             ]),
-        body:
-            //screens[_selectedIndex],
-            Container(
+        body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/1.jpg"),
@@ -42,7 +42,7 @@ class _HomeState extends State<Home> {
             filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
             child: Consumer<CocktailsProvider>(
                 builder: (context, CocktailsProvider data, child) {
-              if (data.list.length == 0) {
+              if (data.list.isEmpty) {
                 return Container(
                   decoration:
                       BoxDecoration(color: Colors.white.withOpacity(0.0)),
@@ -90,9 +90,9 @@ class Rad extends StatelessWidget {
   ];
 
   final _random = Random();
-  late var element = list[_random.nextInt(list.length)];
+  late var element = list[_random.nextInt(4)];
   final Cocktails cocktail;
-  Rad(this.cocktail);
+  Rad(this.cocktail, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -13,7 +13,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  final screens = [Home(), Ingredients(), Cocktailsvy(), Favourites()];
+  final screens = [Home(), IngrediensVy(), DrinksView(), Favourites()];
 
   @override
   Widget build(BuildContext context) {
