@@ -12,6 +12,7 @@ class _IngrediensVyState extends State<IngrediensVy> {
   var api = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list";
   var res;
   var ingredients = [];
+  bool check = false;
 
   @override
   void initState() {
@@ -24,7 +25,6 @@ class _IngrediensVyState extends State<IngrediensVy> {
     res = await http.get(Uri.parse(
         'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list'));
     ingredients = jsonDecode(res.body)["drinks"];
-    print(ingredients.toString());
     setState(() {});
   }
 
@@ -55,25 +55,31 @@ class _IngrediensVyState extends State<IngrediensVy> {
                       backgroundColor: Colors.black12.withOpacity(0.65),
                       elevation: 0.0,
                     ),
-                    body: Center(
-                      child: ListView.builder(
-                          itemCount: ingredients.length,
-                          itemBuilder: (context, index) {
-                            var ingredient = ingredients[index];
-                            return Container(
-                              height: 60,
-                              child: Card(
-                                  margin: EdgeInsets.all(0.7),
+                    body: SizedBox(
+                      height: 590,
+                      child: Center(
+                        child: ListView.builder(
+                            itemCount: ingredients.length,
+                            itemBuilder: (context, index) {
+                              var ingredient = ingredients[index];
+                              return SizedBox(
+                                height: 60,
+                                child: Card(
                                   color: Colors.black12.withOpacity(0.4),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(13.0),
-                                    child: Text(
+                                  child: ListTile(
+                                    leading: Text(
                                         "${ingredient["strIngredient1"]}",
                                         style: const TextStyle(
                                             fontSize: 24, color: Colors.white)),
-                                  )),
-                            );
-                          }),
+                                    trailing: IconButton(
+                                      icon: Icon(Icons.check_box_outline_blank),
+                                      onPressed: () {},
+                                    ),
+                                  ),
+                                ),
+                              );
+                            }),
+                      ),
                     )),
               )))
     ]);

@@ -6,6 +6,8 @@ import '/providers/cocktails_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
 
+import 'details.dart';
+
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
@@ -113,7 +115,12 @@ class Rad extends StatelessWidget {
                     color: const Color(0xff2c2c2c).withOpacity(0.6),
                   ),
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Details()),
+                      );
+                    },
                     child: Image.network(cocktail.strDrinkThumb),
                   )),
             ]),
