@@ -1,10 +1,10 @@
+import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '/models/cocktails.dart';
 import '/providers/cocktails_provider.dart';
 import 'package:provider/provider.dart';
-import 'dart:math';
 import 'details.dart';
 
 class Home extends StatefulWidget {
@@ -17,6 +17,10 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    List<String> list = ['a', 'b', 'c', 'd', 'e'];
+    final _random = Random();
+
+    var element = list[_random.nextInt(4)];
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
