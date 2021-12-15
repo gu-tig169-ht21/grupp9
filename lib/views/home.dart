@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
@@ -18,8 +19,13 @@ class _HomeState extends State<Home> {
     Cocktails(),
     Favourites()
   ];*/
+
   @override
   Widget build(BuildContext context) {
+    List<String> list = ['a', 'b', 'c', 'd', 'e'];
+    final _random = Random();
+
+    var element = list[_random.nextInt(4)];
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
       return Scaffold(
@@ -55,12 +61,12 @@ class _HomeState extends State<Home> {
                       padding: const EdgeInsets.all(20.0),
                       child: ListView(
                         children: [
-                          const Align(
+                          Align(
                             alignment: Alignment.topCenter,
                             child: Text(
-                              '“You can’t buy happiness, \nbut you can prepare a cocktail. \nAnd that’s kind of the same thing.”',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 16),
+                              element,
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 16),
                             ),
                           ),
                           Row(
@@ -83,7 +89,7 @@ class _HomeState extends State<Home> {
                     ),
                   );
                 } else {
-                  return Rad(data.list[0]);
+                  return Rad(data.list[0], element);
                 }
               }),
             ),
@@ -92,6 +98,10 @@ class _HomeState extends State<Home> {
               type: BottomNavigationBarType.fixed,
               backgroundColor: Colors.grey.withOpacity(0.5),
               items: const <BottomNavigationBarItem>[
+                BottomNavigationBarItem(
+                  icon: Icon(Icons.home_sharp, size: 40),
+                  label: 'Hem',
+                ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.kitchen, size: 40),
                   label: 'Ingredienser',
@@ -120,7 +130,8 @@ class _HomeState extends State<Home> {
 
 class Rad extends StatelessWidget {
   final Cocktails cocktail;
-  Rad(this.cocktail);
+  final String quote;
+  Rad(this.cocktail, this.quote);
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -129,28 +140,30 @@ class Rad extends StatelessWidget {
         padding: const EdgeInsets.all(20.0),
         child: ListView(
           children: [
-            const Align(
+            Align(
               alignment: Alignment.topCenter,
               child: Text(
-                '“You can’t buy happiness, \nbut you can prepare a cocktail. \nAnd that’s kind of the same thing.”',
-                style: TextStyle(color: Colors.white, fontSize: 16),
+                quote,
+                style: const TextStyle(color: Colors.white, fontSize: 16),
               ),
             ),
-            Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-              Container(
-                  alignment: const Alignment(0.0, -0.8),
-                  margin: const EdgeInsets.symmetric(vertical: 20.0),
-                  width: 300.0,
-                  height: 300.0,
-                  decoration: BoxDecoration(
-                    color: const Color(0xff2c2c2c).withOpacity(0.6),
-                  ),
-                  child: GestureDetector(
-                    onTap: () {},
-                    child: Image.network(cocktail.strDrinkThumb),
-                  )),
-              Text(cocktail.strDrink)
-            ])
+            Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      alignment: const Alignment(0.0, -0.8),
+                      margin: const EdgeInsets.symmetric(vertical: 20.0),
+                      width: 300.0,
+                      height: 300.0,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff2c2c2c).withOpacity(0.6),
+                      ),
+                      child: GestureDetector(
+                        onTap: () {},
+                        child: Image.network(cocktail.strDrinkThumb),
+                      )),
+                  Text(cocktail.strDrink)
+                ])
           ],
         ),
       ),
