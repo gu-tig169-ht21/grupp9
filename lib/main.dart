@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:my_first_app/views/mainpage.dart';
 import 'package:provider/provider.dart';
 import 'providers/cocktails_provider.dart';
-import 'views/home.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     var cocktailsProvider = CocktailsProvider();
@@ -21,9 +21,13 @@ class MyApp extends StatelessWidget {
             title: 'Cocktaily',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
-              primarySwatch: Colors.orange,
               visualDensity: VisualDensity.adaptivePlatformDensity,
+              textTheme: GoogleFonts.recursiveTextTheme(
+                  Theme.of(context).textTheme.apply(
+                        bodyColor: Colors.white,
+                        displayColor: Colors.white,
+                      )),
             ),
-            home: Home()));
+            home: MainPage()));
   }
 }

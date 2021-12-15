@@ -1,6 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
 import 'package:my_first_app/models/cocktails.dart';
 
 class ResponseProvider {
@@ -38,7 +37,6 @@ class ResponseProvider {
   Future<String> fetchRandomCocktail() async {
     final response = await http.get(
         Uri.parse('http://www.thecocktaildb.com/api/json/v1/1/random.php'));
-
     return response.body;
   }
 }
