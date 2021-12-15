@@ -71,10 +71,8 @@ class _IngrediensVyState extends State<IngrediensVy> {
                                         "${ingredient["strIngredient1"]}",
                                         style: const TextStyle(
                                             fontSize: 24, color: Colors.white)),
-                                    trailing: IconButton(
-                                      icon: Icon(Icons.check_box_outline_blank),
-                                      onPressed: () {},
-                                    ),
+                                    trailing:
+                                        Icon(Icons.check_box_outline_blank),
                                   ),
                                 ),
                               );

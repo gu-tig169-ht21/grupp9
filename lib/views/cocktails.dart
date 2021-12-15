@@ -55,6 +55,16 @@ class _DrinksViewState extends State<DrinksView> {
                     ),
                     backgroundColor: Colors.black12.withOpacity(0.65),
                     elevation: 0.0,
+                    actions: [
+                      DropdownButton(
+                        icon: Icon(Icons.filter_list),
+                        items: [
+                          DropdownMenuItem(
+                              child: Text('alcoholic',
+                                  style: TextStyle(color: Colors.white)))
+                        ],
+                      )
+                    ],
                   ),
                   body: SizedBox(
                     height: 590,
@@ -72,7 +82,8 @@ class _DrinksViewState extends State<DrinksView> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => Details()),
+                                        builder: (context) =>
+                                            Details(cocktail: cocktail)),
                                   );
                                 },
                                 leading: SizedBox(

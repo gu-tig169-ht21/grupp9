@@ -5,7 +5,6 @@ import '/models/cocktails.dart';
 import '/providers/cocktails_provider.dart';
 import 'package:provider/provider.dart';
 import 'dart:math';
-
 import 'details.dart';
 
 class Home extends StatefulWidget {
@@ -118,7 +117,10 @@ class Rad extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Details()),
+                        MaterialPageRoute(
+                            builder: (context) => Details(
+                                  cocktail: cocktail,
+                                )),
                       );
                     },
                     child: Image.network(cocktail.strDrinkThumb),

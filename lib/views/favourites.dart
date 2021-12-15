@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'details.dart';
 
 class Favourites extends StatefulWidget {
   const Favourites({Key? key}) : super(key: key);
@@ -67,25 +68,26 @@ class _FavouritesState extends State<Favourites> {
                               margin: const EdgeInsets.all(0.7),
                               color: Colors.black12.withOpacity(0.4),
                               child: ListTile(
-                                leading: ConstrainedBox(
-                                  constraints: const BoxConstraints(
-                                    minWidth: 44,
-                                    minHeight: 44,
-                                    maxWidth: 44,
-                                    maxHeight: 44,
-                                  ),
-                                  // child:
-                                  //     Image.network(cocktail.strDrinkThumb)
-                                ),
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Details(
+                                              cocktail: cocktail,
+                                            )),
+                                  );
+                                },
+                                leading: SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child: Image.network(
+                                        cocktail["strDrinkThumb"])),
                                 title: Text("${cocktail["strDrink"]}",
                                     style: const TextStyle(
                                         fontSize: 21, color: Colors.white)),
-                                trailing: FavoriteButton(
-                                  iconSize: 30,
-                                  isFavorite: false,
-                                  valueChanged: (_isFavorite) {
-                                    print('is favorite : $_isFavorite');
-                                  },
+                                trailing: IconButton(
+                                  icon: Icon(Icons.remove_circle),
+                                  onPressed: () {},
                                 ),
                               ),
                             );
