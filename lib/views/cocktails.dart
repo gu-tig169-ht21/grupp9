@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:favorite_button/favorite_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:my_first_app/models/cocktails.dart';
 import 'package:my_first_app/views/details.dart';
 
 class DrinksView extends StatefulWidget {
@@ -25,7 +26,12 @@ class _DrinksViewState extends State<DrinksView> {
 
   fetchCocktails() async {
     res = await http.get(Uri.parse(url));
-    cocktails = jsonDecode(res.body)['drinks'];
+    var drinks = jsonDecode(res.body)['drinks'];
+
+    cocktails = drinks.map<Cocktails>((data) {
+      return Cocktails.fromJson(data);
+    }).toList();
+
     setState(() {});
   }
 
@@ -89,9 +95,9 @@ class _DrinksViewState extends State<DrinksView> {
                                 leading: SizedBox(
                                     height: 40,
                                     width: 40,
-                                    child: Image.network(
-                                        cocktail["strDrinkThumb"])),
-                                title: Text("${cocktail["strDrink"]}",
+                                    child:
+                                        Image.network(cocktail.strDrinkThumb)),
+                                title: Text("${cocktail.strDrink}",
                                     style: const TextStyle(
                                         fontSize: 21, color: Colors.white)),
                                 trailing: FavoriteButton(

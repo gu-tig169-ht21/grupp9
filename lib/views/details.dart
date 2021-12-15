@@ -1,11 +1,39 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/models/cocktails.dart';
+import 'package:http/http.dart' as http;
 
-class Details extends StatelessWidget {
+class Details extends StatefulWidget {
   final Cocktails cocktail;
   const Details({Key? key, required this.cocktail}) : super(key: key);
+  @override
+  _DetailsState createState() => _DetailsState(cocktail: cocktail);
+}
+
+class _DetailsState extends State<Details> {
+  final Cocktails cocktail;
+  var url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  var res;
+  var _cocktail;
+  _DetailsState({Key? key, required this.cocktail});
+
+  @override
+  void initState() {
+    super.initState();
+
+    fetchCocktail();
+  }
+
+  fetchCocktail() async {
+    res = await http.get(Uri.parse(url + cocktail.strDrink));
+    var drinks = jsonDecode(res.body)['drinks'][0];
+
+    _cocktail = Cocktails.fromJson(drinks);
+
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,13 +61,15 @@ class Details extends StatelessWidget {
                 padding: const EdgeInsets.all(20.0),
                 child: ListView(
                   children: [
-                    Text(cocktail.strIngredient1),
-                    Text(cocktail.strInstructions),
+                    Text((_cocktail == null) ? "" : _cocktail.strIngredient1),
+                    Text((_cocktail == null) ? "" : _cocktail.strInstructions),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: SizedBox(
                           height: 300,
-                          child: Image.network(cocktail.strDrinkThumb)),
+                          child: Image.network((_cocktail == null)
+                              ? "https://www.thecocktaildb.com/images/ingredients/gin-Small.png"
+                              : _cocktail.strDrinkThumb)),
                     )
                   ],
                 ),
