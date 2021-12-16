@@ -24,8 +24,8 @@ class MyApp extends StatelessWidget {
               visualDensity: VisualDensity.adaptivePlatformDensity,
               textTheme: GoogleFonts.recursiveTextTheme(
                   Theme.of(context).textTheme.apply(
-                        bodyColor: Colors.white,
-                        displayColor: Colors.white,
+                        bodyColor: Colors.black,
+                        displayColor: Colors.black,
                       )),
             ),
             home: MainPage()));

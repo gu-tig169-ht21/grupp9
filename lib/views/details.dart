@@ -61,8 +61,10 @@ class _DetailsState extends State<Details> {
                 padding: const EdgeInsets.all(20.0),
                 child: ListView(
                   children: [
-                    Text((_cocktail == null) ? "" : _cocktail.strIngredient1),
-                    Text((_cocktail == null) ? "" : _cocktail.strInstructions),
+                    Text((_cocktail == null) ? "" : _cocktail.strIngredient1,
+                        style: const TextStyle(color: Colors.white)),
+                    Text((_cocktail == null) ? "" : _cocktail.strInstructions,
+                        style: const TextStyle(color: Colors.white)),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: SizedBox(
