@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_app/providers/favourites_provider.dart';
 import '/models/cocktails.dart';
 import '/providers/cocktails_provider.dart';
 import 'package:provider/provider.dart';
@@ -43,8 +44,8 @@ class _HomeState extends State<Home> {
           ),
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-            child: Consumer<CocktailsProvider>(
-                builder: (context, CocktailsProvider data, child) {
+            child: Consumer<FavouritesProvider>(
+                builder: (context, FavouritesProvider data, child) {
               if (data.list.isEmpty) {
                 return Container(
                   decoration:
@@ -122,7 +123,7 @@ class Rad extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => Details(
-                                  cocktail: cocktail,
+                                  cocktail: cocktail.strDrink,
                                 )),
                       );
                     },

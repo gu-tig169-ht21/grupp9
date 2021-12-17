@@ -204,7 +204,8 @@ class IngredientSearch extends SearchDelegate<String> {
                                               context,
                                               MaterialPageRoute(
                                                   builder: (context) => Details(
-                                                      cocktail: cocktail)),
+                                                      cocktail:
+                                                          cocktail.strDrink)),
                                             );
                                           },
                                           leading: SizedBox(
