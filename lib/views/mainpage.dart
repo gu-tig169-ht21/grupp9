@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/views/cocktails.dart';
+import 'package:my_first_app/views/details.dart';
 import 'package:my_first_app/views/favourites.dart';
 import 'package:my_first_app/views/home.dart';
 import 'package:my_first_app/views/ingredients.dart';
@@ -13,7 +14,12 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
-  final screens = [Home(), IngrediensVy(), DrinksView(), Favourites()];
+  final screens = [
+    Home(),
+    IngrediensVy(),
+    DrinksView(),
+    Favourites(),
+  ];
 
   @override
   Widget build(BuildContext context) {

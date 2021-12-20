@@ -2,6 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_app/providers/favourites_provider.dart';
 import '/models/cocktails.dart';
 import '/providers/cocktails_provider.dart';
 import 'package:provider/provider.dart';
@@ -27,15 +28,13 @@ class _HomeState extends State<Home> {
         extendBodyBehindAppBar: true,
         extendBody: true,
         appBar: AppBar(
-            backgroundColor: Colors.grey.withOpacity(0.15),
-            title: const Text(
-              ('Cocktaily'),
-              style: TextStyle(fontSize: 25),
-            ),
-            centerTitle: true,
-            actions: <Widget>[
-              IconButton(onPressed: () {}, icon: const Icon(Icons.search))
-            ]),
+          backgroundColor: Colors.grey.withOpacity(0.15),
+          title: const Text(
+            ('Cocktaily'),
+            style: TextStyle(fontSize: 25),
+          ),
+          centerTitle: true,
+        ),
         body: Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -45,8 +44,8 @@ class _HomeState extends State<Home> {
           ),
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-            child: Consumer<CocktailsProvider>(
-                builder: (context, CocktailsProvider data, child) {
+            child: Consumer<FavouritesProvider>(
+                builder: (context, FavouritesProvider data, child) {
               if (data.list.isEmpty) {
                 return Container(
                   decoration:
@@ -104,13 +103,14 @@ class Rad extends StatelessWidget {
       padding: const EdgeInsets.all(20.0),
       child: ListView(
         children: [
-          Text(element),
+          Text(element, style: const TextStyle(color: Colors.white)),
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 50.0),
             child: Column(children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Text(cocktail.strDrink),
+                child: Text(cocktail.strDrink,
+                    style: const TextStyle(color: Colors.white)),
               ),
               Container(
                   margin: const EdgeInsets.symmetric(vertical: 8.0),
@@ -123,7 +123,7 @@ class Rad extends StatelessWidget {
                         context,
                         MaterialPageRoute(
                             builder: (context) => Details(
-                                  cocktail: cocktail,
+                                  cocktail: cocktail.strDrink,
                                 )),
                       );
                     },

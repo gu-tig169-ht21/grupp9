@@ -9,6 +9,8 @@ class CocktailsProvider extends ChangeNotifier {
   List<Cocktails> _cocktails = [];
 
   List<Cocktails> get list => _cocktails;
+  final String _key = '3f8f8e0f-935d-4b20-b4af-aefd946a5a6f';
+  String get key => _key;
 
   Future getRandomCocktail() async {
     String response = await ResponseProvider().fetchRandomCocktail();
@@ -17,5 +19,14 @@ class CocktailsProvider extends ChangeNotifier {
     var cocktail = Cocktails.fromJson(json["drinks"][0]);
     _cocktails.add(cocktail);
     notifyListeners();
+  }
+
+  void addFavourite(String title, bool done) async {
+    Map data = {
+      'title': title,
+      'done': done,
+    };
+    var body = jsonEncode(data);
+    String response = await ResponseProvider().addItem(body, key);
   }
 }

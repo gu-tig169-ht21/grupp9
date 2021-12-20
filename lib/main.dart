@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'providers/cocktails_provider.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import 'providers/favourites_provider.dart';
+
 void main() async {
   runApp(MyApp());
 }
@@ -13,10 +15,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cocktailsProvider = CocktailsProvider();
-    cocktailsProvider.getRandomCocktail();
+    var favouritesProvider = FavouritesProvider();
+    favouritesProvider.getRandomCocktail();
+    favouritesProvider.getFavourites();
     return ChangeNotifierProvider(
-        create: (context) => cocktailsProvider,
+        create: (context) => favouritesProvider,
         child: MaterialApp(
             title: 'Cocktaily',
             debugShowCheckedModeBanner: false,
@@ -24,8 +27,8 @@ class MyApp extends StatelessWidget {
               visualDensity: VisualDensity.adaptivePlatformDensity,
               textTheme: GoogleFonts.recursiveTextTheme(
                   Theme.of(context).textTheme.apply(
-                        bodyColor: Colors.white,
-                        displayColor: Colors.white,
+                        bodyColor: Colors.black,
+                        displayColor: Colors.black,
                       )),
             ),
             home: MainPage()));
