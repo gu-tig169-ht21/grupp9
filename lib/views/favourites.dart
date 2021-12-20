@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:ui';
-import 'package:favorite_button/favorite_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_first_app/providers/favourites_provider.dart';
@@ -17,6 +16,7 @@ class Favourites extends StatefulWidget {
 class _FavouritesState extends State<Favourites> {
   var url = 'https://todoapp-api-pyq5q.ondigitalocean.app/todos?key=';
   var key = '3f8f8e0f-935d-4b20-b4af-aefd946a5a6f';
+  // ignore: prefer_typing_uninitialized_variables
   var res;
   var cocktails = [];
 
@@ -38,8 +38,9 @@ class _FavouritesState extends State<Favourites> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(children: [
-      Container(
+    return Stack(
+      children: [
+        Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage("assets/2.jpg"),
@@ -47,39 +48,44 @@ class _FavouritesState extends State<Favourites> {
             ),
           ),
           child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-              child: Container(
-                  decoration:
-                      BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                  child: Scaffold(
-                      backgroundColor: Colors.transparent,
-                      appBar: AppBar(
-                        title: const Center(
-                          child: Text(
-                            'Favoriter',
-                            style: TextStyle(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        backgroundColor: Colors.black12.withOpacity(0.65),
-                        elevation: 0.0,
-                      ),
-                      body: SizedBox(
-                        height: 590,
-                        child: Scrollbar(
-                          isAlwaysShown: true,
-                          child: Consumer<FavouritesProvider>(builder:
-                              (context, FavouritesProvider data, child) {
-                            return ListView(
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                children: data.favourites
-                                    .map((card) => ListItem(context, card))
-                                    .toList());
-                          }),
-                        ),
-                      )))))
-    ]);
+            filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+            child: Container(
+              decoration: BoxDecoration(color: Colors.white.withOpacity(0.0)),
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                appBar: AppBar(
+                  title: const Center(
+                    child: Text(
+                      'Favoriter',
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  backgroundColor: Colors.black12.withOpacity(0.65),
+                  elevation: 0.0,
+                ),
+                body: SizedBox(
+                  height: 590,
+                  child: Scrollbar(
+                    isAlwaysShown: true,
+                    child: Consumer<FavouritesProvider>(
+                      builder: (context, FavouritesProvider data, child) {
+                        return ListView(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            children: data.favourites
+                                .map((card) => ListItem(context, card))
+                                .toList());
+                      },
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
 
@@ -113,30 +119,35 @@ Widget deleteButton(BuildContext context, item, String drink) {
   );
 }
 
+// ignore: must_be_immutable
 class ListItem extends StatelessWidget {
   final FavouritesModel item;
   BuildContext context;
-  ListItem(this.context, this.item);
+  ListItem(this.context, this.item, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-      return Padding(
+      builder: (BuildContext context, StateSetter setState) {
+        return Padding(
           padding: const EdgeInsets.all(2),
           child: Card(
-              margin: const EdgeInsets.all(0.7),
-              color: Colors.black12.withOpacity(0.4),
-              child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Details(cocktail: item.title)),
-                  );
-                },
-                title: Text(item.title, style: TextStyle(color: Colors.white)),
-                trailing: deleteButton(context, item, item.title),
-              )));
-    });
+            margin: const EdgeInsets.all(0.7),
+            color: Colors.black12.withOpacity(0.4),
+            child: ListTile(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Details(cocktail: item.title)),
+                );
+              },
+              title:
+                  Text(item.title, style: const TextStyle(color: Colors.white)),
+              trailing: deleteButton(context, item, item.title),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
