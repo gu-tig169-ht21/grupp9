@@ -19,8 +19,6 @@ class _DetailsState extends State<Details> {
   final String cocktail;
   var url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   // ignore: prefer_typing_uninitialized_variables
-  var res;
-  // ignore: prefer_typing_uninitialized_variables
   var _cocktail;
   var favourites = [];
   // ignore: unused_element
@@ -35,7 +33,7 @@ class _DetailsState extends State<Details> {
   }
 
   fetchCocktail() async {
-    res = await http.get(Uri.parse(url + cocktail));
+    var res = await http.get(Uri.parse(url + cocktail));
     var drinks = jsonDecode(res.body)['drinks'][0];
 
     _cocktail = Cocktails.fromJson(drinks);

@@ -55,7 +55,7 @@ class IngredientSearch extends SearchDelegate<String> {
     }
 
     return FutureBuilder<List>(
-      future: fetchCocktails(query), // async work
+      future: fetchCocktails(query),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:

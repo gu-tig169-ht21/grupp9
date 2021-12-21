@@ -64,7 +64,7 @@ class CocktailSearch extends SearchDelegate<String> {
 
     fetchFavourites();
     return FutureBuilder<Cocktails>(
-      future: fetchCocktail(query), // async work
+      future: fetchCocktail(query),
       builder: (BuildContext context, AsyncSnapshot<Cocktails> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:

@@ -18,7 +18,6 @@ class DrinksView extends StatefulWidget {
 class _DrinksViewState extends State<DrinksView> {
   var url =
       'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic';
-  var res;
   var cocktails = [];
   var favourites = [];
   @override
@@ -35,7 +34,7 @@ class _DrinksViewState extends State<DrinksView> {
   }
 
   fetchCocktails() async {
-    res = await http.get(Uri.parse(url));
+    var res = await http.get(Uri.parse(url));
     var drinks = jsonDecode(res.body)['drinks'];
 
     cocktails = drinks.map<Cocktails>((data) {

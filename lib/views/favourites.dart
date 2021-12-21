@@ -16,8 +16,6 @@ class Favourites extends StatefulWidget {
 class _FavouritesState extends State<Favourites> {
   var url = 'https://todoapp-api-pyq5q.ondigitalocean.app/todos?key=';
   var key = '3f8f8e0f-935d-4b20-b4af-aefd946a5a6f';
-  // ignore: prefer_typing_uninitialized_variables
-  var res;
   var cocktails = [];
 
   @override
@@ -28,7 +26,7 @@ class _FavouritesState extends State<Favourites> {
   }
 
   fetchCocktails() async {
-    res = await http.get(Uri.parse(url + key));
+    var res = await http.get(Uri.parse(url + key));
     var json = jsonDecode(res.body);
     cocktails = json.map<FavouritesModel>((data) {
       return FavouritesModel.fromJson(data);

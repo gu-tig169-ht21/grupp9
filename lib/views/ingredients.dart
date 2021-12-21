@@ -14,12 +14,9 @@ class IngrediensVy extends StatefulWidget {
 
 class _IngrediensVyState extends State<IngrediensVy> {
   var api = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list";
-  // ignore: prefer_typing_uninitialized_variables
-  var res;
   var ingredients = [];
   var cocktails = [];
-  // ignore: unused_field
-  final _controller = TextEditingController();
+  // final _controller = TextEditingController();
   bool check = false;
 
   @override
@@ -37,7 +34,7 @@ class _IngrediensVyState extends State<IngrediensVy> {
   }
 
   fetchCockails(String ingredient) async {
-    res = await http.get(Uri.parse(
+    var res = await http.get(Uri.parse(
         'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' +
             ingredient));
     var drinks = jsonDecode(res.body)["drinks"];
