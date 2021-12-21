@@ -56,8 +56,7 @@ class _FavouritesState extends State<Favourites> {
                       appBar: AppBar(
                         title: const Center(
                           child: Text(
-                            'Favoriter',
-                            style: TextStyle(color: Colors.white),
+                            'Favourites',
                             textAlign: TextAlign.center,
                           ),
                         ),
@@ -134,7 +133,7 @@ class ListItem extends StatelessWidget {
                         builder: (context) => Details(cocktail: item.title)),
                   );
                 },
-                title: Text(item.title, style: TextStyle(color: Colors.white)),
+                title: Text(item.title, style: TextStyle(fontSize: 21)),
                 trailing: deleteButton(context, item, item.title),
               )));
     });

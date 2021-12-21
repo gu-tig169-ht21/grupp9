@@ -1,12 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/views/cocktails.dart';
-import 'package:my_first_app/views/details.dart';
 import 'package:my_first_app/views/favourites.dart';
 import 'package:my_first_app/views/home.dart';
 import 'package:my_first_app/views/ingredients.dart';
 
 class MainPage extends StatefulWidget {
+  const MainPage({Key? key}) : super(key: key);
+
   @override
   State<MainPage> createState() => _MainPageState();
 }
@@ -15,15 +16,16 @@ class _MainPageState extends State<MainPage> {
   int _selectedIndex = 0;
 
   final screens = [
-    Home(),
+    const Home(),
     IngrediensVy(),
-    DrinksView(),
-    Favourites(),
+    const DrinksView(),
+    const Favourites(),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         extendBodyBehindAppBar: true,
         extendBody: true,
         body: screens[_selectedIndex],
@@ -31,7 +33,7 @@ class _MainPageState extends State<MainPage> {
             showSelectedLabels: false,
             showUnselectedLabels: false,
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.grey.withOpacity(0.5),
+            backgroundColor: Colors.grey,
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home, size: 40),

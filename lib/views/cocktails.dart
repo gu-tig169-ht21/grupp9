@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'dart:ui';
-
 import 'package:favorite_button/favorite_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_first_app/models/cocktails.dart';
-
+import 'package:my_first_app/models/cocktails_search.dart';
 import 'package:my_first_app/providers/favourites_provider.dart';
 import 'package:my_first_app/views/details.dart';
 import 'package:provider/provider.dart';
@@ -19,9 +18,12 @@ class DrinksView extends StatefulWidget {
 class _DrinksViewState extends State<DrinksView> {
   var url =
       'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic';
+  var url2 =
+      'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic';
   var res;
   var cocktails = [];
   var favourites = [];
+
   @override
   void initState() {
     super.initState();
@@ -36,7 +38,20 @@ class _DrinksViewState extends State<DrinksView> {
   }
 
   fetchCocktails() async {
+    cocktails = [];
     res = await http.get(Uri.parse(url));
+    var drinks = jsonDecode(res.body)['drinks'];
+
+    cocktails = drinks.map<Cocktails>((data) {
+      return Cocktails.fromJson(data);
+    }).toList();
+
+    setState(() {});
+  }
+
+  fetchNonAlcCocktails() async {
+    cocktails = [];
+    res = await http.get(Uri.parse(url2));
     var drinks = jsonDecode(res.body)['drinks'];
 
     cocktails = drinks.map<Cocktails>((data) {
@@ -48,6 +63,22 @@ class _DrinksViewState extends State<DrinksView> {
 
   bool checkFavourite(String drink) {
     return favourites.any((f) => f.title == drink);
+  }
+
+  void setFilter(String value) {
+    switch (value) {
+      case '1':
+        fetchFavourites();
+        fetchCocktails();
+        break;
+      case '2':
+        fetchFavourites();
+        fetchNonAlcCocktails();
+        break;
+      default:
+        fetchFavourites();
+        fetchCocktails();
+    }
   }
 
   @override
@@ -70,7 +101,6 @@ class _DrinksViewState extends State<DrinksView> {
                     title: const Center(
                       child: Text(
                         'Drinks & Cocktails',
-                        style: TextStyle(color: Colors.white),
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -84,10 +114,29 @@ class _DrinksViewState extends State<DrinksView> {
                                 delegate: CocktailSearch(cocktails));
                           },
                           icon: const Icon(Icons.search)),
-                      DropdownButton(
-                        icon: Icon(Icons.filter_list),
-                        items: [],
-                      )
+                      Center(
+                          child: Theme(
+                        data: Theme.of(context).copyWith(
+                          cardColor: Colors.black,
+                        ),
+                        child: PopupMenuButton<String>(
+                          icon: const Icon(
+                            Icons.filter_list_alt,
+                            color: Colors.white,
+                          ),
+                          onSelected: (value) async {
+                            setState(() {
+                              setFilter(value);
+                            });
+                          },
+                          itemBuilder: (context) => [
+                            const PopupMenuItem(
+                                child: Text('Alcoholic'), value: '1'),
+                            const PopupMenuItem(
+                                child: Text('Non-alcoholic'), value: '2'),
+                          ],
+                        ),
+                      ))
                     ],
                   ),
                   body: SizedBox(
@@ -99,7 +148,6 @@ class _DrinksViewState extends State<DrinksView> {
                           itemBuilder: (context, index) {
                             var cocktail = cocktails[index];
                             return Card(
-                              margin: const EdgeInsets.all(0.7),
                               color: Colors.black12.withOpacity(0.4),
                               child: ListTile(
                                   onTap: () {
@@ -116,8 +164,7 @@ class _DrinksViewState extends State<DrinksView> {
                                       child: Image.network(
                                           cocktail.strDrinkThumb)),
                                   title: Text("${cocktail.strDrink}",
-                                      style: const TextStyle(
-                                          fontSize: 21, color: Colors.white)),
+                                      style: const TextStyle(fontSize: 21)),
                                   trailing: FavoriteButton(
                                       iconSize: 30,
                                       isFavorite:
@@ -132,7 +179,7 @@ class _DrinksViewState extends State<DrinksView> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(
                                             content: Text(
-                                                '${cocktail.strDrink} har lagts till i Favoriter! :)))'),
+                                                '${cocktail.strDrink} is added to Favourites'),
                                           ));
                                           fetchFavourites();
                                         } else {
@@ -147,7 +194,7 @@ class _DrinksViewState extends State<DrinksView> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(SnackBar(
                                             content: Text(
-                                                '${cocktail.strDrink} har tagits bort från Favoriter! :((('),
+                                                '${cocktail.strDrink} is removed from Favourites'),
                                           ));
                                           fetchFavourites();
                                         }
@@ -159,176 +206,5 @@ class _DrinksViewState extends State<DrinksView> {
                 ),
               )))
     ]);
-  }
-}
-
-class CocktailSearch extends SearchDelegate<String> {
-  var cocktails = [];
-  var recentSearch = [];
-  CocktailSearch(this.cocktails);
-
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    IconButton(
-      icon: Icon(Icons.clear),
-      onPressed: () {
-        if (query.isEmpty) {
-          close(context, '');
-        } else {
-          query = '';
-        }
-      },
-    );
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    IconButton(
-      icon: Icon(Icons.arrow_back),
-      onPressed: () {
-        close(context, '');
-      },
-    );
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    var favourites = [];
-    Future<Cocktails> fetchCocktail(String cocktail) async {
-      var res = await http.get(Uri.parse(
-          'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' +
-              cocktail));
-      if (res.body != null && res.body != '') {
-        var drinks = jsonDecode(res.body)['drinks'][0];
-
-        return Cocktails.fromJson(drinks);
-      } else {
-        return Cocktails.empty();
-      }
-    }
-
-    fetchFavourites() {
-      favourites =
-          Provider.of<FavouritesProvider>(context, listen: false).favourites;
-    }
-
-    bool checkFavourite(String drink) {
-      return favourites.any((f) => f.title == drink);
-    }
-
-    fetchFavourites();
-    return FutureBuilder<Cocktails>(
-        future: fetchCocktail(query), // async work
-        builder: (BuildContext context, AsyncSnapshot<Cocktails> snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.waiting:
-              return const Text('Loading....');
-            default:
-              if (snapshot.hasError) {
-                return Text('Error: ${snapshot.error}');
-              } else {
-                return Scaffold(
-                    extendBody: true,
-                    body: Container(
-                        decoration: const BoxDecoration(
-                          image: DecorationImage(
-                            image: AssetImage("assets/1.jpg"),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                        child: BackdropFilter(
-                          filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-                          child: Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: ListView(
-                              children: [
-                                Text(
-                                    (snapshot.data == null)
-                                        ? ""
-                                        : snapshot.data!.strIngredient1,
-                                    style:
-                                        const TextStyle(color: Colors.white)),
-                                Text(
-                                    (snapshot.data == null)
-                                        ? ""
-                                        : snapshot.data!.strInstructions,
-                                    style:
-                                        const TextStyle(color: Colors.white)),
-                                Padding(
-                                  padding: const EdgeInsets.all(20.0),
-                                  child: SizedBox(
-                                      height: 300,
-                                      child: Image.network((snapshot.data ==
-                                              null)
-                                          ? "https://www.thecocktaildb.com/images/ingredients/gin-Small.png"
-                                          : snapshot.data!.strDrinkThumb)),
-                                ),
-                                FavoriteButton(
-                                  iconSize: 30,
-                                  isFavorite:
-                                      checkFavourite(snapshot.data!.strDrink),
-                                  valueChanged: (_isFavorite) {
-                                    if (_isFavorite == true) {
-                                      Provider.of<FavouritesProvider>(context,
-                                              listen: false)
-                                          .addFavourite(
-                                              snapshot.data!.strDrink, false);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text(
-                                            '${snapshot.data!.strDrink} har lagts till i Favoriter! :)))'),
-                                      ));
-                                      fetchFavourites();
-                                    } else {
-                                      var f = favourites.firstWhere((element) =>
-                                          element.title ==
-                                          snapshot.data!.strDrink);
-                                      Provider.of<FavouritesProvider>(context,
-                                              listen: false)
-                                          .removeFavourite(f);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                        content: Text(
-                                            '${snapshot.data!.strDrink} har tagits bort från Favoriter! :((('),
-                                      ));
-                                      fetchFavourites();
-                                    }
-                                  },
-                                )
-                              ],
-                            ),
-                          ),
-                        )));
-              }
-          }
-        });
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final suggestions = query.isEmpty
-        ? recentSearch
-        : cocktails.where((cocktail) {
-            final cocktailLower = cocktail.strDrink.toLowerCase();
-            final queryLower = query.toLowerCase();
-            return cocktailLower.startsWith(queryLower);
-          }).toList();
-    return buildSuggestionsSuccess(suggestions);
-  }
-
-  Widget buildSuggestionsSuccess(List<dynamic> suggestions) {
-    return ListView.builder(
-        itemCount: suggestions.length,
-        itemBuilder: (context, index) {
-          final suggestion = suggestions[index];
-
-          return ListTile(
-              onTap: () {
-                query = suggestion.strDrink;
-                showResults(context);
-              },
-              title: Text(suggestion.strDrink,
-                  style: const TextStyle(color: Colors.black)));
-        });
   }
 }
