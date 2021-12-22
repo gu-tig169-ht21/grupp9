@@ -2,20 +2,19 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_first_app/models/cocktails.dart';
 import 'package:my_first_app/models/ingredients_search.dart';
 
-class IngrediensVy extends StatefulWidget {
+class Ingredients extends StatefulWidget {
+  const Ingredients({Key? key}) : super(key: key);
+
   @override
-  _IngrediensVyState createState() => _IngrediensVyState();
+  _IngredientsState createState() => _IngredientsState();
 }
 
-class _IngrediensVyState extends State<IngrediensVy> {
+class _IngredientsState extends State<Ingredients> {
   var api = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list";
-  var res;
   var ingredients = [];
   var cocktails = [];
-  final _controller = TextEditingController();
   bool check = false;
 
   @override
@@ -26,20 +25,10 @@ class _IngrediensVyState extends State<IngrediensVy> {
   }
 
   fetchData() async {
-    res = await http.get(Uri.parse(
+    var res = await http.get(Uri.parse(
         'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list'));
     ingredients = jsonDecode(res.body)["drinks"];
     setState(() {});
-  }
-
-  fetchCockails(String ingredient) async {
-    res = await http.get(Uri.parse(
-        'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' +
-            ingredient));
-    var drinks = jsonDecode(res.body)["drinks"];
-    cocktails = drinks.map<Cocktails>((data) {
-      return Cocktails.fromJson(data);
-    }).toList();
   }
 
   @override

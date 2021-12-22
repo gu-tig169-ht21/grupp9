@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:ui';
-import 'package:favorite_button/favorite_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_first_app/providers/favourites_provider.dart';
@@ -17,7 +16,6 @@ class Favourites extends StatefulWidget {
 class _FavouritesState extends State<Favourites> {
   var url = 'https://todoapp-api-pyq5q.ondigitalocean.app/todos?key=';
   var key = '3f8f8e0f-935d-4b20-b4af-aefd946a5a6f';
-  var res;
   var cocktails = [];
 
   @override
@@ -28,7 +26,7 @@ class _FavouritesState extends State<Favourites> {
   }
 
   fetchCocktails() async {
-    res = await http.get(Uri.parse(url + key));
+    var res = await http.get(Uri.parse(url + key));
     var json = jsonDecode(res.body);
     cocktails = json.map<FavouritesModel>((data) {
       return FavouritesModel.fromJson(data);
@@ -115,7 +113,7 @@ Widget deleteButton(BuildContext context, item, String drink) {
 class ListItem extends StatelessWidget {
   final FavouritesModel item;
   BuildContext context;
-  ListItem(this.context, this.item);
+  ListItem(this.context, this.item, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(

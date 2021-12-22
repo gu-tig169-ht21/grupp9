@@ -31,7 +31,7 @@ class IngredientSearch extends SearchDelegate<String> {
   @override
   List<Widget>? buildActions(BuildContext context) {
     IconButton(
-      icon: Icon(Icons.arrow_back),
+      icon: Icon(Icons.clear),
       onPressed: () {
         if (query.isEmpty) {
           close(context, '');
@@ -103,14 +103,13 @@ class IngredientSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    var res;
     var cocktails = [];
 
     Future<List> fetchCocktails(String ingredient) async {
-      res = await http.get(Uri.parse(
+      var res = await http.get(Uri.parse(
           'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' +
               ingredient));
-      if (res.body != null && res.body != '') {
+      if (res.body != '') {
         var drinks = jsonDecode(res.body)["drinks"];
         return drinks.map<Cocktails>((data) {
           return Cocktails.fromJson(data);
@@ -149,8 +148,8 @@ class IngredientSearch extends SearchDelegate<String> {
                                     color: Colors.black.withOpacity(0.5),
                                     child: Center(
                                         child: Text(
-                                      'Drinks with ',
-                                      style: TextStyle(fontSize: 15),
+                                      'Drinks with $query',
+                                      style: const TextStyle(fontSize: 15),
                                     ))),
                               ),
                               ListView.builder(

@@ -20,7 +20,6 @@ class _DrinksViewState extends State<DrinksView> {
       'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic';
   var url2 =
       'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic';
-  var res;
   var cocktails = [];
   var favourites = [];
 
@@ -39,7 +38,7 @@ class _DrinksViewState extends State<DrinksView> {
 
   fetchCocktails() async {
     cocktails = [];
-    res = await http.get(Uri.parse(url));
+    var res = await http.get(Uri.parse(url));
     var drinks = jsonDecode(res.body)['drinks'];
 
     cocktails = drinks.map<Cocktails>((data) {
@@ -51,7 +50,7 @@ class _DrinksViewState extends State<DrinksView> {
 
   fetchNonAlcCocktails() async {
     cocktails = [];
-    res = await http.get(Uri.parse(url2));
+    var res = await http.get(Uri.parse(url2));
     var drinks = jsonDecode(res.body)['drinks'];
 
     cocktails = drinks.map<Cocktails>((data) {
@@ -139,69 +138,64 @@ class _DrinksViewState extends State<DrinksView> {
                       ))
                     ],
                   ),
-                  body: SizedBox(
-                    height: 590,
-                    child: Scrollbar(
-                      isAlwaysShown: true,
-                      child: ListView.builder(
-                          itemCount: cocktails.length,
-                          itemBuilder: (context, index) {
-                            var cocktail = cocktails[index];
-                            return Card(
-                              color: Colors.black12.withOpacity(0.4),
-                              child: ListTile(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => Details(
-                                              cocktail: cocktail.strDrink)),
-                                    );
-                                  },
-                                  leading: SizedBox(
-                                      height: 40,
-                                      width: 40,
-                                      child: Image.network(
-                                          cocktail.strDrinkThumb)),
-                                  title: Text("${cocktail.strDrink}",
-                                      style: const TextStyle(fontSize: 21)),
-                                  trailing: FavoriteButton(
-                                      iconSize: 30,
-                                      isFavorite:
-                                          checkFavourite(cocktail.strDrink),
-                                      valueChanged: (_isFavorite) {
-                                        if (_isFavorite == true) {
-                                          Provider.of<FavouritesProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .addFavourite(
-                                                  cocktail.strDrink, false);
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                            content: Text(
-                                                '${cocktail.strDrink} is added to Favourites'),
-                                          ));
-                                          fetchFavourites();
-                                        } else {
-                                          var f = favourites.firstWhere(
-                                              (element) =>
-                                                  element.title ==
-                                                  cocktail.strDrink);
-                                          Provider.of<FavouritesProvider>(
-                                                  context,
-                                                  listen: false)
-                                              .removeFavourite(f);
-                                          ScaffoldMessenger.of(context)
-                                              .showSnackBar(SnackBar(
-                                            content: Text(
-                                                '${cocktail.strDrink} is removed from Favourites'),
-                                          ));
-                                          fetchFavourites();
-                                        }
-                                      })),
-                            );
-                          }),
-                    ),
+                  body: Scrollbar(
+                    isAlwaysShown: true,
+                    child: ListView.builder(
+                        itemCount: cocktails.length,
+                        itemBuilder: (context, index) {
+                          var cocktail = cocktails[index];
+                          return Card(
+                            color: Colors.black12.withOpacity(0.4),
+                            child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Details(
+                                            cocktail: cocktail.strDrink)),
+                                  );
+                                },
+                                leading: SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child:
+                                        Image.network(cocktail.strDrinkThumb)),
+                                title: Text("${cocktail.strDrink}",
+                                    style: const TextStyle(fontSize: 21)),
+                                trailing: FavoriteButton(
+                                    iconSize: 30,
+                                    isFavorite:
+                                        checkFavourite(cocktail.strDrink),
+                                    valueChanged: (_isFavorite) {
+                                      if (_isFavorite == true) {
+                                        Provider.of<FavouritesProvider>(context,
+                                                listen: false)
+                                            .addFavourite(
+                                                cocktail.strDrink, false);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                              '${cocktail.strDrink} is added to Favourites'),
+                                        ));
+                                        fetchFavourites();
+                                      } else {
+                                        var f = favourites.firstWhere(
+                                            (element) =>
+                                                element.title ==
+                                                cocktail.strDrink);
+                                        Provider.of<FavouritesProvider>(context,
+                                                listen: false)
+                                            .removeFavourite(f);
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(SnackBar(
+                                          content: Text(
+                                              '${cocktail.strDrink} is removed from Favourites'),
+                                        ));
+                                        fetchFavourites();
+                                      }
+                                    })),
+                          );
+                        }),
                   ),
                 ),
               )))
