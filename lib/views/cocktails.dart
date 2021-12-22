@@ -123,7 +123,7 @@ class _DrinksViewState extends State<DrinksView> {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text(
-                                          '${cocktail.strDrink} har lagts till i Favoriter! :)))'),
+                                          '${cocktail.strDrink} har lagts till i Favoriter!'),
                                     ),
                                   );
                                   fetchFavourites();

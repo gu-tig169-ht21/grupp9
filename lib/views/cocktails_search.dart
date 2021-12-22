@@ -118,7 +118,7 @@ class CocktailSearch extends SearchDelegate<String> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                        '${snapshot.data!.strDrink} har lagts till i Favoriter! :)))'),
+                                        '${snapshot.data!.strDrink} har lagts till i Favoriter!'),
                                   ),
                                 );
                                 fetchFavourites();
@@ -131,7 +131,7 @@ class CocktailSearch extends SearchDelegate<String> {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
                                     content: Text(
-                                        '${snapshot.data!.strDrink} har tagits bort från Favoriter! :((('),
+                                        '${snapshot.data!.strDrink} har tagits bort från Favoriter!'),
                                   ),
                                 );
                                 fetchFavourites();
@@ -163,24 +163,48 @@ class CocktailSearch extends SearchDelegate<String> {
   }
 
   Widget buildSuggestionsSuccess(List<dynamic> suggestions) {
-    return ListView.builder(
-      itemCount: suggestions.length,
-      itemBuilder: (context, index) {
-        final suggestion = suggestions[index];
-
-        return ListTile(
-          onTap: () {
-            query = suggestion.strDrink;
-            showResults(context);
-          },
-          title: Text(
-            suggestion.strDrink,
-            style: const TextStyle(
-              color: Colors.black,
+    return Stack(
+      children: [
+        Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/2.jpg"),
+              fit: BoxFit.cover,
             ),
           ),
-        );
-      },
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+            child: Container(
+              decoration: BoxDecoration(color: Colors.white.withOpacity(0.0)),
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                body: ListView.builder(
+                  itemCount: suggestions.length,
+                  itemBuilder: (context, index) {
+                    final suggestion = suggestions[index];
+
+                    return Card(
+                      margin: const EdgeInsets.all(0.7),
+                      color: Colors.black12.withOpacity(0.4),
+                      child: ListTile(
+                        onTap: () {
+                          query = suggestion['strIngredient1'];
+                          showResults(context);
+                        },
+                        title: Text(
+                          suggestion['strIngredient1'],
+                          style: const TextStyle(
+                              fontSize: 21, color: Colors.white),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

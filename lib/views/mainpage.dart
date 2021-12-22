@@ -38,7 +38,9 @@ class _MainPageState extends State<MainPage> {
                 label: 'Hem',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.kitchen, size: 40),
+                icon: Icon(Icons.science_outlined, size: 40),
+                // shopping_cart_outlined
+                // shopping_bag
                 label: 'Ingredienser',
               ),
               BottomNavigationBarItem(
