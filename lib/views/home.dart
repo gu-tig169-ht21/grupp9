@@ -4,7 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/providers/favourites_provider.dart';
 import '/models/cocktails.dart';
-import '/providers/cocktails_provider.dart';
+
 import 'package:provider/provider.dart';
 import 'details.dart';
 

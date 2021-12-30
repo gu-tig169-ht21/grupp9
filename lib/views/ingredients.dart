@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:my_first_app/models/cocktails.dart';
-import 'package:my_first_app/providers/ingredients_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'details.dart';

@@ -67,13 +67,6 @@ class FavouritesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  //void updateAll(bool check) {
-  //for (var a in _favourites) {
-  //a.checked = check;
-  //}
-  //notifyListeners();
-  //}
-
   void setFilterBy(String filterBy) {
     this._filterBy = filterBy;
     notifyListeners();
