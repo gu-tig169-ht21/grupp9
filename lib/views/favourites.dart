@@ -1,7 +1,4 @@
-import 'dart:convert';
 import 'dart:ui';
-import 'package:favorite_button/favorite_button.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_first_app/providers/favourites_provider.dart';
 import 'package:provider/provider.dart';
@@ -15,25 +12,9 @@ class Favourites extends StatefulWidget {
 }
 
 class _FavouritesState extends State<Favourites> {
-  var url = 'https://todoapp-api-pyq5q.ondigitalocean.app/todos?key=';
-  var key = '3f8f8e0f-935d-4b20-b4af-aefd946a5a6f';
-  var res;
-  var cocktails = [];
-
   @override
   void initState() {
     super.initState();
-
-    fetchCocktails();
-  }
-
-  fetchCocktails() async {
-    res = await http.get(Uri.parse(url + key));
-    var json = jsonDecode(res.body);
-    cocktails = json.map<FavouritesModel>((data) {
-      return FavouritesModel.fromJson(data);
-    }).toList();
-    setState(() {});
   }
 
   @override
@@ -52,33 +33,31 @@ class _FavouritesState extends State<Favourites> {
                   decoration:
                       BoxDecoration(color: Colors.white.withOpacity(0.0)),
                   child: Scaffold(
-                      backgroundColor: Colors.transparent,
-                      appBar: AppBar(
-                        title: const Center(
-                          child: Text(
-                            'Favoriter',
-                            style: TextStyle(color: Colors.white),
-                            textAlign: TextAlign.center,
-                          ),
+                    backgroundColor: Colors.transparent,
+                    appBar: AppBar(
+                      title: const Center(
+                        child: Text(
+                          'Favoriter',
+                          style: TextStyle(color: Colors.white),
+                          textAlign: TextAlign.center,
                         ),
-                        backgroundColor: Colors.black12.withOpacity(0.65),
-                        elevation: 0.0,
                       ),
-                      body: SizedBox(
-                        height: 590,
-                        child: Scrollbar(
-                          isAlwaysShown: true,
-                          child: Consumer<FavouritesProvider>(builder:
-                              (context, FavouritesProvider data, child) {
-                            return ListView(
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                children: data.favourites
-                                    .map((card) => ListItem(context, card))
-                                    .toList());
-                          }),
-                        ),
-                      )))))
+                      backgroundColor: Colors.black12.withOpacity(0.65),
+                      elevation: 0.0,
+                    ),
+                    body: SizedBox(
+                      height: 590,
+                      child: Consumer<FavouritesProvider>(
+                          builder: (context, FavouritesProvider data, child) {
+                        return ListView(
+                            scrollDirection: Axis.vertical,
+                            shrinkWrap: true,
+                            children: data.favourites
+                                .map((card) => ListItem(context, card))
+                                .toList());
+                      }),
+                    ),
+                  ))))
     ]);
   }
 }
