@@ -5,14 +5,14 @@ import 'package:my_first_app/views/favourites.dart';
 import 'package:my_first_app/views/home.dart';
 import 'package:my_first_app/views/ingredients.dart';
 
-class NavigationBar extends StatefulWidget {
-  const NavigationBar({Key? key}) : super(key: key);
+class Navigation extends StatefulWidget {
+  const Navigation({Key? key}) : super(key: key);
 
   @override
-  State<NavigationBar> createState() => _NavigationBarState();
+  State<Navigation> createState() => _NavigationState();
 }
 
-class _NavigationBarState extends State<NavigationBar> {
+class _NavigationState extends State<Navigation> {
   int _selectedIndex = 0;
 
   final screens = [

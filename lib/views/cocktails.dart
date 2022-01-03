@@ -61,18 +61,6 @@ class _DrinksViewState extends State<DrinksView> {
     setState(() {});
   }
 
-  fetchNonAlcCocktails() async {
-    cocktails = [];
-    res = await http.get(Uri.parse(url2));
-    var drinks = jsonDecode(res.body)['drinks'];
-
-    cocktails = drinks.map<Cocktails>((data) {
-      return Cocktails.fromJson(data);
-    }).toList();
-
-    setState(() {});
-  }
-
   bool checkFavourite(String drink) {
     return favourites.any((f) => f.title == drink);
   }

@@ -42,10 +42,7 @@ class _FavouritesState extends State<Favourites> {
                             textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                      backgroundColor: Colors.black12.withOpacity(0.65),
-                      elevation: 0.0,
-                    ),
+                      ),                   
                     body: SizedBox(
                       height: 590,
                       child: Consumer<FavouritesProvider>(
