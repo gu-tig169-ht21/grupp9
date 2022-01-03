@@ -64,6 +64,7 @@ class _DetailsState extends State<Details> {
                 iconSize: 30,
                 isFavorite: checkFavourite(cocktail),
                 valueChanged: (_isFavorite) {
+                  fetchFavourites();
                   if (_isFavorite == true) {
                     Provider.of<FavouritesProvider>(context, listen: false)
                         .addFavourite(cocktail, false);
@@ -71,7 +72,6 @@ class _DetailsState extends State<Details> {
                       content:
                           Text('$cocktail har lagts till i Favoriter! :)))'),
                     ));
-                    fetchFavourites();
                   } else {
                     var f = favourites
                         .firstWhere((element) => element.title == cocktail);
@@ -81,7 +81,6 @@ class _DetailsState extends State<Details> {
                       content: Text(
                           '$cocktail har tagits bort från Favoriter! :((('),
                     ));
-                    fetchFavourites();
                   }
                 })
           ],
@@ -97,14 +96,38 @@ class _DetailsState extends State<Details> {
             ),
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: ListView(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text((_cocktail == null) ? "" : _cocktail.strIngredient1,
-                        style: const TextStyle(color: Colors.white)),
-                    Text((_cocktail == null) ? "" : _cocktail.strInstructions,
-                        style: const TextStyle(color: Colors.white)),
+                    (_cocktail != null)
+                        ? ListView.builder(
+                            physics: const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: _cocktail.ingredientsList.length,
+                            itemBuilder: (BuildContext context, index) {
+                              if (index == 0) {
+                                return Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: <Widget>[
+                                    const Text('Ingredients:',
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 27)),
+                                    const SizedBox(width: 42, height: 20),
+                                    Text(_cocktail.ingredientsList[index],
+                                        style: const TextStyle(
+                                            color: Colors.white))
+                                  ],
+                                );
+                              } else {
+                                return Text(_cocktail.ingredientsList[index],
+                                    style:
+                                        const TextStyle(color: Colors.white));
+                              }
+                            })
+                        : const Text('No ingredients found.',
+                            style: TextStyle(color: Colors.white)),
                     Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: SizedBox(
@@ -112,7 +135,14 @@ class _DetailsState extends State<Details> {
                           child: Image.network((_cocktail == null)
                               ? "https://www.thecocktaildb.com/images/ingredients/gin-Small.png"
                               : _cocktail.strDrinkThumb)),
-                    )
+                    ),
+                    const Text(
+                      'Instructions:',
+                      style: TextStyle(color: Colors.white, fontSize: 27),
+                    ),
+                    const SizedBox(width: 42, height: 20),
+                    Text((_cocktail == null) ? "" : _cocktail.strInstructions,
+                        style: const TextStyle(color: Colors.white)),
                   ],
                 ),
               ),

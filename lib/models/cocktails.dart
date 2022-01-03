@@ -29,6 +29,7 @@ class Cocktails {
   final String strImageAttribution;
   final String strCreativeCommonsConfirmed;
   final String dateModified;
+  final List ingredientsList;
 
   const Cocktails({
     required this.idDrink,
@@ -61,150 +62,231 @@ class Cocktails {
     required this.strImageAttribution,
     required this.strCreativeCommonsConfirmed,
     required this.dateModified,
+    required this.ingredientsList,
   });
 
   factory Cocktails.fromJson(Map<String, dynamic> json) {
+    var list = [];
+    var i1 = '';
+    var i2 = '';
+    var i3 = '';
+    var i4 = '';
+    var i5 = '';
+    var i6 = '';
+    var i7 = '';
+    var i8 = '';
+    var i9 = '';
+    var i10 = '';
+    var i11 = '';
+    var i12 = '';
+    var i13 = '';
+    var i14 = '';
+    var i15 = '';
+
+    if (json["strMeasure1"] != null) {
+      i1 = json["strIngredient1"] + " - " + json["strMeasure1"] as String;
+      list.add(i1);
+    } else if (json["strIngredient1"] != null) {
+      i1 = json["strIngredient1"] as String;
+      list.add(i1);
+    }
+
+    if (json["strMeasure2"] != null) {
+      i2 = json["strIngredient2"] + " - " + json["strMeasure2"] as String;
+      list.add(i2);
+    } else if (json["strIngredient2"] != null) {
+      i2 = json["strIngredient2"] as String;
+      list.add(i2);
+    }
+
+    if (json["strMeasure3"] != null) {
+      i3 = json["strIngredient3"] + " - " + json["strMeasure3"] as String;
+      list.add(i3);
+    } else if (json["strIngredient3"] != null) {
+      i3 = json["strIngredient3"] as String;
+      list.add(i3);
+    }
+
+    if (json["strMeasure4"] != null) {
+      i4 = json["strIngredient4"] + " - " + json["strMeasure4"] as String;
+      list.add(i4);
+    } else if (json["strIngredient4"] != null) {
+      i4 = json["strIngredient4"] as String;
+      list.add(i4);
+    }
+
+    if (json["strMeasure5"] != null) {
+      i5 = json["strIngredient5"] + " - " + json["strMeasure5"] as String;
+      list.add(i5);
+    } else if (json["strIngredient5"] != null) {
+      i5 = json["strIngredient5"] as String;
+      list.add(i5);
+    }
+
+    if (json["strMeasure6"] != null) {
+      i6 = json["strIngredient6"] + " - " + json["strMeasure6"] as String;
+      list.add(i6);
+    } else if (json["strIngredient6"] != null) {
+      i6 = json["strIngredient6"] as String;
+      list.add(i6);
+    }
+
+    if (json["strMeasure7"] != null) {
+      i7 = json["strIngredient7"] + " - " + json["strMeasure7"] as String;
+      list.add(i7);
+    } else if (json["strIngredient7"] != null) {
+      i7 = json["strIngredient7"] as String;
+      list.add(i7);
+    }
+
+    if (json["strMeasure8"] != null) {
+      i8 = json["strIngredient8"] + " - " + json["strMeasure8"] as String;
+      list.add(i8);
+    } else if (json["strIngredient8"] != null) {
+      i8 = json["strIngredient8"] as String;
+      list.add(i8);
+    }
+
+    if (json["strMeasure9"] != null) {
+      i9 = json["strIngredient9"] + " - " + json["strMeasure9"] as String;
+      list.add(i9);
+    } else if (json["strIngredient9"] != null) {
+      i9 = json["strIngredient9"] as String;
+      list.add(i9);
+    }
+
+    if (json["strMeasure10"] != null) {
+      i10 = json["strIngredient10"] + " - " + json["strMeasure10"] as String;
+      list.add(i10);
+    } else if (json["strIngredient10"] != null) {
+      i10 = json["strIngredient10"] as String;
+      list.add(i10);
+    }
+
+    if (json["strMeasure11"] != null) {
+      i11 = json["strIngredient11"] + " - " + json["strMeasure11"] as String;
+      list.add(i11);
+    } else if (json["strIngredient11"] != null) {
+      i11 = json["strIngredient11"] as String;
+      list.add(i11);
+    }
+
+    if (json["strMeasure12"] != null) {
+      i12 = json["strIngredient12"] + " - " + json["strMeasure12"] as String;
+      list.add(i12);
+    } else if (json["strIngredient12"] != null) {
+      i12 = json["strIngredient12"] as String;
+      list.add(i12);
+    }
+
+    if (json["strMeasure13"] != null) {
+      i13 = json["strIngredient13"] + " - " + json["strMeasure13"] as String;
+      list.add(i13);
+    } else if (json["strIngredient13"] != null) {
+      i13 = json["strIngredient13"] as String;
+      list.add(i13);
+    }
+
+    if (json["strMeasure14"] != null) {
+      i14 = json["strIngredient14"] + " - " + json["strMeasure14"] as String;
+      list.add(i14);
+    } else if (json["strIngredient14"] != null) {
+      i14 = json["strIngredient14"] as String;
+      list.add(i14);
+    }
+
+    if (json["strMeasure15"] != null) {
+      i15 = json["strIngredient15"] + " - " + json["strMeasure15"] as String;
+      list.add(i15);
+    } else if (json["strIngredient15"] != null) {
+      i15 = json["strIngredient15"] as String;
+      list.add(i15);
+    }
+
     return Cocktails(
-      idDrink: (json['idDrink'] != null) ? json['idDrink'] as String : '',
-      strDrink: (json['strDrink'] != null) ? json['strDrink'] as String : '',
-      strDrinkAlternate: (json['strDrinkAlternate'] != null)
-          ? json['strDrinkAlternate'] as String
-          : '',
-      strTags: (json['strTags'] != null) ? json['strTags'] as String : '',
-      strVideo: (json['strVideo'] != null) ? json['strVideo'] as String : '',
-      strCategory:
-          (json['strCategory'] != null) ? json['strCategory'] as String : '',
-      strIBA: (json['strIBA'] != null) ? json['strIBA'] as String : '',
-      strAlcoholic:
-          (json['strAlcoholic'] != null) ? json['strAlcoholic'] as String : '',
-      strGlass: (json['strGlass'] != null) ? json['strGlass'] as String : '',
-      strInstructions: (json['strInstructions'] != null)
-          ? json['strInstructions'] as String
-          : '',
-      strDrinkThumb: (json['strDrinkThumb'] != null)
-          ? json['strDrinkThumb'] as String
-          : '',
-      strIngredient1: (json["strMeasure1"] != null)
-          ? json["strIngredient1"] + " - " + json["strMeasure1"] as String
-          : (json["strIngredient1"] != null)
-              ? json["strIngredient1"] as String
-              : '',
-      strIngredient2: (json["strMeasure2"] != null)
-          ? json["strIngredient2"] + " - " + json["strMeasure2"] as String
-          : (json["strIngredient2"] != null)
-              ? json["strIngredient2"] as String
-              : '',
-      strIngredient3: (json["strMeasure3"] != null)
-          ? json["strIngredient3"] + " - " + json["strMeasure3"] as String
-          : (json["strIngredient3"] != null)
-              ? json["strIngredient3"] as String
-              : '',
-      strIngredient4: (json["strMeasure4"] != null)
-          ? json["strIngredient4"] + " - " + json["strMeasure4"] as String
-          : (json["strIngredient4"] != null)
-              ? json["strIngredient4"] as String
-              : '',
-      strIngredient5: (json["strMeasure5"] != null)
-          ? json["strIngredient5"] + " - " + json["strMeasure5"] as String
-          : (json["strIngredient5"] != null)
-              ? json["strIngredient5"] as String
-              : '',
-      strIngredient6: (json["strMeasure6"] != null)
-          ? json["strIngredient6"] + " - " + json["strMeasure6"] as String
-          : (json["strIngredient6"] != null)
-              ? json["strIngredient6"] as String
-              : '',
-      strIngredient7: (json["strMeasure7"] != null)
-          ? json["strIngredient7"] + " - " + json["strMeasure7"] as String
-          : (json["strIngredient7"] != null)
-              ? json["strIngredient7"] as String
-              : '',
-      strIngredient8: (json["strMeasure8"] != null)
-          ? json["strIngredient8"] + " - " + json["strMeasure8"] as String
-          : (json["strIngredient8"] != null)
-              ? json["strIngredient8"] as String
-              : '',
-      strIngredient9: (json["strMeasure9"] != null)
-          ? json["strIngredient9"] + " - " + json["strMeasure9"] as String
-          : (json["strIngredient9"] != null)
-              ? json["strIngredient9"] as String
-              : '',
-      strIngredient10: (json["strMeasure10"] != null)
-          ? json["strIngredient10"] + " - " + json["strMeasure10"] as String
-          : (json["strIngredient10"] != null)
-              ? json["strIngredient10"] as String
-              : '',
-      strIngredient11: (json["strMeasure11"] != null)
-          ? json["strIngredient11"] + " - " + json["strMeasure11"] as String
-          : (json["strIngredient11"] != null)
-              ? json["strIngredient11"] as String
-              : '',
-      strIngredient12: (json["strMeasure12"] != null)
-          ? json["strIngredient12"] + " - " + json["strMeasure12"] as String
-          : (json["strIngredient12"] != null)
-              ? json["strIngredient12"] as String
-              : '',
-      strIngredient13: (json["strMeasure13"] != null)
-          ? json["strIngredient13"] + " - " + json["strMeasure13"] as String
-          : (json["strIngredient13"] != null)
-              ? json["strIngredient13"] as String
-              : '',
-      strIngredient14: (json["strMeasure14"] != null)
-          ? json["strIngredient14"] + " - " + json["strMeasure14"] as String
-          : (json["strIngredient14"] != null)
-              ? json["strIngredient14"] as String
-              : '',
-      strIngredient15: (json["strMeasure15"] != null)
-          ? json["strIngredient15"] + " - " + json["strMeasure15"] as String
-          : (json["strIngredient15"] != null)
-              ? json["strIngredient15"] as String
-              : '',
-      strImageSource: (json['strImageSource'] != null)
-          ? json['strImageSource'] as String
-          : '',
-      strImageAttribution: (json['strImageAttribution'] != null)
-          ? json['strImageAttribution'] as String
-          : '',
-      strCreativeCommonsConfirmed: (json['strCreativeCommonsConfirmed'] != null)
-          ? json['strCreativeCommonsConfirmed'] as String
-          : '',
-      dateModified:
-          (json['dateModified'] != null) ? json['dateModified'] as String : '',
-    );
+        idDrink: (json['idDrink'] != null) ? json['idDrink'] as String : '',
+        strDrink: (json['strDrink'] != null) ? json['strDrink'] as String : '',
+        strDrinkAlternate: (json['strDrinkAlternate'] != null)
+            ? json['strDrinkAlternate'] as String
+            : '',
+        strTags: (json['strTags'] != null) ? json['strTags'] as String : '',
+        strVideo: (json['strVideo'] != null) ? json['strVideo'] as String : '',
+        strCategory:
+            (json['strCategory'] != null) ? json['strCategory'] as String : '',
+        strIBA: (json['strIBA'] != null) ? json['strIBA'] as String : '',
+        strAlcoholic: (json['strAlcoholic'] != null)
+            ? json['strAlcoholic'] as String
+            : '',
+        strGlass: (json['strGlass'] != null) ? json['strGlass'] as String : '',
+        strInstructions: (json['strInstructions'] != null)
+            ? json['strInstructions'] as String
+            : '',
+        strDrinkThumb: (json['strDrinkThumb'] != null)
+            ? json['strDrinkThumb'] as String
+            : '',
+        strIngredient1: i1,
+        strIngredient2: i2,
+        strIngredient3: i3,
+        strIngredient4: i4,
+        strIngredient5: i5,
+        strIngredient6: i6,
+        strIngredient7: i7,
+        strIngredient8: i8,
+        strIngredient9: i9,
+        strIngredient10: i10,
+        strIngredient11: i11,
+        strIngredient12: i12,
+        strIngredient13: i13,
+        strIngredient14: i14,
+        strIngredient15: i15,
+        strImageSource: (json['strImageSource'] != null)
+            ? json['strImageSource'] as String
+            : '',
+        strImageAttribution: (json['strImageAttribution'] != null)
+            ? json['strImageAttribution'] as String
+            : '',
+        strCreativeCommonsConfirmed:
+            (json['strCreativeCommonsConfirmed'] != null)
+                ? json['strCreativeCommonsConfirmed'] as String
+                : '',
+        dateModified: (json['dateModified'] != null)
+            ? json['dateModified'] as String
+            : '',
+        ingredientsList: list);
   }
 
   factory Cocktails.empty() {
     return const Cocktails(
-      idDrink: '',
-      strDrink: '',
-      strDrinkAlternate: '',
-      strTags: '',
-      strVideo: '',
-      strCategory: '',
-      strIBA: '',
-      strAlcoholic: '',
-      strGlass: '',
-      strInstructions: '',
-      strDrinkThumb: '',
-      strIngredient1: '',
-      strIngredient2: '',
-      strIngredient3: '',
-      strIngredient4: '',
-      strIngredient5: '',
-      strIngredient6: '',
-      strIngredient7: '',
-      strIngredient8: '',
-      strIngredient9: '',
-      strIngredient10: '',
-      strIngredient11: '',
-      strIngredient12: '',
-      strIngredient13: '',
-      strIngredient14: '',
-      strIngredient15: '',
-      strImageSource: '',
-      strImageAttribution: '',
-      strCreativeCommonsConfirmed: '',
-      dateModified: '',
-    );
+        idDrink: '',
+        strDrink: '',
+        strDrinkAlternate: '',
+        strTags: '',
+        strVideo: '',
+        strCategory: '',
+        strIBA: '',
+        strAlcoholic: '',
+        strGlass: '',
+        strInstructions: '',
+        strDrinkThumb: '',
+        strIngredient1: '',
+        strIngredient2: '',
+        strIngredient3: '',
+        strIngredient4: '',
+        strIngredient5: '',
+        strIngredient6: '',
+        strIngredient7: '',
+        strIngredient8: '',
+        strIngredient9: '',
+        strIngredient10: '',
+        strIngredient11: '',
+        strIngredient12: '',
+        strIngredient13: '',
+        strIngredient14: '',
+        strIngredient15: '',
+        strImageSource: '',
+        strImageAttribution: '',
+        strCreativeCommonsConfirmed: '',
+        dateModified: '',
+        ingredientsList: []);
   }
 }
