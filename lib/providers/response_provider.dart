@@ -1,6 +1,4 @@
 import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:my_first_app/models/cocktails.dart';
 
 class ResponseProvider {
   Future<String> fetchItems(String key) async {
