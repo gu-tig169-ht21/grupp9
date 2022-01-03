@@ -19,7 +19,7 @@ class CocktailSearch extends SearchDelegate<String> {
             borderSide: BorderSide(color: Colors.transparent)),
       ),
       textTheme:
-          GoogleFonts.recursiveTextTheme(Theme.of(context).textTheme.apply(
+          GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme.apply(
                 bodyColor: Colors.white,
               )),
       appBarTheme: const AppBarTheme(color: Colors.grey),
@@ -27,17 +27,15 @@ class CocktailSearch extends SearchDelegate<String> {
   }
 
   @override
-  List<Widget>? buildActions(BuildContext context) {
+  List<Widget> buildActions(BuildContext context) {
+    return [
     IconButton(
       icon: Icon(Icons.clear),
       onPressed: () {
-        if (query.isEmpty) {
-          close(context, '');
-        } else {
           query = '';
-        }
-      },
-    );
+        },
+    ),
+    ];
   }
 
   @override

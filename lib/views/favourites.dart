@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_first_app/providers/favourites_provider.dart';
 import 'package:provider/provider.dart';
@@ -36,6 +35,8 @@ class _FavouritesState extends State<Favourites> {
                   child: Scaffold(
                       backgroundColor: Colors.transparent,
                       appBar: AppBar(
+                        backgroundColor: Colors.black12.withOpacity(0.65),
+                        elevation: 0.0,
                         title: const Center(
                           child: Text(
                             'Favourites',
