@@ -28,6 +28,6 @@ class MyApp extends StatelessWidget {
                         bodyColor: Colors.white,
                       )),
             ),
-            home: const NavigationBar()));
+            home: const Navigation()));
   }
 }
