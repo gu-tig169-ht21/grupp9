@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/views/mainpage.dart';
+import 'package:my_first_app/views/navigation_bar.dart';
 import 'package:provider/provider.dart';
-
 import 'package:google_fonts/google_fonts.dart';
-
 import 'providers/favourites_provider.dart';
 
-void main() async {
-  runApp(MyApp());
+void main() {
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,12 +23,11 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               visualDensity: VisualDensity.adaptivePlatformDensity,
-              textTheme: GoogleFonts.recursiveTextTheme(
+              textTheme: GoogleFonts.poppinsTextTheme(
                   Theme.of(context).textTheme.apply(
-                        bodyColor: Colors.black,
-                        displayColor: Colors.black,
+                        bodyColor: Colors.white,
                       )),
             ),
-            home: MainPage()));
+            home: const NavigationBar()));
   }
 }

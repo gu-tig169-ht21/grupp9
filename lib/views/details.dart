@@ -18,7 +18,6 @@ class Details extends StatefulWidget {
 class _DetailsState extends State<Details> {
   final String cocktail;
   var url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-  var res;
   var _cocktail;
   var favourites = [];
   _DetailsState({Key? key, required this.cocktail});
@@ -32,9 +31,8 @@ class _DetailsState extends State<Details> {
   }
 
   fetchCocktail() async {
-    res = await http.get(Uri.parse(url + cocktail));
+    var res = await http.get(Uri.parse(url + cocktail));
     var drinks = jsonDecode(res.body)['drinks'][0];
-
     _cocktail = Cocktails.fromJson(drinks);
 
     setState(() {});
@@ -51,71 +49,116 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.grey.withOpacity(0.15),
-          title: Text(
-            (cocktail),
-            style: TextStyle(fontSize: 25),
-          ),
-          centerTitle: true,
-          actions: [
-            FavoriteButton(
-                iconSize: 30,
-                isFavorite: checkFavourite(cocktail),
-                valueChanged: (_isFavorite) {
-                  if (_isFavorite == true) {
-                    Provider.of<FavouritesProvider>(context, listen: false)
-                        .addFavourite(cocktail, false);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content:
-                          Text('$cocktail har lagts till i Favoriter! :)))'),
-                    ));
-                    fetchFavourites();
-                  } else {
-                    var f = favourites
-                        .firstWhere((element) => element.title == cocktail);
-                    Provider.of<FavouritesProvider>(context, listen: false)
-                        .removeFavourite(f);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text(
-                          '$cocktail har tagits bort från Favoriter! :((('),
-                    ));
-                    fetchFavourites();
-                  }
-                })
-          ],
+    return Container(
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/1.jpg"),
+          fit: BoxFit.cover,
         ),
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        body: Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage("assets/1.jpg"),
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: ListView(
-                  children: [
-                    Text((_cocktail == null) ? "" : _cocktail.strIngredient1,
-                        style: const TextStyle(color: Colors.white)),
-                    Text((_cocktail == null) ? "" : _cocktail.strInstructions,
-                        style: const TextStyle(color: Colors.white)),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: SizedBox(
-                          height: 300,
-                          child: Image.network((_cocktail == null)
-                              ? "https://www.thecocktaildb.com/images/ingredients/gin-Small.png"
-                              : _cocktail.strDrinkThumb)),
-                    )
-                  ],
+      ),
+      child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+          child: Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                backgroundColor: Colors.grey.withOpacity(0.15),
+                title: FittedBox(
+                  child: Text(
+                    (cocktail),
+                  ),
                 ),
+                centerTitle: true,
+                actions: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20.0),
+                    child: FavoriteButton(
+                        iconSize: 30,
+                        isFavorite: checkFavourite(cocktail),
+                        valueChanged: (_isFavorite) {
+                          if (_isFavorite == true) {
+                            Provider.of<FavouritesProvider>(context,
+                                    listen: false)
+                                .addFavourite(cocktail, false);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('$cocktail is added to Favourites'),
+                            ));
+                            fetchFavourites();
+                          } else {
+                            var f = favourites.firstWhere(
+                                (element) => element.title == cocktail);
+                            Provider.of<FavouritesProvider>(context,
+                                    listen: false)
+                                .removeFavourite(f);
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content:
+                                  Text('$cocktail is removed from Favourites'),
+                            ));
+                            fetchFavourites();
+                          }
+                        }),
+                  )
+                ],
               ),
-            )));
+              body: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  color: Colors.black.withOpacity(0.5),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: ListView(
+                      children: [
+                        if (_cocktail != null && _cocktail.strIngredient1 != '')
+                          Text(_cocktail.strIngredient1),
+                        if (_cocktail != null && _cocktail.strIngredient2 != '')
+                          Text(_cocktail.strIngredient2),
+                        if (_cocktail != null && _cocktail.strIngredient3 != '')
+                          Text(_cocktail.strIngredient3),
+                        if (_cocktail != null && _cocktail.strIngredient4 != '')
+                          Text(_cocktail.strIngredient4),
+                        if (_cocktail != null && _cocktail.strIngredient5 != '')
+                          Text(_cocktail.strIngredient5),
+                        if (_cocktail != null && _cocktail.strIngredient6 != '')
+                          Text(_cocktail.strIngredient6),
+                        if (_cocktail != null && _cocktail.strIngredient7 != '')
+                          Text(_cocktail.strIngredient7),
+                        if (_cocktail != null && _cocktail.strIngredient8 != '')
+                          Text(_cocktail.strIngredient8),
+                        if (_cocktail != null && _cocktail.strIngredient9 != '')
+                          Text(_cocktail.strIngredient9),
+                        if (_cocktail != null &&
+                            _cocktail.strIngredient10 != '')
+                          Text(_cocktail.strIngredient10),
+                        if (_cocktail != null &&
+                            _cocktail.strIngredient11 != '')
+                          Text(_cocktail.strIngredient11),
+                        if (_cocktail != null &&
+                            _cocktail.strIngredient12 != '')
+                          Text(_cocktail.strIngredient12),
+                        if (_cocktail != null &&
+                            _cocktail.strIngredient13 != '')
+                          Text(_cocktail.strIngredient13),
+                        if (_cocktail != null &&
+                            _cocktail.strIngredient14 != '')
+                          Text(_cocktail.strIngredient14),
+                        if (_cocktail != null &&
+                            _cocktail.strIngredient15 != '')
+                          Text(_cocktail.strIngredient15),
+                        Padding(
+                          padding: const EdgeInsets.all(20.0),
+                          child: SizedBox(
+                              height: 300,
+                              child: Image.network((_cocktail == null)
+                                  ? "https://www.thecocktaildb.com/images/ingredients/gin-Small.png"
+                                  : _cocktail.strDrinkThumb)),
+                        ),
+                        Text((_cocktail == null)
+                            ? ""
+                            : _cocktail.strInstructions),
+                      ],
+                    ),
+                  ),
+                ),
+              ))),
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_first_app/providers/favourites_provider.dart';
 import 'package:provider/provider.dart';
@@ -33,13 +34,13 @@ class _FavouritesState extends State<Favourites> {
                   decoration:
                       BoxDecoration(color: Colors.white.withOpacity(0.0)),
                   child: Scaffold(
-                    backgroundColor: Colors.transparent,
-                    appBar: AppBar(
-                      title: const Center(
-                        child: Text(
-                          'Favoriter',
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
+                      backgroundColor: Colors.transparent,
+                      appBar: AppBar(
+                        title: const Center(
+                          child: Text(
+                            'Favourites',
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
                       backgroundColor: Colors.black12.withOpacity(0.65),
@@ -95,7 +96,7 @@ Widget deleteButton(BuildContext context, item, String drink) {
 class ListItem extends StatelessWidget {
   final FavouritesModel item;
   BuildContext context;
-  ListItem(this.context, this.item);
+  ListItem(this.context, this.item, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(
@@ -113,7 +114,7 @@ class ListItem extends StatelessWidget {
                         builder: (context) => Details(cocktail: item.title)),
                   );
                 },
-                title: Text(item.title, style: TextStyle(color: Colors.white)),
+                title: Text(item.title, style: TextStyle(fontSize: 21)),
                 trailing: deleteButton(context, item, item.title),
               )));
     });
