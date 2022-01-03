@@ -1,6 +1,5 @@
 import 'dart:math';
 import 'dart:ui';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/providers/favourites_provider.dart';
 import '/models/cocktails.dart';

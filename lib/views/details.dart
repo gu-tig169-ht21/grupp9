@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:favorite_button/favorite_button.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/models/cocktails.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +19,7 @@ class _DetailsState extends State<Details> {
   var url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
   var _cocktail;
   var favourites = [];
-  _DetailsState({Key? key, required this.cocktail});
+  _DetailsState({required this.cocktail});
 
   @override
   void initState() {

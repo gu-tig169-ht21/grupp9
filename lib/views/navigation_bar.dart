@@ -39,19 +39,19 @@ class _NavigationState extends State<Navigation> {
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
                 icon: Icon(Icons.home, size: 30),
-                label: 'Hem',
+                label: 'Home',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.science_outlined, size: 30),
-                label: 'Ingredienser',
+                label: 'Ingredients',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.local_bar, size: 30),
-                label: 'Alla drinkar',
+                label: 'All drinks',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.favorite, size: 30),
-                label: 'Favoriter',
+                label: 'Favourites',
               ),
             ],
             currentIndex: _selectedIndex,

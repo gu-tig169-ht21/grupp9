@@ -69,13 +69,13 @@ Widget deleteButton(BuildContext context, item, String drink) {
     onPressed: () => showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text('Varning'),
+        title: const Text('Warning'),
         content: Text(
-            "Är du säker på att du vill radera '$drink' från dina favoriter?"),
+            "Are you sure you want to remove '$drink' from your favourites?"),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Avbryt'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () async {
