@@ -21,41 +21,48 @@ class _NavigationState extends State<Navigation> {
     const DrinksView(),
     const Favourites(),
   ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset: false,
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        body: screens[_selectedIndex],
-        bottomNavigationBar: BottomNavigationBar(
-            selectedItemColor: Colors.grey[600],
-            unselectedItemColor: Colors.grey[300],
-            showSelectedLabels: false,
-            showUnselectedLabels: false,
-            type: BottomNavigationBarType.fixed,
-            backgroundColor: Colors.grey[900],
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home, size: 30),
-                label: 'Hem',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.science_outlined, size: 30),
-                label: 'Ingredienser',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.local_bar, size: 30),
-                label: 'Alla drinkar',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.favorite, size: 30),
-                label: 'Favoriter',
-              ),
-            ],
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped));
+      resizeToAvoidBottomInset: false,
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      body: _bottomBar(),
+    );
+  }
+
+  Widget _bottomBar() {
+    return Scaffold(
+      body: screens[_selectedIndex],
+      bottomNavigationBar: BottomNavigationBar(
+        selectedItemColor: Colors.grey[600],
+        unselectedItemColor: Colors.grey[300],
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
+        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.grey[900],
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home, size: 30),
+            label: 'Home',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.science_outlined, size: 30),
+            label: 'Ingredients',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.local_bar, size: 30),
+            label: 'All drinks',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite, size: 30),
+            label: 'Favorites',
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        onTap: _onItemTapped,
+      ),
+    );
   }
 
   void _onItemTapped(int index) {
