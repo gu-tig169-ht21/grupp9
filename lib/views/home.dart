@@ -7,14 +7,9 @@ import '/models/cocktails.dart';
 import 'package:provider/provider.dart';
 import 'details.dart';
 
-class Home extends StatefulWidget {
+class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
 
-  @override
-  State<Home> createState() => _HomeState();
-}
-
-class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(
@@ -32,7 +27,7 @@ class _HomeState extends State<Home> {
             backgroundColor: Colors.transparent,
             extendBody: true,
             appBar: AppBar(
-              backgroundColor: Colors.grey.withOpacity(0.15),
+              backgroundColor: Colors.black.withOpacity(0.6),
               title: const Text(
                 ('Cocktaily'),
                 style: TextStyle(fontSize: 25),
@@ -47,7 +42,7 @@ class _HomeState extends State<Home> {
                   child: Text('Loading'),
                 );
               } else {
-                return Rad(data.list[0]);
+                return Quotes(data.list[0]);
               }
             }),
           ),
@@ -57,7 +52,7 @@ class _HomeState extends State<Home> {
   }
 }
 
-class Rad extends StatelessWidget {
+class Quotes extends StatelessWidget {
   final list = [
     '“Different cocktails for different Saturday nights.” ― Drew Barrymore',
     '“No amount of physical contact could match the healing powers of a well made cocktail.” — David Sedaris',
@@ -66,26 +61,26 @@ class Rad extends StatelessWidget {
     '“Shaken, not stirred.” —James Bond',
   ];
   final _random = Random();
-  late var element = list[_random.nextInt(4)];
   final Cocktails cocktail;
 
-  Rad(this.cocktail, {Key? key}) : super(key: key);
+  Quotes(this.cocktail, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.all(8.0),
       child: ListView(children: [
         Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(element, style: const TextStyle(fontSize: 20)),
+          padding: const EdgeInsets.only(top: 8.0),
+          child: Text(list[_random.nextInt(4)],
+              style: const TextStyle(fontSize: 18)),
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 30.0),
+          padding: const EdgeInsets.only(left: 8.0, right: 8.0, top: 30),
           child: Container(
               color: Colors.black.withOpacity(0.6),
               child: Padding(
-                padding: const EdgeInsets.all(5.0),
+                padding: const EdgeInsets.only(top: 8.0),
                 child: Text(cocktail.strDrink, textAlign: TextAlign.center),
               )),
         ),
@@ -99,13 +94,15 @@ class Rad extends StatelessWidget {
                       )),
             );
           },
-          child: Container(
-              color: Colors.black.withOpacity(0.6),
-              child: Padding(
-                padding:
-                    const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
-                child: Image.network(cocktail.strDrinkThumb),
-              )),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8.0, right: 8.0),
+            child: Container(
+                color: Colors.black.withOpacity(0.6),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Image.network(cocktail.strDrinkThumb),
+                )),
+          ),
         ),
       ]),
     );

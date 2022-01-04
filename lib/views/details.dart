@@ -16,8 +16,8 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
-  final String cocktail;
   var url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  final String cocktail;
   var _cocktail;
   var favourites = [];
   _DetailsState({required this.cocktail});

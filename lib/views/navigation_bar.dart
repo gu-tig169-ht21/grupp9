@@ -16,7 +16,7 @@ class _NavigationState extends State<Navigation> {
   int _selectedIndex = 0;
 
   final screens = [
-    const Home(),
+    Home(),
     const Ingredients(),
     const DrinksView(),
     const Favourites(),

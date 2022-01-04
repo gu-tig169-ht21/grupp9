@@ -111,6 +111,7 @@ class _DrinksViewState extends State<DrinksView> {
                         },
                         icon: const Icon(Icons.search)),
                     PopupMenuButton<String>(
+                      color: Colors.black,
                       icon: const Icon(
                         Icons.filter_list_alt,
                         color: Colors.white,

@@ -21,7 +21,8 @@ class CocktailSearch extends SearchDelegate<String> {
       textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme.apply(
             bodyColor: Colors.white,
           )),
-      appBarTheme: const AppBarTheme(backgroundColor: Colors.grey),
+      appBarTheme: const AppBarTheme(color: Colors.black12, elevation: 0),
+      scaffoldBackgroundColor: Colors.transparent,
     );
   }
 
@@ -77,50 +78,32 @@ class CocktailSearch extends SearchDelegate<String> {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
-              return Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/3.jpg"),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-                      child: Container(
-                          decoration: BoxDecoration(
-                              color: Colors.white.withOpacity(0.0)),
-                          child: Scaffold(
-                            extendBodyBehindAppBar: true,
-                            backgroundColor: Colors.transparent,
-                            body: ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: snapshot.data!.length,
-                                itemBuilder: (context, index) {
-                                  var cocktail = snapshot.data![index];
-                                  return Card(
-                                    color: Colors.black12.withOpacity(0.4),
-                                    child: ListTile(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => Details(
-                                                  cocktail: cocktail.strDrink)),
-                                        );
-                                      },
-                                      leading: SizedBox(
-                                          height: 40,
-                                          width: 40,
-                                          child: Image.network(
-                                              cocktail.strDrinkThumb)),
-                                      title: Text("${cocktail.strDrink}",
-                                          style: const TextStyle(
-                                              fontSize: 21,
-                                              color: Colors.white)),
-                                    ),
-                                  );
-                                }),
-                          ))));
+              return ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: snapshot.data!.length,
+                  itemBuilder: (context, index) {
+                    var cocktail = snapshot.data![index];
+                    return Card(
+                      color: Colors.black12.withOpacity(0.4),
+                      child: ListTile(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    Details(cocktail: cocktail.strDrink)),
+                          );
+                        },
+                        leading: SizedBox(
+                            height: 40,
+                            width: 40,
+                            child: Image.network(cocktail.strDrinkThumb)),
+                        title: Text("${cocktail.strDrink}",
+                            style: const TextStyle(
+                                fontSize: 21, color: Colors.white)),
+                      ),
+                    );
+                  });
             }
         }
       },
@@ -143,20 +126,16 @@ class CocktailSearch extends SearchDelegate<String> {
     return Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/3.jpg"),
+            image: AssetImage("assets/2.jpg"),
             fit: BoxFit.cover,
           ),
         ),
         child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-          child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: Colors.transparent,
-            body: ListView.builder(
+            filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+            child: ListView.builder(
                 itemCount: suggestions.length,
                 itemBuilder: (context, index) {
                   final suggestion = suggestions[index];
-
                   return Card(
                     color: Colors.black12.withOpacity(0.4),
                     child: ListTile(
@@ -172,8 +151,6 @@ class CocktailSearch extends SearchDelegate<String> {
                           style: const TextStyle(fontSize: 21),
                         )),
                   );
-                }),
-          ),
-        ));
+                })));
   }
 }
