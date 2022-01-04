@@ -27,12 +27,6 @@ class _NavigationState extends State<Navigation> {
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
       extendBody: true,
-      body: _bottomBar(),
-    );
-  }
-
-  Widget _bottomBar() {
-    return Scaffold(
       body: screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: Colors.grey[600],

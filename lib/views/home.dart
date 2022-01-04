@@ -61,8 +61,8 @@ class Rad extends StatelessWidget {
   final list = [
     '“Different cocktails for different Saturday nights.” ― Drew Barrymore',
     '“No amount of physical contact could match the healing powers of a well made cocktail.” — David Sedaris',
-    'Cenosillicaphobia (noun): the fear of an empty glass',
-    'When life gives you lemons, make whiskey sours',
+    '"Cenosillicaphobia (noun): the fear of an empty glass"',
+    '"When life gives you lemons, make whiskey sours"',
     '“Shaken, not stirred.” —James Bond',
   ];
   final _random = Random();
@@ -75,41 +75,39 @@ class Rad extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(20.0),
-      child: Container(
-        height: double.infinity,
-        width: double.infinity,
-        color: Colors.black.withOpacity(0.5),
-        child: Padding(
+      child: ListView(children: [
+        Padding(
           padding: const EdgeInsets.all(8.0),
-          child: ListView(
-            children: [
-              Text(element),
-              Column(children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(top: 50, bottom: 5),
-                  child: Text(cocktail.strDrink),
-                ),
-                Container(
-                    decoration: BoxDecoration(
-                      color: const Color(0xff2c2c2c).withOpacity(0.6),
-                    ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => Details(
-                                    cocktail: cocktail.strDrink,
-                                  )),
-                        );
-                      },
-                      child: Image.network(cocktail.strDrinkThumb),
-                    )),
-              ])
-            ],
-          ),
+          child: Text(element, style: const TextStyle(fontSize: 20)),
         ),
-      ),
+        Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: Container(
+              color: Colors.black.withOpacity(0.6),
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Text(cocktail.strDrink, textAlign: TextAlign.center),
+              )),
+        ),
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Details(
+                        cocktail: cocktail.strDrink,
+                      )),
+            );
+          },
+          child: Container(
+              color: Colors.black.withOpacity(0.6),
+              child: Padding(
+                padding:
+                    const EdgeInsets.only(bottom: 8.0, left: 8.0, right: 8.0),
+                child: Image.network(cocktail.strDrinkThumb),
+              )),
+        ),
+      ]),
     );
   }
 }

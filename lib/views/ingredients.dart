@@ -2,10 +2,7 @@ import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_first_app/models/cocktails.dart';
-import 'package:provider/provider.dart';
-import 'package:my_first_app/models/ingredients_search.dart';
-
+import 'package:my_first_app/widgets/ingredients_search.dart';
 
 class Ingredients extends StatefulWidget {
   const Ingredients({Key? key}) : super(key: key);
@@ -51,11 +48,9 @@ class _IngredientsState extends State<Ingredients> {
                 child: Scaffold(
                     backgroundColor: Colors.transparent,
                     appBar: AppBar(
-                      title: const Center(
-                        child: Text(
-                          "Ingredients",
-                          textAlign: TextAlign.center,
-                        ),
+                      centerTitle: true,
+                      title: const Text(
+                        "Ingredients",
                       ),
                       backgroundColor: Colors.black12.withOpacity(0.65),
                       elevation: 0.0,
