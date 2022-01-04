@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_first_app/providers/favourites_provider.dart';
 import 'package:provider/provider.dart';
@@ -34,15 +33,14 @@ class _FavouritesState extends State<Favourites> {
                   decoration:
                       BoxDecoration(color: Colors.white.withOpacity(0.0)),
                   child: Scaffold(
-                      backgroundColor: Colors.transparent,
-                      appBar: AppBar(
-                        title: const Center(
-                          child: Text(
-                            'Favourites',
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                      ),                   
+                    backgroundColor: Colors.transparent,
+                    appBar: AppBar(
+                      centerTitle: true,
+                      backgroundColor: Colors.black12.withOpacity(0.65),
+                      title: const Text(
+                        'Favourites',
+                      ),
+                    ),
                     body: SizedBox(
                       height: 590,
                       child: Consumer<FavouritesProvider>(
@@ -69,12 +67,12 @@ Widget deleteButton(BuildContext context, item, String drink) {
       context: context,
       builder: (BuildContext context) => AlertDialog(
         title: const Text('Varning'),
-        content: Text(
-            "Är du säker på att du vill radera '$drink' från dina favoriter?"),
+        content:
+            Text("Are you sure you want to delete '$drink' from favourites?"),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Avbryt'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () async {
@@ -92,28 +90,25 @@ Widget deleteButton(BuildContext context, item, String drink) {
 
 class ListItem extends StatelessWidget {
   final FavouritesModel item;
-  BuildContext context;
-  ListItem(this.context, this.item, {Key? key}) : super(key: key);
+  final BuildContext context;
+  const ListItem(this.context, this.item, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
-      return Padding(
-          padding: const EdgeInsets.all(2),
-          child: Card(
-              margin: const EdgeInsets.all(0.7),
-              color: Colors.black12.withOpacity(0.4),
-              child: ListTile(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => Details(cocktail: item.title)),
-                  );
-                },
-                title: Text(item.title, style: TextStyle(fontSize: 21)),
-                trailing: deleteButton(context, item, item.title),
-              )));
+      return Card(
+          color: Colors.black12.withOpacity(0.4),
+          child: ListTile(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => Details(cocktail: item.title)),
+              );
+            },
+            title: Text(item.title, style: const TextStyle(fontSize: 21)),
+            trailing: deleteButton(context, item, item.title),
+          ));
     });
   }
 }

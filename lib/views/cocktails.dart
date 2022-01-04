@@ -4,7 +4,7 @@ import 'package:favorite_button/favorite_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_first_app/models/cocktails.dart';
-import 'package:my_first_app/models/cocktails_search.dart';
+import 'package:my_first_app/widgets/cocktails_search.dart';
 import 'package:my_first_app/providers/favourites_provider.dart';
 import 'package:my_first_app/views/details.dart';
 import 'package:provider/provider.dart';
@@ -93,110 +93,95 @@ class _DrinksViewState extends State<DrinksView> {
           ),
           child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                child: Scaffold(
-                  backgroundColor: Colors.transparent,
-                  appBar: AppBar(
-                    title: const Center(
-                      child: Text(
-                        'Drinks & Cocktails',
-                        textAlign: TextAlign.center,
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                appBar: AppBar(
+                  centerTitle: true,
+                  title: const Text(
+                    'Drinks & Cocktails',
+                  ),
+                  backgroundColor: Colors.black12.withOpacity(0.65),
+                  elevation: 0.0,
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          showSearch(
+                              context: context,
+                              delegate: CocktailSearch(cocktails));
+                        },
+                        icon: const Icon(Icons.search)),
+                    PopupMenuButton<String>(
+                      icon: const Icon(
+                        Icons.filter_list_alt,
+                        color: Colors.white,
                       ),
+                      onSelected: (value) async {
+                        setState(() {
+                          setFilter(value);
+                        });
+                      },
+                      itemBuilder: (context) => [
+                        const PopupMenuItem(
+                            child: Text('Alcoholic'), value: '1'),
+                        const PopupMenuItem(
+                            child: Text('Non-alcoholic'), value: '2'),
+                      ],
                     ),
-                    backgroundColor: Colors.black12.withOpacity(0.65),
-                    elevation: 0.0,
-                    actions: [
-                      IconButton(
-                          onPressed: () {
-                            showSearch(
-                                context: context,
-                                delegate: CocktailSearch(cocktails));
-                          },
-                          icon: const Icon(Icons.search)),
-                      Center(
-                          child: Theme(
-                        data: Theme.of(context).copyWith(
-                          cardColor: Colors.black,
-                        ),
-                        child: PopupMenuButton<String>(
-                          icon: const Icon(
-                            Icons.filter_list_alt,
-                            color: Colors.white,
-                          ),
-                          onSelected: (value) async {
-                            setState(() {
-                              setFilter(value);
-                            });
-                          },
-                          itemBuilder: (context) => [
-                            const PopupMenuItem(
-                                child: Text('Alcoholic'), value: '1'),
-                            const PopupMenuItem(
-                                child: Text('Non-alcoholic'), value: '2'),
-                          ],
-                        ),
-                      ))
-                    ],
-                  ),
-                  body: Scrollbar(
-                    isAlwaysShown: true,
-                    child: ListView.builder(
-                        itemCount: cocktails.length,
-                        itemBuilder: (context, index) {
-                          var cocktail = cocktails[index];
-                          return Card(
-                            color: Colors.black12.withOpacity(0.4),
-                            child: ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Details(
-                                            cocktail: cocktail.strDrink)),
-                                  );
-                                },
-                                leading: SizedBox(
-                                    height: 40,
-                                    width: 40,
-                                    child:
-                                        Image.network(cocktail.strDrinkThumb)),
-                                title: Text("${cocktail.strDrink}",
-                                    style: const TextStyle(fontSize: 21)),
-                                trailing: FavoriteButton(
-                                    iconSize: 30,
-                                    isFavorite:
-                                        checkFavourite(cocktail.strDrink),
-                                    valueChanged: (_isFavorite) {
-                                      fetchFavourites();
-                                      if (_isFavorite == true) {
-                                        Provider.of<FavouritesProvider>(context,
-                                                listen: false)
-                                            .addFavourite(
-                                                cocktail.strDrink, false);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Text(
-                                              '${cocktail.strDrink} is added to Favourites'),
-                                        ));
-                                      } else {
-                                        var f = favourites.firstWhere(
-                                            (element) =>
-                                                element.title ==
-                                                cocktail.strDrink);
-                                        Provider.of<FavouritesProvider>(context,
-                                                listen: false)
-                                            .removeFavourite(f);
-                                        ScaffoldMessenger.of(context)
-                                            .showSnackBar(SnackBar(
-                                          content: Text(
-                                              '${cocktail.strDrink} is removed from Favourites'),
-                                        ));
-                                      }
-                                    })),
-                          );
-                        }),
-                  ),
+                  ],
+                ),
+                body: Scrollbar(
+                  isAlwaysShown: true,
+                  child: ListView.builder(
+                      itemCount: cocktails.length,
+                      itemBuilder: (context, index) {
+                        var cocktail = cocktails[index];
+                        return Card(
+                          color: Colors.black12.withOpacity(0.4),
+                          child: ListTile(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          Details(cocktail: cocktail.strDrink)),
+                                );
+                              },
+                              leading: SizedBox(
+                                  height: 40,
+                                  width: 40,
+                                  child: Image.network(cocktail.strDrinkThumb)),
+                              title: Text("${cocktail.strDrink}",
+                                  style: const TextStyle(fontSize: 21)),
+                              trailing: FavoriteButton(
+                                  iconSize: 30,
+                                  isFavorite: checkFavourite(cocktail.strDrink),
+                                  valueChanged: (_isFavorite) {
+                                    fetchFavourites();
+                                    if (_isFavorite == true) {
+                                      Provider.of<FavouritesProvider>(context,
+                                              listen: false)
+                                          .addFavourite(
+                                              cocktail.strDrink, false);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(
+                                            '${cocktail.strDrink} is added to Favourites'),
+                                      ));
+                                    } else {
+                                      var f = favourites.firstWhere((element) =>
+                                          element.title == cocktail.strDrink);
+                                      Provider.of<FavouritesProvider>(context,
+                                              listen: false)
+                                          .removeFavourite(f);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                        content: Text(
+                                            '${cocktail.strDrink} is removed from Favourites'),
+                                      ));
+                                    }
+                                  })),
+                        );
+                      }),
                 ),
               )))
     ]);

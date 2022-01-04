@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:my_first_app/views/details.dart';
-import 'cocktails.dart';
+import '../models/cocktails.dart';
 
 class IngredientSearch extends SearchDelegate<String> {
   var ingredients = [];
@@ -18,10 +18,9 @@ class IngredientSearch extends SearchDelegate<String> {
         focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent)),
       ),
-      textTheme:
-          GoogleFonts.recursiveTextTheme(Theme.of(context).textTheme.apply(
-                bodyColor: Colors.white,
-              )),
+      textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme.apply(
+            bodyColor: Colors.white,
+          )),
       appBarTheme: const AppBarTheme(
         color: Colors.grey,
       ),
@@ -29,23 +28,21 @@ class IngredientSearch extends SearchDelegate<String> {
   }
 
   @override
-  List<Widget>? buildActions(BuildContext context) {
-    IconButton(
-      icon: Icon(Icons.clear),
-      onPressed: () {
-        if (query.isEmpty) {
-          close(context, '');
-        } else {
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.clear),
+        onPressed: () {
           query = '';
-        }
-      },
-    );
+        },
+      ),
+    ];
   }
 
   @override
   Widget? buildLeading(BuildContext context) {
-    IconButton(
-      icon: Icon(Icons.clear),
+    return IconButton(
+      icon: const Icon(Icons.arrow_back),
       onPressed: () {
         close(context, '');
       },
@@ -153,6 +150,7 @@ class IngredientSearch extends SearchDelegate<String> {
                                     ))),
                               ),
                               ListView.builder(
+                                  physics: const NeverScrollableScrollPhysics(),
                                   shrinkWrap: true,
                                   itemCount: snapshot.data!.length,
                                   itemBuilder: (context, index) {

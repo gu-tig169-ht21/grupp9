@@ -4,7 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:my_first_app/views/details.dart';
-import 'cocktails.dart';
+import '../models/cocktails.dart';
 
 class CocktailSearch extends SearchDelegate<String> {
   var cocktails = [];
@@ -18,32 +18,31 @@ class CocktailSearch extends SearchDelegate<String> {
         focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: Colors.transparent)),
       ),
-      textTheme:
-          GoogleFonts.recursiveTextTheme(Theme.of(context).textTheme.apply(
-                bodyColor: Colors.white,
-              )),
-      appBarTheme: const AppBarTheme(color: Colors.grey),
+      textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme.apply(
+            bodyColor: Colors.white,
+          )),
+      appBarTheme: const AppBarTheme(backgroundColor: Colors.grey),
     );
   }
 
   @override
-  List<Widget>? buildActions(BuildContext context) {
-    IconButton(
-      icon: Icon(Icons.clear),
-      onPressed: () {
-        if (query.isEmpty) {
-          close(context, '');
-        } else {
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(
+        icon: const Icon(Icons.clear),
+        onPressed: () {
           query = '';
-        }
-      },
-    );
+        },
+      ),
+    ];
   }
 
   @override
   Widget? buildLeading(BuildContext context) {
-    IconButton(
-      icon: Icon(Icons.arrow_back),
+    return IconButton(
+      icon: const Icon(
+        Icons.arrow_back,
+      ),
       onPressed: () {
         close(context, '');
       },
@@ -52,13 +51,13 @@ class CocktailSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    var res;
+    http.Response res;
     var cocktails = [];
 
     Future<List> fetchCocktails(String drink) async {
       res = await http.get(Uri.parse(
           'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drink));
-      if (res.body != null && res.body != '') {
+      if (res.body != '') {
         var drinks = jsonDecode(res.body)["drinks"];
         return drinks.map<Cocktails>((data) {
           return Cocktails.fromJson(data);
@@ -69,7 +68,7 @@ class CocktailSearch extends SearchDelegate<String> {
     }
 
     return FutureBuilder<List>(
-      future: fetchCocktails(query), // async work
+      future: fetchCocktails(query),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -91,6 +90,7 @@ class CocktailSearch extends SearchDelegate<String> {
                           decoration: BoxDecoration(
                               color: Colors.white.withOpacity(0.0)),
                           child: Scaffold(
+                            extendBodyBehindAppBar: true,
                             backgroundColor: Colors.transparent,
                             body: ListView.builder(
                                 shrinkWrap: true,
@@ -169,7 +169,7 @@ class CocktailSearch extends SearchDelegate<String> {
                         },
                         title: Text(
                           suggestion.strDrink,
-                          style: TextStyle(fontSize: 21),
+                          style: const TextStyle(fontSize: 21),
                         )),
                   );
                 }),
