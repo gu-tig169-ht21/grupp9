@@ -49,116 +49,99 @@ class _DetailsState extends State<Details> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/1.jpg"),
-          fit: BoxFit.cover,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.grey.withOpacity(0.15),
+        title: Text(
+          (cocktail),
+          style: TextStyle(fontSize: 25),
         ),
+        centerTitle: true,
+        actions: [
+          FavoriteButton(
+              iconSize: 30,
+              isFavorite: checkFavourite(cocktail),
+              valueChanged: (_isFavorite) {
+                fetchFavourites();
+                if (_isFavorite == true) {
+                  Provider.of<FavouritesProvider>(context, listen: false)
+                      .addFavourite(cocktail, false);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('$cocktail is added to Favourites'),
+                  ));
+                } else {
+                  var f = favourites
+                      .firstWhere((element) => element.title == cocktail);
+                  Provider.of<FavouritesProvider>(context, listen: false)
+                      .removeFavourite(f);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text('$cocktail is removed from Favourites'),
+                  ));
+                }
+              })
+        ],
       ),
-      child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-          child: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                backgroundColor: Colors.grey.withOpacity(0.15),
-                title: FittedBox(
-                  child: Text(
-                    (cocktail),
-                  ),
-                ),
-                centerTitle: true,
-                actions: [
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      body: Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/1.jpg"),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 100),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  (_cocktail != null)
+                      ? ListView.builder(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: _cocktail.ingredientsList.length,
+                          itemBuilder: (BuildContext context, index) {
+                            if (index == 0) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  const Text('Ingredients:',
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 27)),
+                                  const SizedBox(width: 42, height: 20),
+                                  Text(_cocktail.ingredientsList[index],
+                                      style:
+                                          const TextStyle(color: Colors.white))
+                                ],
+                              );
+                            } else {
+                              return Text(_cocktail.ingredientsList[index],
+                                  style: const TextStyle(color: Colors.white));
+                            }
+                          })
+                      : const Text('No ingredients found.',
+                          style: TextStyle(color: Colors.white)),
                   Padding(
-                    padding: const EdgeInsets.only(right: 20.0),
-                    child: FavoriteButton(
-                        iconSize: 30,
-                        isFavorite: checkFavourite(cocktail),
-                        valueChanged: (_isFavorite) {
-                          if (_isFavorite == true) {
-                            Provider.of<FavouritesProvider>(context,
-                                    listen: false)
-                                .addFavourite(cocktail, false);
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('$cocktail is added to Favourites'),
-                            ));
-                            fetchFavourites();
-                          } else {
-                            var f = favourites.firstWhere(
-                                (element) => element.title == cocktail);
-                            Provider.of<FavouritesProvider>(context,
-                                    listen: false)
-                                .removeFavourite(f);
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content:
-                                  Text('$cocktail is removed from Favourites'),
-                            ));
-                            fetchFavourites();
-                          }
-                        }),
-                  )
+                    padding: const EdgeInsets.all(20.0),
+                    child: SizedBox(
+                        height: 300,
+                        child: Image.network((_cocktail == null)
+                            ? "https://www.thecocktaildb.com/images/ingredients/gin-Small.png"
+                            : _cocktail.strDrinkThumb)),
+                  ),
+                  const Text(
+                    'Instructions:',
+                    style: TextStyle(color: Colors.white, fontSize: 27),
+                  ),
+                  const SizedBox(width: 42, height: 20),
+                  Text((_cocktail == null) ? "" : _cocktail.strInstructions,
+                      style: const TextStyle(color: Colors.white)),
                 ],
               ),
-              body: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  color: Colors.black.withOpacity(0.5),
-                  child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: ListView(
-                      children: [
-                        if (_cocktail != null && _cocktail.strIngredient1 != '')
-                          Text(_cocktail.strIngredient1),
-                        if (_cocktail != null && _cocktail.strIngredient2 != '')
-                          Text(_cocktail.strIngredient2),
-                        if (_cocktail != null && _cocktail.strIngredient3 != '')
-                          Text(_cocktail.strIngredient3),
-                        if (_cocktail != null && _cocktail.strIngredient4 != '')
-                          Text(_cocktail.strIngredient4),
-                        if (_cocktail != null && _cocktail.strIngredient5 != '')
-                          Text(_cocktail.strIngredient5),
-                        if (_cocktail != null && _cocktail.strIngredient6 != '')
-                          Text(_cocktail.strIngredient6),
-                        if (_cocktail != null && _cocktail.strIngredient7 != '')
-                          Text(_cocktail.strIngredient7),
-                        if (_cocktail != null && _cocktail.strIngredient8 != '')
-                          Text(_cocktail.strIngredient8),
-                        if (_cocktail != null && _cocktail.strIngredient9 != '')
-                          Text(_cocktail.strIngredient9),
-                        if (_cocktail != null &&
-                            _cocktail.strIngredient10 != '')
-                          Text(_cocktail.strIngredient10),
-                        if (_cocktail != null &&
-                            _cocktail.strIngredient11 != '')
-                          Text(_cocktail.strIngredient11),
-                        if (_cocktail != null &&
-                            _cocktail.strIngredient12 != '')
-                          Text(_cocktail.strIngredient12),
-                        if (_cocktail != null &&
-                            _cocktail.strIngredient13 != '')
-                          Text(_cocktail.strIngredient13),
-                        if (_cocktail != null &&
-                            _cocktail.strIngredient14 != '')
-                          Text(_cocktail.strIngredient14),
-                        if (_cocktail != null &&
-                            _cocktail.strIngredient15 != '')
-                          Text(_cocktail.strIngredient15),
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: SizedBox(
-                              height: 300,
-                              child: Image.network((_cocktail == null)
-                                  ? "https://www.thecocktaildb.com/images/ingredients/gin-Small.png"
-                                  : _cocktail.strDrinkThumb)),
-                        ),
-                        Text((_cocktail == null)
-                            ? ""
-                            : _cocktail.strInstructions),
-                      ],
-                    ),
-                  ),
-                ),
-              ))),
+            ),
+          )),
     );
   }
 }

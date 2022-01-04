@@ -168,6 +168,7 @@ class _DrinksViewState extends State<DrinksView> {
                                     isFavorite:
                                         checkFavourite(cocktail.strDrink),
                                     valueChanged: (_isFavorite) {
+                                      fetchFavourites();
                                       if (_isFavorite == true) {
                                         Provider.of<FavouritesProvider>(context,
                                                 listen: false)
@@ -178,7 +179,6 @@ class _DrinksViewState extends State<DrinksView> {
                                           content: Text(
                                               '${cocktail.strDrink} is added to Favourites'),
                                         ));
-                                        fetchFavourites();
                                       } else {
                                         var f = favourites.firstWhere(
                                             (element) =>
@@ -192,7 +192,6 @@ class _DrinksViewState extends State<DrinksView> {
                                           content: Text(
                                               '${cocktail.strDrink} is removed from Favourites'),
                                         ));
-                                        fetchFavourites();
                                       }
                                     })),
                           );
