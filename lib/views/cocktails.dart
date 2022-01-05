@@ -100,8 +100,7 @@ class _DrinksViewState extends State<DrinksView> {
                   title: const Text(
                     'Drinks & Cocktails',
                   ),
-                  backgroundColor: Colors.black12.withOpacity(0.65),
-                  elevation: 0.0,
+                  backgroundColor: Colors.black12.withOpacity(0.85),
                   actions: [
                     IconButton(
                         onPressed: () {
@@ -111,6 +110,7 @@ class _DrinksViewState extends State<DrinksView> {
                         },
                         icon: const Icon(Icons.search)),
                     PopupMenuButton<String>(
+                      color: Colors.black,
                       icon: const Icon(
                         Icons.filter_list_alt,
                         color: Colors.white,

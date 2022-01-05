@@ -23,37 +23,31 @@ class _FavouritesState extends State<Favourites> {
       Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/2.jpg"),
+              image: AssetImage("assets/4.jpg"),
               fit: BoxFit.cover,
             ),
           ),
           child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-              child: Container(
-                  decoration:
-                      BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                  child: Scaffold(
-                    backgroundColor: Colors.transparent,
-                    appBar: AppBar(
-                      centerTitle: true,
-                      backgroundColor: Colors.black12.withOpacity(0.65),
-                      title: const Text(
-                        'Favourites',
-                      ),
-                    ),
-                    body: SizedBox(
-                      height: 590,
-                      child: Consumer<FavouritesProvider>(
-                          builder: (context, FavouritesProvider data, child) {
-                        return ListView(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            children: data.favourites
-                                .map((card) => ListItem(context, card))
-                                .toList());
-                      }),
-                    ),
-                  ))))
+              child: Scaffold(
+                backgroundColor: Colors.transparent,
+                appBar: AppBar(
+                  centerTitle: true,
+                  backgroundColor: Colors.black12.withOpacity(0.85),
+                  title: const Text(
+                    'Favourites',
+                  ),
+                ),
+                body: Consumer<FavouritesProvider>(
+                    builder: (context, FavouritesProvider data, child) {
+                  return ListView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      children: data.favourites
+                          .map((card) => ListItem(context, card))
+                          .toList());
+                }),
+              )))
     ]);
   }
 }
@@ -66,13 +60,16 @@ Widget deleteButton(BuildContext context, item, String drink) {
     onPressed: () => showDialog<String>(
       context: context,
       builder: (BuildContext context) => AlertDialog(
-        title: const Text('Varning'),
+        backgroundColor: Colors.black,
         content:
             Text("Are you sure you want to delete '$drink' from favourites?"),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.pop(context, 'Cancel'),
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
           TextButton(
             onPressed: () async {
@@ -80,7 +77,10 @@ Widget deleteButton(BuildContext context, item, String drink) {
                   .removeFavourite(item);
               Navigator.pop(context);
             },
-            child: const Text('OK'),
+            child: const Text(
+              'OK',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         ],
       ),

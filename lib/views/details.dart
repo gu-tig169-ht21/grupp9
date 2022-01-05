@@ -16,8 +16,8 @@ class Details extends StatefulWidget {
 }
 
 class _DetailsState extends State<Details> {
-  final String cocktail;
   var url = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  final String cocktail;
   var _cocktail;
   var favourites = [];
   _DetailsState({required this.cocktail});
@@ -113,7 +113,7 @@ class _DetailsState extends State<Details> {
                           padding: const EdgeInsets.all(10.0),
                           child: SizedBox(
                               child: Image.network((_cocktail == null)
-                                  ? "https://www.thecocktaildb.com/images/ingredients/gin-Small.png"
+                                  ? "https://zelly.se/wp-content/uploads/2021/06/loading-buffering.gif"
                                   : _cocktail.strDrinkThumb)),
                         ),
                       ),
