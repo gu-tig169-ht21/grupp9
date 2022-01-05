@@ -40,22 +40,6 @@ class FavouritesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void updateFavourite(FavouritesModel item, bool done) async {
-    Map data = {
-      'id': item.id,
-      'title': item.title,
-      'done': done,
-    };
-    var body = jsonEncode(data);
-    String response = await ResponseProvider().updateItem(body, item.id, key);
-    var json = jsonDecode(response);
-    _favourites = json.map<FavouritesModel>((data) {
-      return FavouritesModel.fromJson(data);
-    }).toList();
-
-    notifyListeners();
-  }
-
   void removeFavourite(FavouritesModel item) async {
     String response = await ResponseProvider().removeItem(item.id, key);
     var json = jsonDecode(response);

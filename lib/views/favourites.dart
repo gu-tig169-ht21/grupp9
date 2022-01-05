@@ -23,7 +23,7 @@ class _FavouritesState extends State<Favourites> {
       Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
-              image: AssetImage("assets/2.jpg"),
+              image: AssetImage("assets/4.jpg"),
               fit: BoxFit.cover,
             ),
           ),
@@ -33,23 +33,20 @@ class _FavouritesState extends State<Favourites> {
                 backgroundColor: Colors.transparent,
                 appBar: AppBar(
                   centerTitle: true,
-                  backgroundColor: Colors.black12.withOpacity(0.65),
+                  backgroundColor: Colors.black12.withOpacity(0.85),
                   title: const Text(
                     'Favourites',
                   ),
                 ),
-                body: SizedBox(
-                  height: 590,
-                  child: Consumer<FavouritesProvider>(
-                      builder: (context, FavouritesProvider data, child) {
-                    return ListView(
-                        scrollDirection: Axis.vertical,
-                        shrinkWrap: true,
-                        children: data.favourites
-                            .map((card) => ListItem(context, card))
-                            .toList());
-                  }),
-                ),
+                body: Consumer<FavouritesProvider>(
+                    builder: (context, FavouritesProvider data, child) {
+                  return ListView(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      children: data.favourites
+                          .map((card) => ListItem(context, card))
+                          .toList());
+                }),
               )))
     ]);
   }

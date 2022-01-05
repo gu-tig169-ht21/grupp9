@@ -43,49 +43,44 @@ class _IngredientsState extends State<Ingredients> {
           ),
           child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-              child: Container(
-                decoration: BoxDecoration(color: Colors.white.withOpacity(0.0)),
-                child: Scaffold(
-                    backgroundColor: Colors.transparent,
-                    appBar: AppBar(
-                      centerTitle: true,
-                      title: const Text(
-                        "Ingredients",
-                      ),
-                      backgroundColor: Colors.black12.withOpacity(0.65),
-                      elevation: 0.0,
-                      actions: [
-                        IconButton(
-                            onPressed: () {
-                              showSearch(
-                                  context: context,
-                                  delegate: IngredientSearch(ingredients));
-                            },
-                            icon: const Icon(Icons.search))
-                      ],
+              child: Scaffold(
+                  backgroundColor: Colors.transparent,
+                  appBar: AppBar(
+                    centerTitle: true,
+                    title: const Text(
+                      "Ingredients",
                     ),
-                    body: Scrollbar(
-                      isAlwaysShown: true,
-                      child: ListView.builder(
-                          itemCount: ingredients.length,
-                          itemBuilder: (context, index) {
-                            var ingredient = ingredients[index];
-                            return Card(
-                              color: Colors.black12.withOpacity(0.4),
-                              child: ListTile(
-                                  leading: Text(
-                                      "${ingredient["strIngredient1"]}",
-                                      style: const TextStyle(fontSize: 21)),
-                                  onTap: () {
-                                    showSearch(
-                                        context: context,
-                                        delegate: IngredientSearch(ingredients),
-                                        query: ingredient['strIngredient1']);
-                                  }),
-                            );
-                          }),
-                    )),
-              )))
+                    backgroundColor: Colors.black12.withOpacity(0.85),
+                    actions: [
+                      IconButton(
+                          onPressed: () {
+                            showSearch(
+                                context: context,
+                                delegate: IngredientSearch(ingredients));
+                          },
+                          icon: const Icon(Icons.search))
+                    ],
+                  ),
+                  body: Scrollbar(
+                    isAlwaysShown: true,
+                    child: ListView.builder(
+                        itemCount: ingredients.length,
+                        itemBuilder: (context, index) {
+                          var ingredient = ingredients[index];
+                          return Card(
+                            color: Colors.black12.withOpacity(0.4),
+                            child: ListTile(
+                                leading: Text("${ingredient["strIngredient1"]}",
+                                    style: const TextStyle(fontSize: 21)),
+                                onTap: () {
+                                  showSearch(
+                                      context: context,
+                                      delegate: IngredientSearch(ingredients),
+                                      query: ingredient['strIngredient1']);
+                                }),
+                          );
+                        }),
+                  ))))
     ]);
   }
 }
