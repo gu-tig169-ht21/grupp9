@@ -1,13 +1,6 @@
 class Cocktails {
-  final String idDrink;
   final String strDrink;
-  final String strDrinkAlternate;
-  final String strTags;
-  final String strVideo;
-  final String strCategory;
-  final String strIBA;
   final String strAlcoholic;
-  final String strGlass;
   final String strInstructions;
   final String strDrinkThumb;
   final String strIngredient1;
@@ -25,22 +18,11 @@ class Cocktails {
   final String strIngredient13;
   final String strIngredient14;
   final String strIngredient15;
-  final String strImageSource;
-  final String strImageAttribution;
-  final String strCreativeCommonsConfirmed;
-  final String dateModified;
   final List ingredientsList;
 
   const Cocktails({
-    required this.idDrink,
     required this.strDrink,
-    required this.strDrinkAlternate,
-    required this.strTags,
-    required this.strVideo,
-    required this.strCategory,
-    required this.strIBA,
     required this.strAlcoholic,
-    required this.strGlass,
     required this.strInstructions,
     required this.strDrinkThumb,
     required this.strIngredient1,
@@ -58,10 +40,6 @@ class Cocktails {
     required this.strIngredient13,
     required this.strIngredient14,
     required this.strIngredient15,
-    required this.strImageSource,
-    required this.strImageAttribution,
-    required this.strCreativeCommonsConfirmed,
-    required this.dateModified,
     required this.ingredientsList,
   });
 
@@ -204,20 +182,10 @@ class Cocktails {
     }
 
     return Cocktails(
-        idDrink: (json['idDrink'] != null) ? json['idDrink'] as String : '',
         strDrink: (json['strDrink'] != null) ? json['strDrink'] as String : '',
-        strDrinkAlternate: (json['strDrinkAlternate'] != null)
-            ? json['strDrinkAlternate'] as String
-            : '',
-        strTags: (json['strTags'] != null) ? json['strTags'] as String : '',
-        strVideo: (json['strVideo'] != null) ? json['strVideo'] as String : '',
-        strCategory:
-            (json['strCategory'] != null) ? json['strCategory'] as String : '',
-        strIBA: (json['strIBA'] != null) ? json['strIBA'] as String : '',
         strAlcoholic: (json['strAlcoholic'] != null)
             ? json['strAlcoholic'] as String
             : '',
-        strGlass: (json['strGlass'] != null) ? json['strGlass'] as String : '',
         strInstructions: (json['strInstructions'] != null)
             ? json['strInstructions'] as String
             : '',
@@ -239,33 +207,23 @@ class Cocktails {
         strIngredient13: i13,
         strIngredient14: i14,
         strIngredient15: i15,
-        strImageSource: (json['strImageSource'] != null)
-            ? json['strImageSource'] as String
-            : '',
-        strImageAttribution: (json['strImageAttribution'] != null)
-            ? json['strImageAttribution'] as String
-            : '',
-        strCreativeCommonsConfirmed:
-            (json['strCreativeCommonsConfirmed'] != null)
-                ? json['strCreativeCommonsConfirmed'] as String
-                : '',
-        dateModified: (json['dateModified'] != null)
-            ? json['dateModified'] as String
-            : '',
         ingredientsList: list);
+  }
+
+  void maybeAddIngredient(list, ingredient, measure) {
+    if (measure != null) {
+      var str = ingredient + " - " + measure as String;
+      list.add(str);
+    } else if (ingredient != null) {
+      var str = ingredient as String;
+      list.add(str);
+    }
   }
 
   factory Cocktails.empty() {
     return const Cocktails(
-        idDrink: '',
         strDrink: '',
-        strDrinkAlternate: '',
-        strTags: '',
-        strVideo: '',
-        strCategory: '',
-        strIBA: '',
         strAlcoholic: '',
-        strGlass: '',
         strInstructions: '',
         strDrinkThumb: '',
         strIngredient1: '',
@@ -283,10 +241,6 @@ class Cocktails {
         strIngredient13: '',
         strIngredient14: '',
         strIngredient15: '',
-        strImageSource: '',
-        strImageAttribution: '',
-        strCreativeCommonsConfirmed: '',
-        dateModified: '',
         ingredientsList: []);
   }
 }

@@ -2,7 +2,7 @@ import 'dart:math';
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_first_app/providers/favourites_provider.dart';
+import 'package:my_first_app/providers/cocktails_provider.dart';
 import '/models/cocktails.dart';
 import 'package:provider/provider.dart';
 import 'details.dart';
@@ -34,15 +34,15 @@ class Home extends StatelessWidget {
               ),
               centerTitle: true,
             ),
-            body: Consumer<FavouritesProvider>(
-                builder: (context, FavouritesProvider data, child) {
-              if (data.list.isEmpty) {
+            body: Consumer<CocktailsProvider>(
+                builder: (context, CocktailsProvider data, child) {
+              if (data.rlist.isEmpty) {
                 return const Padding(
                   padding: EdgeInsets.all(20.0),
                   child: Text('Loading'),
                 );
               } else {
-                return Quotes(data.list[0]);
+                return Quotes(data.rlist[0]);
               }
             }),
           ),

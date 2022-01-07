@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_first_app/models/cocktails.dart';
 import 'package:http/http.dart' as http;
-import 'package:my_first_app/providers/favourites_provider.dart';
+import 'package:my_first_app/providers/cocktails_provider.dart';
 import 'package:provider/provider.dart';
 
 class Details extends StatefulWidget {
@@ -40,7 +40,7 @@ class _DetailsState extends State<Details> {
 
   fetchFavourites() {
     favourites =
-        Provider.of<FavouritesProvider>(context, listen: false).favourites;
+        Provider.of<CocktailsProvider>(context, listen: false).favourites;
   }
 
   bool checkFavourite(String drink) {
@@ -77,8 +77,7 @@ class _DetailsState extends State<Details> {
                       valueChanged: (_isFavorite) {
                         fetchFavourites();
                         if (_isFavorite == true) {
-                          Provider.of<FavouritesProvider>(context,
-                                  listen: false)
+                          Provider.of<CocktailsProvider>(context, listen: false)
                               .addFavourite(cocktail, false);
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content: Text('$cocktail is added to Favourites'),
@@ -86,8 +85,7 @@ class _DetailsState extends State<Details> {
                         } else {
                           var f = favourites.firstWhere(
                               (element) => element.title == cocktail);
-                          Provider.of<FavouritesProvider>(context,
-                                  listen: false)
+                          Provider.of<CocktailsProvider>(context, listen: false)
                               .removeFavourite(f);
                           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                             content:

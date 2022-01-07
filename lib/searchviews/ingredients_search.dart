@@ -1,10 +1,13 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:favorite_button/favorite_button.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:my_first_app/models/cocktails.dart';
+import 'package:my_first_app/providers/cocktails_provider.dart';
 import 'package:my_first_app/views/details.dart';
-import '../models/cocktails.dart';
+import 'package:provider/provider.dart';
 
 class IngredientSearch extends SearchDelegate<String> {
   var ingredients = [];
@@ -105,8 +108,7 @@ class IngredientSearch extends SearchDelegate<String> {
 
     Future<List> fetchCocktails(String ingredient) async {
       var res = await http.get(Uri.parse(
-          'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=' +
-              ingredient));
+          'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i='));
       if (res.body != '') {
         var drinks = jsonDecode(res.body)["drinks"];
         return drinks.map<Cocktails>((data) {
@@ -118,7 +120,7 @@ class IngredientSearch extends SearchDelegate<String> {
     }
 
     return FutureBuilder<List>(
-      future: fetchCocktails(query), // async work
+      future: fetchCocktails(query),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -177,6 +179,7 @@ class IngredientSearch extends SearchDelegate<String> {
                                           title: Text("${cocktail.strDrink}",
                                               style: const TextStyle(
                                                   fontSize: 21)),
+                                          //trailing: Icon(Icons.favorite),
                                         ),
                                       );
                                     }),

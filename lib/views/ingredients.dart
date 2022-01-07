@@ -1,35 +1,11 @@
-import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:my_first_app/widgets/ingredients_search.dart';
+import 'package:my_first_app/providers/cocktails_provider.dart';
+import 'package:my_first_app/searchviews/ingredients_search.dart';
+import 'package:provider/provider.dart';
 
-class Ingredients extends StatefulWidget {
+class Ingredients extends StatelessWidget {
   const Ingredients({Key? key}) : super(key: key);
-
-  @override
-  _IngredientsState createState() => _IngredientsState();
-}
-
-class _IngredientsState extends State<Ingredients> {
-  var api = "https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list";
-  var ingredients = [];
-  var cocktails = [];
-  bool check = false;
-
-  @override
-  void initState() {
-    super.initState();
-
-    fetchData();
-  }
-
-  fetchData() async {
-    var res = await http.get(Uri.parse(
-        'https://www.thecocktaildb.com/api/json/v1/1/list.php?i=list'));
-    ingredients = jsonDecode(res.body)["drinks"];
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -44,43 +20,48 @@ class _IngredientsState extends State<Ingredients> {
           child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
               child: Scaffold(
-                  backgroundColor: Colors.transparent,
-                  appBar: AppBar(
-                    centerTitle: true,
-                    title: const Text(
-                      "Ingredients",
-                    ),
-                    backgroundColor: Colors.black12.withOpacity(0.85),
-                    actions: [
-                      IconButton(
-                          onPressed: () {
-                            showSearch(
-                                context: context,
-                                delegate: IngredientSearch(ingredients));
-                          },
-                          icon: const Icon(Icons.search))
-                    ],
+                backgroundColor: Colors.transparent,
+                appBar: AppBar(
+                  centerTitle: true,
+                  title: const Text(
+                    "Ingredients",
                   ),
-                  body: Scrollbar(
+                  backgroundColor: Colors.black12.withOpacity(0.85),
+                  actions: [
+                    IconButton(
+                        onPressed: () {
+                          // showSearch(
+                          //     context: context,
+                          //     delegate: IngredientSearch());
+                        },
+                        icon: const Icon(Icons.search))
+                  ],
+                ),
+                body: Scrollbar(
                     isAlwaysShown: true,
-                    child: ListView.builder(
-                        itemCount: ingredients.length,
-                        itemBuilder: (context, index) {
-                          var ingredient = ingredients[index];
-                          return Card(
-                            color: Colors.black12.withOpacity(0.4),
-                            child: ListTile(
-                                leading: Text("${ingredient["strIngredient1"]}",
-                                    style: const TextStyle(fontSize: 21)),
-                                onTap: () {
-                                  showSearch(
-                                      context: context,
-                                      delegate: IngredientSearch(ingredients),
-                                      query: ingredient['strIngredient1']);
-                                }),
-                          );
-                        }),
-                  ))))
+                    child: Consumer<CocktailsProvider>(
+                        builder: (context, CocktailsProvider data, child) {
+                      return ListView.builder(
+                          itemCount: data.ingredients.length,
+                          itemBuilder: (context, index) {
+                            var ingredient = data.ingredients[index];
+                            return Card(
+                              color: Colors.black12.withOpacity(0.4),
+                              child: ListTile(
+                                  leading: Text(
+                                      "${ingredient["strIngredient1"]}",
+                                      style: const TextStyle(fontSize: 21)),
+                                  onTap: () {
+                                    showSearch(
+                                        context: context,
+                                        delegate:
+                                            IngredientSearch(data.ingredients),
+                                        query: ingredient['strIngredient1']);
+                                  }),
+                            );
+                          });
+                    })),
+              )))
     ]);
   }
 }
