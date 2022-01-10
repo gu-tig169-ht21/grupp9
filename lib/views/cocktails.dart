@@ -1,9 +1,6 @@
-import 'dart:convert';
 import 'dart:ui';
 import 'package:favorite_button/favorite_button.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:my_first_app/models/cocktails.dart';
 import 'package:my_first_app/searchviews/cocktails_search.dart';
 import 'package:my_first_app/providers/cocktails_provider.dart';
 import 'package:my_first_app/views/details.dart';
@@ -16,11 +13,6 @@ class CocktailsView extends StatefulWidget {
 }
 
 class _CocktailsViewState extends State<CocktailsView> {
-  var url =
-      'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic';
-  var url2 =
-      'https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic';
-
   var cocktails = [];
   var favourites = [];
 
@@ -37,27 +29,12 @@ class _CocktailsViewState extends State<CocktailsView> {
         Provider.of<CocktailsProvider>(context, listen: false).favourites;
   }
 
-  fetchCocktails() async {
-    var res = await http.get(Uri.parse(url));
-    var drinks = jsonDecode(res.body)['drinks'];
-
-    cocktails = drinks.map<Cocktails>((data) {
-      return Cocktails.fromJson(data);
-    }).toList();
-
-    setState(() {});
+  fetchCocktails() {
+    cocktails = Provider.of<CocktailsProvider>(context, listen: false).list;
   }
 
-  fetchNonAlcCocktails() async {
-    cocktails = [];
-    var res = await http.get(Uri.parse(url2));
-    var drinks = jsonDecode(res.body)['drinks'];
-
-    cocktails = drinks.map<Cocktails>((data) {
-      return Cocktails.fromJson(data);
-    }).toList();
-
-    setState(() {});
+  fetchNonAlcCocktails() {
+    cocktails = Provider.of<CocktailsProvider>(context, listen: false).nlist;
   }
 
   bool checkFavourite(String drink) {

@@ -7,10 +7,11 @@ import 'api_response.dart';
 class CocktailsProvider extends ChangeNotifier {
   List<FavouritesModel> _favourites = [];
   final List<Cocktails> _rcocktails = [];
-  final List<Cocktails> _cocktails = [];
-  final List<Cocktails> _ncocktails = [];
-  var ingredients = [];
+  List<Cocktails> _cocktails = [];
+  List<Cocktails> _ncocktails = [];
+  List _ingredients = [];
 
+  List get ingredients => _ingredients;
   List<FavouritesModel> get favourites => _favourites;
   List<Cocktails> get rlist => _rcocktails;
   List<Cocktails> get list => _cocktails;
@@ -61,27 +62,27 @@ class CocktailsProvider extends ChangeNotifier {
 
   void getIngredients() async {
     var res = await ApiResponse().fetchIngredients();
-    ingredients = jsonDecode(res)["drinks"];
+    _ingredients = jsonDecode(res)["drinks"];
     notifyListeners();
   }
 
-  // void getCocktails() async {
-  //   String response = await ApiResponse().fetchCocktails();
-  //   var json = jsonDecode(response);
+  void getCocktails() async {
+    String response = await ApiResponse().fetchCocktails();
+    var json = jsonDecode(response)['drinks'];
 
-  //   _cocktails = json.map<Cocktails>((data) {
-  //     return Cocktails.fromJson(data);
-  //   }).toList();
-  //   notifyListeners();
-  // }
+    _cocktails = json.map<Cocktails>((data) {
+      return Cocktails.fromJson(data);
+    }).toList();
+    notifyListeners();
+  }
 
-  // void getNonAlcCocktails() async {
-  //   String response = await ApiResponse().fetchNonAlcCocktails();
-  //   var json = jsonDecode(res);
+  void getNonAlcCocktails() async {
+    String response = await ApiResponse().fetchNonAlcCocktails();
+    var json = jsonDecode(response)['drinks'];
 
-  //   _ncocktails = json.map<Cocktails>((data) {
-  //     return Cocktails.fromJson(data);
-  //   }).toList();
-  //   notifyListeners();
-  // }
+    _ncocktails = json.map<Cocktails>((data) {
+      return Cocktails.fromJson(data);
+    }).toList();
+    notifyListeners();
+  }
 }

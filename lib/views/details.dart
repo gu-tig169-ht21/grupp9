@@ -26,11 +26,11 @@ class _DetailsState extends State<Details> {
   void initState() {
     super.initState();
 
-    fetchCocktail();
+    fetchOneCocktail();
     fetchFavourites();
   }
 
-  fetchCocktail() async {
+  fetchOneCocktail() async {
     var res = await http.get(Uri.parse(url + cocktail));
     var drinks = jsonDecode(res.body)['drinks'][0];
     _cocktail = Cocktails.fromJson(drinks);

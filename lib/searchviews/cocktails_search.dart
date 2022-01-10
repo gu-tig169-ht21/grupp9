@@ -55,11 +55,11 @@ class CocktailSearch extends SearchDelegate<String> {
     http.Response res;
     var cocktails = [];
 
-    Future<List> fetchCocktails(String drink) async {
+    Future<List> fetchCocktailsSearch(String drink) async {
       res = await http.get(Uri.parse(
           'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drink));
-      if (res.body != '') {
-        var drinks = jsonDecode(res.body)["drinks"];
+      var drinks = jsonDecode(res.body)["drinks"];
+      if (drinks != null) {
         return drinks.map<Cocktails>((data) {
           return Cocktails.fromJson(data);
         }).toList();
@@ -69,7 +69,7 @@ class CocktailSearch extends SearchDelegate<String> {
     }
 
     return FutureBuilder<List>(
-      future: fetchCocktails(query),
+      future: fetchCocktailsSearch(query),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -78,32 +78,42 @@ class CocktailSearch extends SearchDelegate<String> {
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
-              return ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    var cocktail = snapshot.data![index];
-                    return Card(
-                      color: Colors.black12.withOpacity(0.4),
-                      child: ListTile(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    Details(cocktail: cocktail.strDrink)),
-                          );
-                        },
-                        leading: SizedBox(
-                            height: 40,
-                            width: 40,
-                            child: Image.network(cocktail.strDrinkThumb)),
-                        title: Text("${cocktail.strDrink}",
-                            style: const TextStyle(
-                                fontSize: 21, color: Colors.white)),
-                      ),
-                    );
-                  });
+              return Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("assets/2.jpg"),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+                      child: ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: snapshot.data!.length,
+                          itemBuilder: (context, index) {
+                            var cocktail = snapshot.data![index];
+                            return Card(
+                              color: Colors.black12.withOpacity(0.4),
+                              child: ListTile(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => Details(
+                                            cocktail: cocktail.strDrink)),
+                                  );
+                                },
+                                leading: SizedBox(
+                                    height: 40,
+                                    width: 40,
+                                    child:
+                                        Image.network(cocktail.strDrinkThumb)),
+                                title: Text("${cocktail.strDrink}",
+                                    style: const TextStyle(
+                                        fontSize: 21, color: Colors.white)),
+                              ),
+                            );
+                          })));
             }
         }
       },

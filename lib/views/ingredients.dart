@@ -30,9 +30,12 @@ class Ingredients extends StatelessWidget {
                   actions: [
                     IconButton(
                         onPressed: () {
-                          // showSearch(
-                          //     context: context,
-                          //     delegate: IngredientSearch());
+                          showSearch(
+                              context: context,
+                              delegate: IngredientSearch(
+                                  Provider.of<CocktailsProvider>(context,
+                                          listen: false)
+                                      .ingredients));
                         },
                         icon: const Icon(Icons.search))
                   ],

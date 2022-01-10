@@ -9,9 +9,8 @@ void main() {
   cocktailsProvider.getRandomCocktail();
   cocktailsProvider.getFavourites();
   cocktailsProvider.getIngredients();
-  //cocktailsProvider.getIngredients();
-  // cocktailsProvider.getCocktails();
-  // cocktailsProvider.getNonAlcCocktails();
+  cocktailsProvider.getCocktails();
+  cocktailsProvider.getNonAlcCocktails();
   runApp(ChangeNotifierProvider(
       create: (context) => cocktailsProvider, child: const MyApp()));
 }

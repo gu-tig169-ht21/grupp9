@@ -2,7 +2,7 @@ import 'package:http/http.dart' as http;
 
 class ApiResponse {
   var url1 = 'https://todoapp-api-pyq5q.ondigitalocean.app';
-  var url2 = 'http://www.thecocktaildb.com/api/json/v1/1';
+  var url2 = 'https://www.thecocktaildb.com/api/json/v1/1';
   var key = '3f8f8e0f-935d-4b20-b4af-aefd946a5a6f';
 
   Future<String> fetchFavourites() async {
@@ -31,14 +31,14 @@ class ApiResponse {
     return response.body;
   }
 
-  // Future<String> fetchCocktails() async {
-  //   final response = await http.get(Uri.parse('$url2/filter.php?a=Alcoholic'));
-  //   return response.body;
-  // }
+  Future<String> fetchCocktails() async {
+    final response = await http.get(Uri.parse('$url2/filter.php?a=Alcoholic'));
+    return response.body;
+  }
 
-  // Future<String> fetchNonAlcCocktails() async {
-  //   final response =
-  //       await http.get(Uri.parse('$url2/filter.php?a=NonAlcoholic'));
-  //   return response.body;
-  // }
+  Future<String> fetchNonAlcCocktails() async {
+    final response =
+        await http.get(Uri.parse('$url2/filter.php?a=Non_Alcoholic'));
+    return response.body;
+  }
 }
