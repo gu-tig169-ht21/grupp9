@@ -142,6 +142,7 @@ class _CocktailsViewState extends State<CocktailsView> {
                                     .showSnackBar(SnackBar(
                                   content: Text(
                                       '${cocktail.strDrink} is added to Favourites'),
+                                  duration: const Duration(seconds: 2),
                                 ));
                               } else {
                                 var f = favourites.firstWhere((element) =>
@@ -153,6 +154,7 @@ class _CocktailsViewState extends State<CocktailsView> {
                                   SnackBar(
                                     content: Text(
                                         '${cocktail.strDrink} is removed from Cocktails'),
+                                    duration: const Duration(seconds: 2),
                                   ),
                                 );
                               }

@@ -1,6 +1,5 @@
 class Cocktails {
   final String strDrink;
-  final String strAlcoholic;
   final String strInstructions;
   final String strDrinkThumb;
   final String strIngredient1;
@@ -22,7 +21,6 @@ class Cocktails {
 
   const Cocktails({
     required this.strDrink,
-    required this.strAlcoholic,
     required this.strInstructions,
     required this.strDrinkThumb,
     required this.strIngredient1,
@@ -61,131 +59,37 @@ class Cocktails {
     var i14 = '';
     var i15 = '';
 
-    if (json["strMeasure1"] != null) {
-      i1 = json["strIngredient1"] + " - " + json["strMeasure1"] as String;
-      list.add(i1);
-    } else if (json["strIngredient1"] != null) {
-      i1 = json["strIngredient1"] as String;
-      list.add(i1);
+    String maybeAddIngredient(ingredient, measure) {
+      if (measure != null) {
+        var str = ingredient + " - " + measure as String;
+        list.add(str);
+        return str;
+      } else if (ingredient != null) {
+        var str = ingredient as String;
+        list.add(str);
+        return str;
+      }
+      return '';
     }
 
-    if (json["strMeasure2"] != null) {
-      i2 = json["strIngredient2"] + " - " + json["strMeasure2"] as String;
-      list.add(i2);
-    } else if (json["strIngredient2"] != null) {
-      i2 = json["strIngredient2"] as String;
-      list.add(i2);
-    }
-
-    if (json["strMeasure3"] != null) {
-      i3 = json["strIngredient3"] + " - " + json["strMeasure3"] as String;
-      list.add(i3);
-    } else if (json["strIngredient3"] != null) {
-      i3 = json["strIngredient3"] as String;
-      list.add(i3);
-    }
-
-    if (json["strMeasure4"] != null) {
-      i4 = json["strIngredient4"] + " - " + json["strMeasure4"] as String;
-      list.add(i4);
-    } else if (json["strIngredient4"] != null) {
-      i4 = json["strIngredient4"] as String;
-      list.add(i4);
-    }
-
-    if (json["strMeasure5"] != null) {
-      i5 = json["strIngredient5"] + " - " + json["strMeasure5"] as String;
-      list.add(i5);
-    } else if (json["strIngredient5"] != null) {
-      i5 = json["strIngredient5"] as String;
-      list.add(i5);
-    }
-
-    if (json["strMeasure6"] != null) {
-      i6 = json["strIngredient6"] + " - " + json["strMeasure6"] as String;
-      list.add(i6);
-    } else if (json["strIngredient6"] != null) {
-      i6 = json["strIngredient6"] as String;
-      list.add(i6);
-    }
-
-    if (json["strMeasure7"] != null) {
-      i7 = json["strIngredient7"] + " - " + json["strMeasure7"] as String;
-      list.add(i7);
-    } else if (json["strIngredient7"] != null) {
-      i7 = json["strIngredient7"] as String;
-      list.add(i7);
-    }
-
-    if (json["strMeasure8"] != null) {
-      i8 = json["strIngredient8"] + " - " + json["strMeasure8"] as String;
-      list.add(i8);
-    } else if (json["strIngredient8"] != null) {
-      i8 = json["strIngredient8"] as String;
-      list.add(i8);
-    }
-
-    if (json["strMeasure9"] != null) {
-      i9 = json["strIngredient9"] + " - " + json["strMeasure9"] as String;
-      list.add(i9);
-    } else if (json["strIngredient9"] != null) {
-      i9 = json["strIngredient9"] as String;
-      list.add(i9);
-    }
-
-    if (json["strMeasure10"] != null) {
-      i10 = json["strIngredient10"] + " - " + json["strMeasure10"] as String;
-      list.add(i10);
-    } else if (json["strIngredient10"] != null) {
-      i10 = json["strIngredient10"] as String;
-      list.add(i10);
-    }
-
-    if (json["strMeasure11"] != null) {
-      i11 = json["strIngredient11"] + " - " + json["strMeasure11"] as String;
-      list.add(i11);
-    } else if (json["strIngredient11"] != null) {
-      i11 = json["strIngredient11"] as String;
-      list.add(i11);
-    }
-
-    if (json["strMeasure12"] != null) {
-      i12 = json["strIngredient12"] + " - " + json["strMeasure12"] as String;
-      list.add(i12);
-    } else if (json["strIngredient12"] != null) {
-      i12 = json["strIngredient12"] as String;
-      list.add(i12);
-    }
-
-    if (json["strMeasure13"] != null) {
-      i13 = json["strIngredient13"] + " - " + json["strMeasure13"] as String;
-      list.add(i13);
-    } else if (json["strIngredient13"] != null) {
-      i13 = json["strIngredient13"] as String;
-      list.add(i13);
-    }
-
-    if (json["strMeasure14"] != null) {
-      i14 = json["strIngredient14"] + " - " + json["strMeasure14"] as String;
-      list.add(i14);
-    } else if (json["strIngredient14"] != null) {
-      i14 = json["strIngredient14"] as String;
-      list.add(i14);
-    }
-
-    if (json["strMeasure15"] != null) {
-      i15 = json["strIngredient15"] + " - " + json["strMeasure15"] as String;
-      list.add(i15);
-    } else if (json["strIngredient15"] != null) {
-      i15 = json["strIngredient15"] as String;
-      list.add(i15);
-    }
+    i1 = maybeAddIngredient(json["strIngredient1"], json["strMeasure1"]);
+    i2 = maybeAddIngredient(json["strIngredient2"], json["strMeasure2"]);
+    i3 = maybeAddIngredient(json["strIngredient3"], json["strMeasure3"]);
+    i4 = maybeAddIngredient(json["strIngredient4"], json["strMeasure4"]);
+    i5 = maybeAddIngredient(json["strIngredient5"], json["strMeasure5"]);
+    i6 = maybeAddIngredient(json["strIngredient6"], json["strMeasure6"]);
+    i7 = maybeAddIngredient(json["strIngredient7"], json["strMeasure7"]);
+    i8 = maybeAddIngredient(json["strIngredient8"], json["strMeasure8"]);
+    i9 = maybeAddIngredient(json["strIngredient9"], json["strMeasure9"]);
+    i10 = maybeAddIngredient(json["strIngredient10"], json["strMeasure10"]);
+    i11 = maybeAddIngredient(json["strIngredient11"], json["strMeasure11"]);
+    i12 = maybeAddIngredient(json["strIngredient12"], json["strMeasure12"]);
+    i13 = maybeAddIngredient(json["strIngredient13"], json["strMeasure13"]);
+    i14 = maybeAddIngredient(json["strIngredient14"], json["strMeasure14"]);
+    i15 = maybeAddIngredient(json["strIngredient15"], json["strMeasure15"]);
 
     return Cocktails(
         strDrink: (json['strDrink'] != null) ? json['strDrink'] as String : '',
-        strAlcoholic: (json['strAlcoholic'] != null)
-            ? json['strAlcoholic'] as String
-            : '',
         strInstructions: (json['strInstructions'] != null)
             ? json['strInstructions'] as String
             : '',
@@ -210,20 +114,9 @@ class Cocktails {
         ingredientsList: list);
   }
 
-  void maybeAddIngredient(list, ingredient, measure) {
-    if (measure != null) {
-      var str = ingredient + " - " + measure as String;
-      list.add(str);
-    } else if (ingredient != null) {
-      var str = ingredient as String;
-      list.add(str);
-    }
-  }
-
   static Cocktails empty() {
     return const Cocktails(
       strDrink: '',
-      strAlcoholic: '',
       strInstructions: '',
       strDrinkThumb: '',
       strIngredient1: '',

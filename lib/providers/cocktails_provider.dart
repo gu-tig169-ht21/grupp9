@@ -1,5 +1,4 @@
 import 'dart:math';
-
 import 'package:flutter/cupertino.dart';
 import 'package:my_first_app/models/cocktails.dart';
 import 'dart:convert';
@@ -12,7 +11,7 @@ class CocktailsProvider extends ChangeNotifier {
   List<Cocktails> _cocktails = [];
   List<Cocktails> _ncocktails = [];
   List _ingredients = [];
-  Cocktails _cocktail = Cocktails.empty();
+  final Cocktails _cocktail = Cocktails.empty();
   String _quote = '';
 
   String get quote => _quote;
@@ -107,5 +106,29 @@ class CocktailsProvider extends ChangeNotifier {
       '“Shaken, not stirred.” —James Bond',
     ];
     _quote = list[Random().nextInt(4)];
+  }
+
+  Future<List> getCocktailsSearch(String cocktail) async {
+    var res = await ApiResponse().fetchCocktailsSearch(cocktail);
+    var drinks = jsonDecode(res)["drinks"];
+    if (drinks != null) {
+      return drinks.map<Cocktails>((data) {
+        return Cocktails.fromJson(data);
+      }).toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List> getIngredientsSearch(String ingredients) async {
+    var res = await ApiResponse().fetchIngredientsSearch(ingredients);
+    if (res != '') {
+      var drinks = jsonDecode(res)["drinks"];
+      return drinks.map<Cocktails>((data) {
+        return Cocktails.fromJson(data);
+      }).toList();
+    } else {
+      return [];
+    }
   }
 }

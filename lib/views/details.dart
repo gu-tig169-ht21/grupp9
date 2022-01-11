@@ -10,13 +10,11 @@ class Details extends StatefulWidget {
   final String cocktail;
   const Details({Key? key, required this.cocktail}) : super(key: key);
   @override
-  _DetailsState createState() => _DetailsState(cocktail: cocktail);
+  _DetailsState createState() => _DetailsState();
 }
 
 class _DetailsState extends State<Details> {
-  final String cocktail;
   var favourites = [];
-  _DetailsState({required this.cocktail});
 
   @override
   void initState() {
@@ -50,7 +48,7 @@ class _DetailsState extends State<Details> {
                   backgroundColor: Colors.grey.withOpacity(0.15),
                   title: FittedBox(
                     child: Text(
-                      (cocktail),
+                      (widget.cocktail),
                     ),
                   ),
                   centerTitle: true,
@@ -59,28 +57,30 @@ class _DetailsState extends State<Details> {
                       padding: const EdgeInsets.only(right: 10.0),
                       child: FavoriteButton(
                           iconSize: 30,
-                          isFavorite: checkFavourite(cocktail),
+                          isFavorite: checkFavourite(widget.cocktail),
                           valueChanged: (_isFavorite) {
                             fetchFavourites();
                             if (_isFavorite == true) {
                               Provider.of<CocktailsProvider>(context,
                                       listen: false)
-                                  .addFavourite(cocktail, false);
+                                  .addFavourite(widget.cocktail, false);
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
-                                content:
-                                    Text('$cocktail is added to Favourites'),
+                                content: Text(
+                                    '${widget.cocktail} is added to Favourites'),
+                                duration: const Duration(seconds: 2),
                               ));
                             } else {
-                              var f = favourites.firstWhere(
-                                  (element) => element.title == cocktail);
+                              var f = favourites.firstWhere((element) =>
+                                  element.title == widget.cocktail);
                               Provider.of<CocktailsProvider>(context,
                                       listen: false)
                                   .removeFavourite(f);
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(SnackBar(
                                 content: Text(
-                                    '$cocktail is removed from Favourites'),
+                                    '${widget.cocktail} is removed from Favourites'),
+                                duration: const Duration(seconds: 2),
                               ));
                             }
                           }),
@@ -91,7 +91,7 @@ class _DetailsState extends State<Details> {
                 body: FutureBuilder<Cocktails>(
                     future:
                         Provider.of<CocktailsProvider>(context, listen: false)
-                            .getOneCocktail(cocktail),
+                            .getOneCocktail(widget.cocktail),
                     builder: (BuildContext context,
                         AsyncSnapshot<Cocktails> snapshot) {
                       switch (snapshot.connectionState) {

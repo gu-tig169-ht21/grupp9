@@ -46,4 +46,15 @@ class ApiResponse {
     final response = await http.get(Uri.parse('$url2/search.php?s=$cocktail'));
     return response.body;
   }
+
+  Future<String> fetchCocktailsSearch(String cocktail) async {
+    final response = await http.get(Uri.parse('$url2/search.php?s=$cocktail'));
+    return response.body;
+  }
+
+  Future<String> fetchIngredientsSearch(String ingredient) async {
+    final response =
+        await http.get(Uri.parse('$url2/filter.php?i=$ingredient'));
+    return response.body;
+  }
 }

@@ -1,10 +1,9 @@
-import 'dart:convert';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:my_first_app/providers/cocktails_provider.dart';
 import 'package:my_first_app/views/details.dart';
-import '../models/cocktails.dart';
+import 'package:provider/provider.dart';
 
 class CocktailSearch extends SearchDelegate<String> {
   var cocktails = [];
@@ -14,16 +13,17 @@ class CocktailSearch extends SearchDelegate<String> {
   @override
   ThemeData appBarTheme(BuildContext context) {
     return ThemeData(
-      inputDecorationTheme: const InputDecorationTheme(
-        focusedBorder: UnderlineInputBorder(
-            borderSide: BorderSide(color: Colors.transparent)),
-      ),
-      textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme.apply(
-            bodyColor: Colors.white,
-          )),
-      appBarTheme: const AppBarTheme(color: Colors.black12, elevation: 0),
-      scaffoldBackgroundColor: Colors.transparent,
-    );
+        inputDecorationTheme: const InputDecorationTheme(
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: Colors.transparent)),
+        ),
+        textTheme:
+            GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme.apply(
+                  bodyColor: Colors.white,
+                )),
+        appBarTheme: const AppBarTheme(color: Colors.black12, elevation: 0),
+        scaffoldBackgroundColor: Colors.transparent,
+        hintColor: Colors.grey);
   }
 
   @override
@@ -52,24 +52,9 @@ class CocktailSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    http.Response res;
-    var cocktails = [];
-
-    Future<List> fetchCocktailsSearch(String drink) async {
-      res = await http.get(Uri.parse(
-          'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=$drink'));
-      var drinks = jsonDecode(res.body)["drinks"];
-      if (drinks != null) {
-        return drinks.map<Cocktails>((data) {
-          return Cocktails.fromJson(data);
-        }).toList();
-      } else {
-        return cocktails;
-      }
-    }
-
     return FutureBuilder<List>(
-      future: fetchCocktailsSearch(query),
+      future: Provider.of<CocktailsProvider>(context, listen: false)
+          .getCocktailsSearch(query),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
