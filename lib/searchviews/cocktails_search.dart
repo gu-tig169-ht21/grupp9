@@ -57,7 +57,7 @@ class CocktailSearch extends SearchDelegate<String> {
 
     Future<List> fetchCocktailsSearch(String drink) async {
       res = await http.get(Uri.parse(
-          'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drink));
+          'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=$drink'));
       var drinks = jsonDecode(res.body)["drinks"];
       if (drinks != null) {
         return drinks.map<Cocktails>((data) {

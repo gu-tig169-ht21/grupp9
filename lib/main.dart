@@ -6,6 +6,7 @@ import 'providers/cocktails_provider.dart';
 
 void main() {
   var cocktailsProvider = CocktailsProvider();
+  cocktailsProvider.getRandomQuote();
   cocktailsProvider.getRandomCocktail();
   cocktailsProvider.getFavourites();
   cocktailsProvider.getIngredients();

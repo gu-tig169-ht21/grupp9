@@ -63,7 +63,7 @@ Widget deleteButton(BuildContext context, item, String drink) {
             ),
           ),
           TextButton(
-            onPressed: () async {
+            onPressed: () {
               Provider.of<CocktailsProvider>(context, listen: false)
                   .removeFavourite(item);
               Navigator.pop(context);
@@ -85,21 +85,18 @@ class ListItem extends StatelessWidget {
   const ListItem(this.context, this.item, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-      return Card(
-          color: Colors.black12.withOpacity(0.4),
-          child: ListTile(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Details(cocktail: item.title)),
-              );
-            },
-            title: Text(item.title, style: const TextStyle(fontSize: 21)),
-            trailing: deleteButton(context, item, item.title),
-          ));
-    });
+    return Card(
+        color: Colors.black12.withOpacity(0.4),
+        child: ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Details(cocktail: item.title)),
+            );
+          },
+          title: Text(item.title, style: const TextStyle(fontSize: 21)),
+          trailing: deleteButton(context, item, item.title),
+        ));
   }
 }

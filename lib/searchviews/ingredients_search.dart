@@ -105,7 +105,7 @@ class IngredientSearch extends SearchDelegate<String> {
 
     Future<List> fetchCocktailsSearch(String ingredient) async {
       var res = await http.get(Uri.parse(
-          'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=$query'));
+          'https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=$ingredient'));
       if (res.body != '') {
         var drinks = jsonDecode(res.body)["drinks"];
         return drinks.map<Cocktails>((data) {
@@ -176,7 +176,6 @@ class IngredientSearch extends SearchDelegate<String> {
                                           title: Text("${cocktail.strDrink}",
                                               style: const TextStyle(
                                                   fontSize: 21)),
-                                          //trailing: Icon(Icons.favorite),
                                         ),
                                       );
                                     }),

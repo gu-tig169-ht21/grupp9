@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:my_first_app/models/cocktails.dart';
 import 'dart:convert';
@@ -10,7 +12,11 @@ class CocktailsProvider extends ChangeNotifier {
   List<Cocktails> _cocktails = [];
   List<Cocktails> _ncocktails = [];
   List _ingredients = [];
+  Cocktails _cocktail = Cocktails.empty();
+  String _quote = '';
 
+  String get quote => _quote;
+  Cocktails get cocktail => _cocktail;
   List get ingredients => _ingredients;
   List<FavouritesModel> get favourites => _favourites;
   List<Cocktails> get rlist => _rcocktails;
@@ -54,15 +60,14 @@ class CocktailsProvider extends ChangeNotifier {
   void getRandomCocktail() async {
     String response = await ApiResponse().fetchRandomCocktail();
     Map<String, dynamic> json = jsonDecode(response);
-
     var cocktail = Cocktails.fromJson(json["drinks"][0]);
     _rcocktails.add(cocktail);
     notifyListeners();
   }
 
   void getIngredients() async {
-    var res = await ApiResponse().fetchIngredients();
-    _ingredients = jsonDecode(res)["drinks"];
+    var response = await ApiResponse().fetchIngredients();
+    _ingredients = jsonDecode(response)['drinks'];
     notifyListeners();
   }
 
@@ -84,5 +89,23 @@ class CocktailsProvider extends ChangeNotifier {
       return Cocktails.fromJson(data);
     }).toList();
     notifyListeners();
+  }
+
+  Future<Cocktails> getOneCocktail(String cocktail) async {
+    var res = await ApiResponse().fetchOneCocktail(cocktail);
+    var drinks = jsonDecode(res)['drinks'][0];
+    notifyListeners();
+    return Cocktails.fromJson(drinks);
+  }
+
+  void getRandomQuote() {
+    final list = [
+      '“Different cocktails for different Saturday nights.” ― Drew Barrymore',
+      '“No amount of physical contact could match the healing powers of a well made cocktail.” — David Sedaris',
+      '"Cenosillicaphobia (noun): the fear of an empty glass"',
+      '"When life gives you lemons, make whiskey sours"',
+      '“Shaken, not stirred.” —James Bond',
+    ];
+    _quote = list[Random().nextInt(4)];
   }
 }
