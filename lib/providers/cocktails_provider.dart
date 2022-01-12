@@ -8,8 +8,8 @@ import 'api_response.dart';
 class CocktailsProvider extends ChangeNotifier {
   List<FavouritesModel> _favourites = [];
   final List<Cocktails> _rcocktails = [];
-  List<Cocktails> _cocktails = [];
-  List<Cocktails> _ncocktails = [];
+  final List<Cocktails> _cocktails = [];
+  final List<Cocktails> _ncocktails = [];
   List _ingredients = [];
   final Cocktails _cocktail = Cocktails.empty();
   String _quote = '';
@@ -70,24 +70,26 @@ class CocktailsProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void getCocktails() async {
+  Future<List<Cocktails>> getCocktails() async {
     String response = await ApiResponse().fetchCocktails();
     var json = jsonDecode(response)['drinks'];
 
-    _cocktails = json.map<Cocktails>((data) {
+    var _c = json.map<Cocktails>((data) {
       return Cocktails.fromJson(data);
     }).toList();
     notifyListeners();
+    return _c;
   }
 
-  void getNonAlcCocktails() async {
+  Future<List<Cocktails>> getNonAlcCocktails() async {
     String response = await ApiResponse().fetchNonAlcCocktails();
     var json = jsonDecode(response)['drinks'];
 
-    _ncocktails = json.map<Cocktails>((data) {
+    var _nc = json.map<Cocktails>((data) {
       return Cocktails.fromJson(data);
     }).toList();
     notifyListeners();
+    return _nc;
   }
 
   Future<Cocktails> getOneCocktail(String cocktail) async {

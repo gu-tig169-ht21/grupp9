@@ -25,22 +25,33 @@ class _CocktailsViewState extends State<CocktailsView> {
   }
 
   fetchFavourites() {
-    favourites =
+    var favourites =
         Provider.of<CocktailsProvider>(context, listen: false).favourites;
+    setState(() {
+      this.favourites = favourites;
+    });
   }
 
-  fetchCocktails() {
-    cocktails = Provider.of<CocktailsProvider>(context, listen: false).list;
+  fetchCocktails() async {
+    this.cocktails = [];
+    var cocktails = await Provider.of<CocktailsProvider>(context, listen: false)
+        .getCocktails();
+    setState(() {
+      this.cocktails = cocktails;
+    });
   }
 
-  fetchNonAlcCocktails() {
-    cocktails = Provider.of<CocktailsProvider>(context, listen: false).nlist;
+  fetchNonAlcCocktails() async {
+    this.cocktails = [];
+    var cocktails = await Provider.of<CocktailsProvider>(context, listen: false)
+        .getNonAlcCocktails();
+    setState(() {
+      this.cocktails = cocktails;
+    });
   }
 
   bool checkFavourite(String drink) {
-    return Provider.of<CocktailsProvider>(context, listen: false)
-        .favourites
-        .any((f) => f.title == drink);
+    return favourites.any((f) => f.title == drink);
   }
 
   void setFilter(String value) {
