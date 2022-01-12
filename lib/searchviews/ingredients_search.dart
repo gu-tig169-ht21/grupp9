@@ -53,11 +53,13 @@ class IngredientSearch extends SearchDelegate<String> {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = query.isEmpty
+    final suggestions = (query.isEmpty)
         ? recentSearch
         : ingredients.where((ingredient) {
-            final ingredientLower = ingredient['strIngredient1'].toLowerCase();
-            final queryLower = query.toLowerCase();
+            final ingredientLower =
+                ingredient['strIngredient1'].trim().toLowerCase();
+            final queryLower = query.trim().toLowerCase();
+
             return ingredientLower.startsWith(queryLower);
           }).toList();
     return buildSuggestionsSuccess(suggestions);
@@ -102,9 +104,17 @@ class IngredientSearch extends SearchDelegate<String> {
   @override
   Widget buildResults(BuildContext context) {
     if (query != '') {
+      if (!recentSearch.any((element) {
+        final ingredientLower = element['strIngredient1'].trim().toLowerCase();
+        final queryLower = query.trim().toLowerCase();
+        return ingredientLower == queryLower;
+      })) {
+        recentSearch.add({'strIngredient1': query});
+      }
+
       return FutureBuilder<List>(
         future: Provider.of<CocktailsProvider>(context, listen: false)
-            .getIngredientsSearch(query),
+            .getIngredientsSearch(query.trim()),
         builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:

@@ -33,21 +33,19 @@ class _CocktailsViewState extends State<CocktailsView> {
   }
 
   fetchCocktails() async {
-    this.cocktails = [];
-    var cocktails = await Provider.of<CocktailsProvider>(context, listen: false)
-        .getCocktails();
-    setState(() {
-      this.cocktails = cocktails;
+    cocktails = [];
+    await Future.delayed(const Duration(milliseconds: 100), () {
+      cocktails = Provider.of<CocktailsProvider>(context, listen: false).list;
     });
+    setState(() {});
   }
 
   fetchNonAlcCocktails() async {
-    this.cocktails = [];
-    var cocktails = await Provider.of<CocktailsProvider>(context, listen: false)
-        .getNonAlcCocktails();
-    setState(() {
-      this.cocktails = cocktails;
+    cocktails = [];
+    await Future.delayed(const Duration(milliseconds: 100), () {
+      cocktails = Provider.of<CocktailsProvider>(context, listen: false).nlist;
     });
+    setState(() {});
   }
 
   bool checkFavourite(String drink) {

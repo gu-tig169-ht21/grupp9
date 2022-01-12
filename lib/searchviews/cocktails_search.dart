@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:my_first_app/models/cocktails.dart';
 import 'package:my_first_app/providers/cocktails_provider.dart';
 import 'package:my_first_app/views/details.dart';
 import 'package:provider/provider.dart';
@@ -52,9 +53,19 @@ class CocktailSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
+    if (!recentSearch.any((element) {
+          final drinkLower = element.strDrink.trim().toLowerCase();
+          final queryLower = query.trim().toLowerCase();
+          return drinkLower == queryLower;
+        }) &&
+        query != '') {
+      var newSearch = Cocktails.searchSuggestion(query);
+
+      recentSearch.add(newSearch);
+    }
     return FutureBuilder<List>(
       future: Provider.of<CocktailsProvider>(context, listen: false)
-          .getCocktailsSearch(query),
+          .getCocktailsSearch(query.trim()),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
@@ -110,8 +121,8 @@ class CocktailSearch extends SearchDelegate<String> {
     final suggestions = query.isEmpty
         ? recentSearch
         : cocktails.where((cocktail) {
-            final cocktailLower = cocktail.strDrink.toLowerCase();
-            final queryLower = query.toLowerCase();
+            final cocktailLower = cocktail.strDrink.trim().toLowerCase();
+            final queryLower = query.trim().toLowerCase();
             return cocktailLower.startsWith(queryLower);
           }).toList();
     return buildSuggestionsSuccess(suggestions);
@@ -135,6 +146,18 @@ class CocktailSearch extends SearchDelegate<String> {
                     color: Colors.black12.withOpacity(0.4),
                     child: ListTile(
                         onTap: () {
+                          if (!recentSearch.any((element) {
+                            final drinkLower =
+                                element.strDrink.trim().toLowerCase();
+                            final queryLower =
+                                suggestion.strDrink.trim().toLowerCase();
+                            return drinkLower == queryLower;
+                          })) {
+                            var newSearch =
+                                Cocktails.searchSuggestion(suggestion.strDrink);
+
+                            recentSearch.add(newSearch);
+                          }
                           Navigator.push(
                               context,
                               MaterialPageRoute(
