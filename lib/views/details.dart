@@ -123,7 +123,7 @@ class _DetailsState extends State<Details> {
                                         ),
                                       ),
                                     ),
-                                    (snapshot.data != null)
+                                    (snapshot.data!.ingredientsList.isNotEmpty)
                                         ? ListView.builder(
                                             physics:
                                                 const NeverScrollableScrollPhysics(),
@@ -175,10 +175,7 @@ class _DetailsState extends State<Details> {
                                             color: Colors.white, fontSize: 27),
                                       ),
                                     ),
-                                    Text(
-                                        (snapshot.data == null)
-                                            ? ""
-                                            : snapshot.data!.strInstructions,
+                                    Text(snapshot.data!.strInstructions,
                                         style: const TextStyle(
                                             color: Colors.white)),
                                   ],
