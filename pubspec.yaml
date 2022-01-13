@@ -38,6 +38,7 @@ dependencies:
   http: ^0.13.4
   google_fonts: ^2.1.0
   favorite_button: ^0.0.3
+  dart_random_choice: ^0.0.2
 
 dev_dependencies:
   flutter_test:

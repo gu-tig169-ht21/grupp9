@@ -1,21 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:my_first_app/providers/favourites_provider.dart';
+import 'package:my_first_app/providers/cocktails_provider.dart';
 import 'package:provider/provider.dart';
 import 'details.dart';
 import 'package:my_first_app/models/favourites.dart';
 
-class Favourites extends StatefulWidget {
+class Favourites extends StatelessWidget {
   const Favourites({Key? key}) : super(key: key);
-  @override
-  _FavouritesState createState() => _FavouritesState();
-}
-
-class _FavouritesState extends State<Favourites> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +29,8 @@ class _FavouritesState extends State<Favourites> {
                     'Favourites',
                   ),
                 ),
-                body: Consumer<FavouritesProvider>(
-                    builder: (context, FavouritesProvider data, child) {
+                body: Consumer<CocktailsProvider>(
+                    builder: (context, CocktailsProvider data, child) {
                   return ListView(
                       scrollDirection: Axis.vertical,
                       shrinkWrap: true,
@@ -72,8 +63,8 @@ Widget deleteButton(BuildContext context, item, String drink) {
             ),
           ),
           TextButton(
-            onPressed: () async {
-              Provider.of<FavouritesProvider>(context, listen: false)
+            onPressed: () {
+              Provider.of<CocktailsProvider>(context, listen: false)
                   .removeFavourite(item);
               Navigator.pop(context);
             },
@@ -94,21 +85,18 @@ class ListItem extends StatelessWidget {
   const ListItem(this.context, this.item, {Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return StatefulBuilder(
-        builder: (BuildContext context, StateSetter setState) {
-      return Card(
-          color: Colors.black12.withOpacity(0.4),
-          child: ListTile(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Details(cocktail: item.title)),
-              );
-            },
-            title: Text(item.title, style: const TextStyle(fontSize: 21)),
-            trailing: deleteButton(context, item, item.title),
-          ));
-    });
+    return Card(
+        color: Colors.black12.withOpacity(0.4),
+        child: ListTile(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => Details(cocktail: item.title)),
+            );
+          },
+          title: Text(item.title, style: const TextStyle(fontSize: 21)),
+          trailing: deleteButton(context, item, item.title),
+        ));
   }
 }

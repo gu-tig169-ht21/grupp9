@@ -1,11 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:my_first_app/views/navigation_bar.dart';
+import 'package:my_first_app/widgets/navigation_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'providers/favourites_provider.dart';
+import 'providers/cocktails_provider.dart';
 
 void main() {
-  runApp(const MyApp());
+  var cocktailsProvider = CocktailsProvider();
+  cocktailsProvider.getRandomQuote();
+  cocktailsProvider.getRandomCocktail();
+  cocktailsProvider.getFavourites();
+  cocktailsProvider.getIngredients();
+  cocktailsProvider.getCocktails();
+  cocktailsProvider.getNonAlcCocktails();
+  runApp(ChangeNotifierProvider(
+      create: (context) => cocktailsProvider, child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -13,21 +21,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var favouritesProvider = FavouritesProvider();
-    favouritesProvider.getRandomCocktail();
-    favouritesProvider.getFavourites();
-    return ChangeNotifierProvider(
-        create: (context) => favouritesProvider,
-        child: MaterialApp(
-            title: 'Cocktaily',
-            debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              visualDensity: VisualDensity.adaptivePlatformDensity,
-              textTheme: GoogleFonts.poppinsTextTheme(
-                  Theme.of(context).textTheme.apply(
-                        bodyColor: Colors.white,
-                      )),
-            ),
-            home: const Navigation()));
+    return MaterialApp(
+        title: 'Cocktaily',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          textTheme:
+              GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme.apply(
+                    bodyColor: Colors.white,
+                  )),
+        ),
+        home: const Navigation());
   }
 }

@@ -15,14 +15,14 @@ class Navigation extends StatefulWidget {
 class _NavigationState extends State<Navigation> {
   int _selectedIndex = 0;
 
-  final screens = [
-    const Home(),
-    const Ingredients(),
-    const DrinksView(),
-    const Favourites(),
-  ];
   @override
   Widget build(BuildContext context) {
+    final screens = [
+      const Home(),
+      const Ingredients(),
+      const CocktailsView(),
+      const Favourites(),
+    ];
     return Scaffold(
       resizeToAvoidBottomInset: false,
       extendBodyBehindAppBar: true,
