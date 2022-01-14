@@ -69,47 +69,49 @@ class CocktailSearch extends SearchDelegate<String> {
       builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.waiting:
-            return const Text('Loading....');
+            return const Center(child: CircularProgressIndicator());
           default:
             if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else {
               return Container(
-                  decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("assets/2.jpg"),
-                      fit: BoxFit.cover,
-                    ),
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("assets/2.jpg"),
+                    fit: BoxFit.cover,
                   ),
-                  child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-                      child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: snapshot.data!.length,
-                          itemBuilder: (context, index) {
-                            var cocktail = snapshot.data![index];
-                            return Card(
-                              color: Colors.black12.withOpacity(0.4),
-                              child: ListTile(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Details(
-                                            cocktail: cocktail.strDrink)),
-                                  );
-                                },
-                                leading: SizedBox(
-                                    height: 40,
-                                    width: 40,
-                                    child:
-                                        Image.network(cocktail.strDrinkThumb)),
-                                title: Text("${cocktail.strDrink}",
-                                    style: const TextStyle(
-                                        fontSize: 21, color: Colors.white)),
-                              ),
+                ),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: snapshot.data!.length,
+                    itemBuilder: (context, index) {
+                      var cocktail = snapshot.data![index];
+                      return Card(
+                        color: Colors.black12.withOpacity(0.4),
+                        child: ListTile(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Details(cocktail: cocktail.strDrink)),
                             );
-                          })));
+                          },
+                          leading: SizedBox(
+                              height: 40,
+                              width: 40,
+                              child: Image.network(cocktail.strDrinkThumb)),
+                          title: Text("${cocktail.strDrink}",
+                              style: const TextStyle(
+                                  fontSize: 21, color: Colors.white)),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              );
             }
         }
       },
@@ -130,45 +132,47 @@ class CocktailSearch extends SearchDelegate<String> {
 
   Widget buildSuggestionsSuccess(List<dynamic> suggestions) {
     return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/2.jpg"),
-            fit: BoxFit.cover,
-          ),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/2.jpg"),
+          fit: BoxFit.cover,
         ),
-        child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-            child: ListView.builder(
-                itemCount: suggestions.length,
-                itemBuilder: (context, index) {
-                  final suggestion = suggestions[index];
-                  return Card(
-                    color: Colors.black12.withOpacity(0.4),
-                    child: ListTile(
-                        onTap: () {
-                          if (!recentSearch.any((element) {
-                            final drinkLower =
-                                element.strDrink.trim().toLowerCase();
-                            final queryLower =
-                                suggestion.strDrink.trim().toLowerCase();
-                            return drinkLower == queryLower;
-                          })) {
-                            var newSearch =
-                                Cocktails.searchSuggestion(suggestion.strDrink);
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+        child: ListView.builder(
+            itemCount: suggestions.length,
+            itemBuilder: (context, index) {
+              final suggestion = suggestions[index];
+              return Card(
+                color: Colors.black12.withOpacity(0.4),
+                child: ListTile(
+                  onTap: () {
+                    if (!recentSearch.any((element) {
+                      final drinkLower = element.strDrink.trim().toLowerCase();
+                      final queryLower =
+                          suggestion.strDrink.trim().toLowerCase();
+                      return drinkLower == queryLower;
+                    })) {
+                      var newSearch =
+                          Cocktails.searchSuggestion(suggestion.strDrink);
 
-                            recentSearch.add(newSearch);
-                          }
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      Details(cocktail: suggestion.strDrink)));
-                        },
-                        title: Text(
-                          suggestion.strDrink,
-                          style: const TextStyle(fontSize: 21),
-                        )),
-                  );
-                })));
+                      recentSearch.add(newSearch);
+                    }
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                Details(cocktail: suggestion.strDrink)));
+                  },
+                  title: Text(
+                    suggestion.strDrink,
+                    style: const TextStyle(fontSize: 21),
+                  ),
+                ),
+              );
+            }),
+      ),
+    );
   }
 }

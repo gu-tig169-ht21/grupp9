@@ -118,82 +118,83 @@ class IngredientSearch extends SearchDelegate<String> {
         builder: (BuildContext context, AsyncSnapshot<List> snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.waiting:
-              return const Text('Loading....');
+              return const Center(child: CircularProgressIndicator());
             default:
               if (snapshot.hasError) {
                 return Text('Error: ${snapshot.error}');
               } else {
                 return Container(
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage("assets/3.jpg"), fit: BoxFit.cover),
-                    ),
-                    child: BackdropFilter(
-                        filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-                        child: Scaffold(
-                            backgroundColor: Colors.transparent,
-                            body: SingleChildScrollView(
-                              child: Column(
-                                children: [
-                                  Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                          height: 40,
-                                          color: Colors.black.withOpacity(0.5),
-                                          child: Center(
-                                              child: Text(
-                                            'Drinks with $query',
-                                            style:
-                                                const TextStyle(fontSize: 15),
-                                          )))),
-                                  ListView.builder(
-                                      physics:
-                                          const NeverScrollableScrollPhysics(),
-                                      shrinkWrap: true,
-                                      itemCount: snapshot.data!.length,
-                                      itemBuilder: (context, index) {
-                                        var cocktail = snapshot.data![index];
-                                        return Card(
-                                          color:
-                                              Colors.black12.withOpacity(0.4),
-                                          child: ListTile(
-                                            onTap: () {
-                                              Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        Details(
-                                                            cocktail: cocktail
-                                                                .strDrink)),
-                                              );
-                                            },
-                                            leading: SizedBox(
-                                                height: 40,
-                                                width: 40,
-                                                child: Image.network(
-                                                    cocktail.strDrinkThumb)),
-                                            title: Text("${cocktail.strDrink}",
-                                                style: const TextStyle(
-                                                    fontSize: 21)),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/3.jpg"), fit: BoxFit.cover),
+                  ),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+                    child: Scaffold(
+                      backgroundColor: Colors.transparent,
+                      body: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                    height: 40,
+                                    color: Colors.black.withOpacity(0.5),
+                                    child: Center(
+                                        child: Text(
+                                      'Drinks with $query',
+                                      style: const TextStyle(fontSize: 15),
+                                    )))),
+                            ListView.builder(
+                                physics: const NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: snapshot.data!.length,
+                                itemBuilder: (context, index) {
+                                  var cocktail = snapshot.data![index];
+                                  return Card(
+                                    color: Colors.black12.withOpacity(0.4),
+                                    child: ListTile(
+                                      onTap: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Details(
+                                                cocktail: cocktail.strDrink),
                                           ),
                                         );
-                                      }),
-                                ],
-                              ),
-                            ))));
+                                      },
+                                      leading: SizedBox(
+                                        height: 40,
+                                        width: 40,
+                                        child: Image.network(
+                                            cocktail.strDrinkThumb),
+                                      ),
+                                      title: Text("${cocktail.strDrink}",
+                                          style: const TextStyle(fontSize: 21)),
+                                    ),
+                                  );
+                                }),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                );
               }
           }
         },
       );
     } else {
       return Container(
-          decoration: const BoxDecoration(
-            image: DecorationImage(
-                image: AssetImage("assets/3.jpg"), fit: BoxFit.cover),
-          ),
-          child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-              child: const Scaffold(backgroundColor: Colors.transparent)));
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+              image: AssetImage("assets/3.jpg"), fit: BoxFit.cover),
+        ),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+          child: const Scaffold(backgroundColor: Colors.transparent),
+        ),
+      );
     }
   }
 }

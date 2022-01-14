@@ -34,159 +34,153 @@ class _DetailsState extends State<Details> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: const BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/1.jpg"),
-            fit: BoxFit.cover,
-          ),
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/1.jpg"),
+          fit: BoxFit.cover,
         ),
-        child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
-            child: Scaffold(
-                backgroundColor: Colors.transparent,
-                appBar: AppBar(
-                  backgroundColor: Colors.grey.withOpacity(0.15),
-                  title: FittedBox(
-                    child: Text(
-                      (widget.cocktail),
-                    ),
-                  ),
-                  centerTitle: true,
-                  actions: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10.0),
-                      child: FavoriteButton(
-                          iconSize: 30,
-                          isFavorite: checkFavourite(widget.cocktail),
-                          valueChanged: (_isFavorite) {
-                            fetchFavourites();
-                            if (_isFavorite == true) {
-                              Provider.of<CocktailsProvider>(context,
-                                      listen: false)
-                                  .addFavourite(widget.cocktail, false);
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text(
-                                    '${widget.cocktail} is added to Favourites'),
-                                duration: const Duration(seconds: 2),
-                              ));
-                            } else {
-                              var f = favourites.firstWhere((element) =>
-                                  element.title == widget.cocktail);
-                              Provider.of<CocktailsProvider>(context,
-                                      listen: false)
-                                  .removeFavourite(f);
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(SnackBar(
-                                content: Text(
-                                    '${widget.cocktail} is removed from Favourites'),
-                                duration: const Duration(seconds: 2),
-                              ));
-                            }
-                          }),
-                    )
-                  ],
-                ),
-                extendBody: true,
-                body: FutureBuilder<Cocktails>(
-                    future:
+      ),
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 7.0, sigmaY: 7.0),
+        child: Scaffold(
+          backgroundColor: Colors.transparent,
+          appBar: AppBar(
+            backgroundColor: Colors.grey.withOpacity(0.15),
+            title: FittedBox(
+              child: Text(
+                (widget.cocktail),
+              ),
+            ),
+            centerTitle: true,
+            actions: [
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: FavoriteButton(
+                    iconSize: 30,
+                    isFavorite: checkFavourite(widget.cocktail),
+                    valueChanged: (_isFavorite) {
+                      fetchFavourites();
+                      if (_isFavorite == true) {
                         Provider.of<CocktailsProvider>(context, listen: false)
-                            .getOneCocktail(widget.cocktail),
-                    builder: (BuildContext context,
-                        AsyncSnapshot<Cocktails> snapshot) {
-                      switch (snapshot.connectionState) {
-                        case ConnectionState.waiting:
-                          return const Text('Loading....');
-                        default:
-                          if (snapshot.hasError) {
-                            return Text('Error: ${snapshot.error}');
-                          } else {
-                            return Scrollbar(
-                              isAlwaysShown: true,
-                              child: Padding(
+                            .addFavourite(widget.cocktail, false);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content:
+                              Text('${widget.cocktail} is added to Favourites'),
+                          duration: const Duration(seconds: 2),
+                        ));
+                      } else {
+                        var f = favourites.firstWhere(
+                            (element) => element.title == widget.cocktail);
+                        Provider.of<CocktailsProvider>(context, listen: false)
+                            .removeFavourite(f);
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text(
+                              '${widget.cocktail} is removed from Favourites'),
+                          duration: const Duration(seconds: 2),
+                        ));
+                      }
+                    }),
+              )
+            ],
+          ),
+          extendBody: true,
+          body: FutureBuilder<Cocktails>(
+              future: Provider.of<CocktailsProvider>(context, listen: false)
+                  .getOneCocktail(widget.cocktail),
+              builder:
+                  (BuildContext context, AsyncSnapshot<Cocktails> snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return const Center(child: CircularProgressIndicator());
+                  default:
+                    if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else {
+                      return Scrollbar(
+                        isAlwaysShown: true,
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: ListView(
+                            children: [
+                              Padding(
                                 padding: const EdgeInsets.all(8.0),
-                                child: ListView(
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Container(
-                                        color: Colors.black12.withOpacity(0.6),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10.0),
-                                          child: SizedBox(
-                                            child: Image.network((snapshot
-                                                        .data ==
-                                                    null)
-                                                ? "https://zelly.se/wp-content/uploads/2021/06/loading-buffering.gif"
-                                                : snapshot.data!.strDrinkThumb),
-                                          ),
-                                        ),
-                                      ),
+                                child: Container(
+                                  color: Colors.black12.withOpacity(0.6),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: SizedBox(
+                                      child: (snapshot.data != null)
+                                          ? Image.network(
+                                              snapshot.data!.strDrinkThumb)
+                                          : const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            ),
                                     ),
-                                    (snapshot.data != null)
-                                        ? ListView.builder(
-                                            physics:
-                                                const NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: snapshot
-                                                .data!.ingredientsList.length,
-                                            itemBuilder:
-                                                (BuildContext context, index) {
-                                              if (index == 0) {
-                                                return Column(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.start,
-                                                  children: <Widget>[
-                                                    const Padding(
-                                                      padding:
-                                                          EdgeInsets.all(8.0),
-                                                      child: Text(
-                                                          'Ingredients:',
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.white,
-                                                              fontSize: 27)),
-                                                    ),
-                                                    Text(
-                                                        snapshot.data!
-                                                                .ingredientsList[
-                                                            index],
-                                                        style: const TextStyle(
-                                                            color:
-                                                                Colors.white))
-                                                  ],
-                                                );
-                                              } else {
-                                                return Text(
-                                                    snapshot.data!
-                                                        .ingredientsList[index],
-                                                    style: const TextStyle(
-                                                        color: Colors.white));
-                                              }
-                                            })
-                                        : const Text('No ingredients found.',
-                                            style:
-                                                TextStyle(color: Colors.white)),
-                                    const Padding(
-                                      padding: EdgeInsets.all(8.0),
-                                      child: Text(
-                                        'Instructions:',
-                                        style: TextStyle(
-                                            color: Colors.white, fontSize: 27),
-                                      ),
-                                    ),
-                                    Text(
-                                        (snapshot.data == null)
-                                            ? ""
-                                            : snapshot.data!.strInstructions,
-                                        style: const TextStyle(
-                                            color: Colors.white)),
-                                  ],
+                                  ),
                                 ),
                               ),
-                            );
-                          }
-                      }
-                    }))));
+                              (snapshot.data!.ingredientsList.isNotEmpty)
+                                  ? ListView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount:
+                                          snapshot.data!.ingredientsList.length,
+                                      itemBuilder:
+                                          (BuildContext context, index) {
+                                        if (index == 0) {
+                                          return Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: <Widget>[
+                                              const Padding(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Text(
+                                                  'Ingredients:',
+                                                  style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 27),
+                                                ),
+                                              ),
+                                              Text(
+                                                snapshot.data!
+                                                    .ingredientsList[index],
+                                                style: const TextStyle(
+                                                    color: Colors.white),
+                                              )
+                                            ],
+                                          );
+                                        } else {
+                                          return Text(
+                                            snapshot
+                                                .data!.ingredientsList[index],
+                                            style: const TextStyle(
+                                                color: Colors.white),
+                                          );
+                                        }
+                                      })
+                                  : const Text('No ingredients found.',
+                                      style: TextStyle(color: Colors.white)),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Instructions:',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 27),
+                                ),
+                              ),
+                              Text(snapshot.data!.strInstructions,
+                                  style: const TextStyle(color: Colors.white)),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                }
+              }),
+        ),
+      ),
+    );
   }
 }
