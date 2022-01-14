@@ -43,21 +43,6 @@ class Cocktails {
 
   static Cocktails fromJson(Map<String, dynamic> json) {
     var list = [];
-    var i1 = '';
-    var i2 = '';
-    var i3 = '';
-    var i4 = '';
-    var i5 = '';
-    var i6 = '';
-    var i7 = '';
-    var i8 = '';
-    var i9 = '';
-    var i10 = '';
-    var i11 = '';
-    var i12 = '';
-    var i13 = '';
-    var i14 = '';
-    var i15 = '';
 
     String maybeAddIngredient(ingredient, measure) {
       if (measure != null) {
@@ -72,22 +57,6 @@ class Cocktails {
       return '';
     }
 
-    i1 = maybeAddIngredient(json["strIngredient1"], json["strMeasure1"]);
-    i2 = maybeAddIngredient(json["strIngredient2"], json["strMeasure2"]);
-    i3 = maybeAddIngredient(json["strIngredient3"], json["strMeasure3"]);
-    i4 = maybeAddIngredient(json["strIngredient4"], json["strMeasure4"]);
-    i5 = maybeAddIngredient(json["strIngredient5"], json["strMeasure5"]);
-    i6 = maybeAddIngredient(json["strIngredient6"], json["strMeasure6"]);
-    i7 = maybeAddIngredient(json["strIngredient7"], json["strMeasure7"]);
-    i8 = maybeAddIngredient(json["strIngredient8"], json["strMeasure8"]);
-    i9 = maybeAddIngredient(json["strIngredient9"], json["strMeasure9"]);
-    i10 = maybeAddIngredient(json["strIngredient10"], json["strMeasure10"]);
-    i11 = maybeAddIngredient(json["strIngredient11"], json["strMeasure11"]);
-    i12 = maybeAddIngredient(json["strIngredient12"], json["strMeasure12"]);
-    i13 = maybeAddIngredient(json["strIngredient13"], json["strMeasure13"]);
-    i14 = maybeAddIngredient(json["strIngredient14"], json["strMeasure14"]);
-    i15 = maybeAddIngredient(json["strIngredient15"], json["strMeasure15"]);
-
     return Cocktails(
         strDrink: (json['strDrink'] != null) ? json['strDrink'] as String : '',
         strInstructions: (json['strInstructions'] != null)
@@ -96,21 +65,36 @@ class Cocktails {
         strDrinkThumb: (json['strDrinkThumb'] != null)
             ? json['strDrinkThumb'] as String
             : '',
-        strIngredient1: i1,
-        strIngredient2: i2,
-        strIngredient3: i3,
-        strIngredient4: i4,
-        strIngredient5: i5,
-        strIngredient6: i6,
-        strIngredient7: i7,
-        strIngredient8: i8,
-        strIngredient9: i9,
-        strIngredient10: i10,
-        strIngredient11: i11,
-        strIngredient12: i12,
-        strIngredient13: i13,
-        strIngredient14: i14,
-        strIngredient15: i15,
+        strIngredient1:
+            maybeAddIngredient(json["strIngredient1"], json["strMeasure1"]),
+        strIngredient2:
+            maybeAddIngredient(json["strIngredient2"], json["strMeasure2"]),
+        strIngredient3:
+            maybeAddIngredient(json["strIngredient3"], json["strMeasure3"]),
+        strIngredient4:
+            maybeAddIngredient(json["strIngredient4"], json["strMeasure4"]),
+        strIngredient5:
+            maybeAddIngredient(json["strIngredient5"], json["strMeasure5"]),
+        strIngredient6:
+            maybeAddIngredient(json["strIngredient6"], json["strMeasure6"]),
+        strIngredient7:
+            maybeAddIngredient(json["strIngredient7"], json["strMeasure7"]),
+        strIngredient8:
+            maybeAddIngredient(json["strIngredient8"], json["strMeasure8"]),
+        strIngredient9:
+            maybeAddIngredient(json["strIngredient9"], json["strMeasure9"]),
+        strIngredient10:
+            maybeAddIngredient(json["strIngredient10"], json["strMeasure10"]),
+        strIngredient11:
+            maybeAddIngredient(json["strIngredient11"], json["strMeasure11"]),
+        strIngredient12:
+            maybeAddIngredient(json["strIngredient12"], json["strMeasure12"]),
+        strIngredient13:
+            maybeAddIngredient(json["strIngredient13"], json["strMeasure13"]),
+        strIngredient14:
+            maybeAddIngredient(json["strIngredient14"], json["strMeasure14"]),
+        strIngredient15:
+            maybeAddIngredient(json["strIngredient15"], json["strMeasure15"]),
         ingredientsList: list);
   }
 

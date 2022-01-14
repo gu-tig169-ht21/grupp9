@@ -60,7 +60,6 @@ class CocktailSearch extends SearchDelegate<String> {
         }) &&
         query != '') {
       var newSearch = Cocktails.searchSuggestion(query);
-
       recentSearch.add(newSearch);
     }
     return FutureBuilder<List>(

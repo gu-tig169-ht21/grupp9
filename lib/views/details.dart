@@ -120,6 +120,14 @@ class _DetailsState extends State<Details> {
                                   ),
                                 ),
                               ),
+                              const Padding(
+                                padding: EdgeInsets.all(8.0),
+                                child: Text(
+                                  'Ingredients:',
+                                  style: TextStyle(
+                                      color: Colors.white, fontSize: 27),
+                                ),
+                              ),
                               (snapshot.data!.ingredientsList.isNotEmpty)
                                   ? ListView.builder(
                                       physics:
@@ -129,36 +137,11 @@ class _DetailsState extends State<Details> {
                                           snapshot.data!.ingredientsList.length,
                                       itemBuilder:
                                           (BuildContext context, index) {
-                                        if (index == 0) {
-                                          return Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: <Widget>[
-                                              const Padding(
-                                                padding: EdgeInsets.all(8.0),
-                                                child: Text(
-                                                  'Ingredients:',
-                                                  style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 27),
-                                                ),
-                                              ),
-                                              Text(
-                                                snapshot.data!
-                                                    .ingredientsList[index],
-                                                style: const TextStyle(
-                                                    color: Colors.white),
-                                              )
-                                            ],
-                                          );
-                                        } else {
-                                          return Text(
-                                            snapshot
-                                                .data!.ingredientsList[index],
-                                            style: const TextStyle(
-                                                color: Colors.white),
-                                          );
-                                        }
+                                        return Text(
+                                          snapshot.data!.ingredientsList[index],
+                                          style: const TextStyle(
+                                              color: Colors.white),
+                                        );
                                       })
                                   : const Text('No ingredients found.',
                                       style: TextStyle(color: Colors.white)),
@@ -170,8 +153,14 @@ class _DetailsState extends State<Details> {
                                       color: Colors.white, fontSize: 27),
                                 ),
                               ),
-                              Text(snapshot.data!.strInstructions,
-                                  style: const TextStyle(color: Colors.white)),
+                              (snapshot.data!.strInstructions != '')
+                                  ? Text(
+                                      snapshot.data!.strInstructions,
+                                      style:
+                                          const TextStyle(color: Colors.white),
+                                    )
+                                  : const Text('No instructions found.',
+                                      style: TextStyle(color: Colors.white)),
                             ],
                           ),
                         ),
